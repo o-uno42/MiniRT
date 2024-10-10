@@ -1,12 +1,15 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -Llibft -lft -Lminilibx-linux -lml -lXext -lX11 -lm -g
+
 NAME = minirt.a
+HEADER = includes/minirt.h
 
-FILES_SRCS = main.c manage_win.c parsing.c render.c split.c safe_ft.c
+SRC_DIR = srcs
+OBJ_DIR = objs
+FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c \
+			 $(SRC_DIR)/parsing.c $(SRC_DIR)/render.c $(SRC_DIR)/split.c $(SRC_DIR)/safe_ft.c
+FILES_OBJS = $(FILES_SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-FILES_OBJS = $(FILES_SRCS:.c=.o)
-
-HEADER = minirt.h
 
 EXECUTABLE = minirt
 
@@ -24,13 +27,14 @@ $(LIBFT):
 	@make -sC libft/
 
 $(MLX):
-	@make -sC minilibix-linux/
+	@make -sC minilibx-linux/
 
 $(NAME): $(FILES_OBJS)
 		ar rc $(NAME) $(FILES_OBJS)
 		ranlib $(NAME)
 
-%.o: %.c $(HEADER)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
+		@mkdir -p $(OBJ_DIR)
 		$(CC) $(CFLAGS) -c $< -o $@
 
 $(EXECUTABLE): $(FILES_OBJS)
@@ -43,6 +47,7 @@ clean:
 
 fclean: clean
 		rm -f $(NAME) $(EXECUTABLE)
+		rm -rf $(OBJ_DIR)
 		make -C $(LIBFT_PATH) fclean
 
 re: fclean all

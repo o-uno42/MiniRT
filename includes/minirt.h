@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                            :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/08/30 14:32:16 by pgiorgi          ###   ########.fr       */
+/*   Updated: 2024/10/10 14:08:07 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <X11/keysym.h>
-# include "libft/libft.h"
-# include "minilibx-linux/mlx.h"
+# include "../libft/libft.h"
+# include "../minilibx-linux/mlx.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 8
