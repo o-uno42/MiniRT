@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/10/10 14:08:07 by thiew            ###   ########.fr       */
+/*   Updated: 2024/10/19 17:52:58 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,28 @@
 # define BUFFER_SIZE 8
 #endif
 
-# define BLACK   0x000000
+# define BLACK   		0x000000
+# define WHITE			0xFFFFFF
+# define RED			0xFF0000
+# define GREEN			0x00FF00
+# define BLUE			0x0000FF
+# define YELLOW			0xFFFF00
+# define CYAN			0x00FFFF
+# define MAGENTA		0xFF00FF
+# define GRAY			0x808080
+# define DARK_GRAY		0x404040
+# define LIGHT_GRAY		0xC0C0C0
+# define ORANGE			0xFFA500
+# define PINK			0xFFC0CB
+# define PURPLE			0x800080
+# define BROWN			0xA52A2A
+# define LIME			0xBFFF00
+# define OLIVE			0x808000
+# define MAROON			0x800000
+# define NAVY			0x000080
+# define TEAL			0x008080
+# define AQUA			0x00FFFF
+
 
 typedef struct s_ray
 {

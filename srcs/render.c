@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/10 14:09:28 by thiew            ###   ########.fr       */
+/*   Updated: 2024/10/19 17:54:44 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,20 @@ void    ambient_init(t_data *data, char *line)
 
 }
 
+void	my_pixel_put(t_data *data, int x, int y, int color)
+{
+	int		offset;
+	char	*dest;
+
+	offset = (y * data->img.line_len + x * (data->img.bpp / 8));
+	dest = data->img.pix_ptr + offset;
+	*(unsigned int *)dest = color;
+}
+
 
 static void	render_scene(int x, int y, t_data *data)
 {
-	mlx_pixel_put(&data->mlx_ptr, &data->mlx_win, x, y, BLACK);
+	my_pixel_put(data, x, y, MAGENTA);
 }
 
 int    render(t_data *data)
