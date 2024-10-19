@@ -15,16 +15,36 @@
 void    ambient_init(t_data *data, char *line)
 {
     int     i;
+	int		j;
     char    **res;
+	char	**rgb;
 
     i = 0;
     i= i;
+	j =0;
+	j = j;
+	rgb = NULL;
+	rgb = rgb;
     data = data;
     res = NULL;
     line = line;
-    // res = safe_malloc(sizeof(char *) * 2); 
+    res = safe_malloc(sizeof(char *) * 3); 
     // res = ft_split_rt(line, ',');
+	res = ft_split(line, ' ');
+	// printf ("res 1 %s\n", res[0]);
+	// printf ("res 1 %s\n", res[1]);
+	// while (res[j])
+	// 	j++;
+	// if (j != 1)
+	// 	print_error("Wrong parameters for Ambient Light");
+	data->ambient->ratio = ft_atoi(res[1]);
+	// rgb = safe_malloc(sizeof(int) * 4);
+	// rgb = ft_split(line, ',');
+	// data->ambient->rgb_1 = ft_atoi(rgb[0]);
+	// data->ambient->rgb_2 = ft_atoi(rgb[1]);
+	// data->ambient->rgb_3 = ft_atoi(rgb[2]);
     res = res;
+	printf("%f, rgb: %i %i %i", data->ambient->ratio, data->ambient->rgb_1, data->ambient->rgb_2, data->ambient->rgb_3);
 
 }
 

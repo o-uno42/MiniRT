@@ -65,20 +65,20 @@ typedef struct s_ray
 	int		end;
 }			t_ray;
 
-typedef struct s_player
-{
-	char	dir;
-	int		moved;
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	int		move_x;
-	int		move_y;
-	int		rotate;
-}				t_player;
+// typedef struct s_player
+// {
+// 	char	dir;
+// 	int		moved;
+// 	double	pos_x;
+// 	double	pos_y;
+// 	double	dir_x;
+// 	double	dir_y;
+// 	double	plane_x;
+// 	double	plane_y;
+// 	int		move_x;
+// 	int		move_y;
+// 	int		rotate;
+// }				t_player;
 
 typedef struct s_ambient
 {
@@ -146,6 +146,8 @@ typedef struct s_data
 	// t_img		img;
 }			t_data;
 
+//ERRORS
+void	print_error(char *message);
 
 //	RENDER
 int    render(t_data *data);

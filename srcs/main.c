@@ -11,27 +11,45 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <stdlib.h>
 // #include <cstdlib>
 
-static void	print_error(void)
+void	print_error(char *message)
 {
-	perror("Error");
+	printf ("%s\n", message);
+	exit (EXIT_FAILURE);
 }
 
 void	img_init(t_img *img)
 {
 	img->img_ptr = mlx_init();
 	if (!img->img_ptr)
-		print_error();
+		print_error("Img init error");
+	img->width = 0;
+	img->height = 0;
+}
+
+t_ambient	*start_ambient(t_data *data)
+{
+	data->ambient->ratio = 0.0;
+	data->ambient->rgb_1 = 0;
+	data->ambient->rgb_2 = 0;
+	data->ambient->rgb_3 = 0;
+	return (data->ambient);
 }
 
 void	*data_init(t_data *data)
 {
-	data->img.width = 900;
-	data->img.height = 700;
+	// data = NULL;
 	data->ambient = NULL;
+	// data->ambient->ratio = 0;
+	// data->ambient->rgb_1 = 0;
+	// data->ambient->rgb_2 = 0;
+	// data->ambient->rgb_3 = 0;
 	data->camera = NULL;
 	data->light = NULL;
+	data->img.width = 900;
+	data->img.height = 700;
 	return (data);
 }
 void	inits(t_data *data, t_img *img)
@@ -40,14 +58,14 @@ void	inits(t_data *data, t_img *img)
 	data_init(data);
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
-		print_error();
+		print_error("Init error");
 	data->mlx_win = mlx_new_window(data->mlx_ptr, \
 		data->img.width, data->img.height, "miniRT");
 	if (!data->mlx_win)
 	{
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
-		print_error();
+		print_error("Init error");
 	}
 	data->img.img_ptr = mlx_new_image(data->mlx_ptr, \
 		data->img.width, data->img.height);
@@ -56,7 +74,7 @@ void	inits(t_data *data, t_img *img)
 		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
-		print_error();
+		print_error("Init error");
 	}
 	data->img.pix_ptr = mlx_get_data_addr(data->img.img_ptr, \
 		&data->img.bpp, &data->img.line_len, &data->img.endian);
@@ -74,6 +92,7 @@ int main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	inits(&data, &img);
 	parsing(fd, &data);
+
 	mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 2, esc_x, &data);
 	render(&data);

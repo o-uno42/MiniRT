@@ -95,6 +95,7 @@ void	prefix(char *line, t_data *data)
 	int i;
 
 	i = 0;
+	data = data;
 	while (line[i])
 	{
 		if (line[i] == ' ')
@@ -102,7 +103,10 @@ void	prefix(char *line, t_data *data)
 		i++;
 	}
 	if (ft_strncmp("A", line, i) == 0)
-		ambient_init(data, line);
+	{
+		;
+	}
+		// ambient_init(data, line);
 }
 
 void	parsing(int fd, t_data *data)
@@ -111,8 +115,10 @@ void	parsing(int fd, t_data *data)
 
 	while((line = get_next_line(fd)) !=NULL)
 	{
+		printf("PArsing\n");
 		check_line(line);
 		prefix(line, data);
+		printf("Linea: %s\n", line);
 		// printf("%s", line);
 	}
 }

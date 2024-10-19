@@ -1,0 +1,95 @@
+LENGHT
+
+|| x y z || = square(x^2 + y^2 + z^2)
+
+CROSS PRODUCT PRODOTTO VETTORIALE
+Methode 1: Componenti
+Supponiamo di avere due vettori u = (u1, u2, u3) e v = (v1, v2, v3) con componenti reali. Il prodotto vettoriale w = u × v è dato dalle seguenti componenti:
+
+w1 = u2 * v3 - u3 * v2
+w2 = u3 * v1 - u1 * v3
+w3 = u1 * v2 - u2 * v1
+
+rays are usually positive
+
+PLANE
+n è un punto perpendicolare rispetto a un punto p del piano. r è un altro punto del piano.
+(r - p) * n = 0
+
+ray = r = p + dt
+
+quindi 
+plane = (p + dt)*n = 0
+
+dt è un vettore, t no è solo un numero
+
+t (d*n ) = pp *n pr *n
+
+t =  (i/d*n)(pp*n - pr*n)
+        |               |
+    how quickly         how far the ray starts
+    we got there
+
+SPHERE
+use the center of the sphere as starting point
+
+ogni punto della sfera è equidistante dal centro
+
+||r#|| = radius
+
+||p + dt|| = radius
+
+(p +dt)(p +dt) = r^2
+
+p^2 + t^2(d^2) + 2t(p*d) = r^2
+
+equazione -> t ^2 ||d^2|| + 2t(p*d) + ||P^2|| -r^2 = 0
+a = d^2
+b = 2(p * d)
+c = ||p^2|| - r^2
+
+the equiatic equasion può avere 0, 1 o 2 soluzioni in base a dove il ray passa (non tocca la sfera, la sfiora, la attraversa)
+
+#define RAY_T_MIN 0.0001f
+#define RAY_T_MAX 1.0e30f
+
+FOV (field of view)
+
+aspect ratio = width/heigth
+
+px = da origin a pw
+
+x = 2px/pw -1
+
+Forward vector = target - origin
+right = forward X upguide
+up = right x forward
+
+GESTIONE COLORE LUCE - ADDITIVE MIXING
+example -> new red = red of first obj + red of light
+
+GAMMA CORRECTION
+
+gamma = 2.2
+out = In^gamma
+out = (exposure * In)^gamma 
+
+COLOR
+
+int color;
+
+color = ft_rgb(i, data);
+my_pixel_put(x, y, &data->img, color);
+
+int	ft_rgb(int i, t_data *data)
+{
+	double	t;
+	int		r;
+	int		g;
+	int		b;
+
+	r = (int)(4 * (1 - t) * t * t * t * 255);
+	g = (int)(4 * (1 - t) * (1 - t) * t * t * 255);
+	b = (int)(4 * (1 - t) * (1 - t) * t * 255);
+	return ((r << 16) | (g << 8) | b);
+}
