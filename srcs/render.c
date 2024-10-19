@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <math.h>
 
 void    ambient_init(t_data *data, char *line)
 {
@@ -37,14 +38,14 @@ void    ambient_init(t_data *data, char *line)
 	// 	j++;
 	// if (j != 1)
 	// 	print_error("Wrong parameters for Ambient Light");
-	data->ambient->ratio = ft_atoi(res[1]);
-	// rgb = safe_malloc(sizeof(int) * 4);
-	// rgb = ft_split(line, ',');
-	// data->ambient->rgb_1 = ft_atoi(rgb[0]);
-	// data->ambient->rgb_2 = ft_atoi(rgb[1]);
-	// data->ambient->rgb_3 = ft_atoi(rgb[2]);
+	data->ambient.ratio = ft_atoi(res[1]);
+	rgb = safe_malloc(sizeof(int) * 4);
+	rgb = ft_split(line, ',');
+	data->ambient.rgb_1 = ft_atoi(rgb[0]);
+	data->ambient.rgb_2 = ft_atoi(rgb[1]);
+	data->ambient.rgb_3 = ft_atoi(rgb[2]);
     res = res;
-	printf("%f, rgb: %i %i %i", data->ambient->ratio, data->ambient->rgb_1, data->ambient->rgb_2, data->ambient->rgb_3);
+	printf("AMBIENT\nRatio: %f\nrgb: %i\n%i\n%i\n\n", data->ambient.ratio, data->ambient.rgb_1, data->ambient.rgb_2, data->ambient.rgb_3);
 
 }
 

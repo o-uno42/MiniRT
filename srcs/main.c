@@ -29,25 +29,25 @@ void	img_init(t_img *img)
 	img->height = 0;
 }
 
-t_ambient	*start_ambient(t_data *data)
+t_data	*start_ambient(t_data *data)
 {
-	data->ambient->ratio = 0.0;
-	data->ambient->rgb_1 = 0;
-	data->ambient->rgb_2 = 0;
-	data->ambient->rgb_3 = 0;
-	return (data->ambient);
+	data->ambient.ratio = 0.0;
+	data->ambient.rgb_1 = 0;
+	data->ambient.rgb_2 = 0;
+	data->ambient.rgb_3 = 0;
+	return (data);
 }
 
 void	*data_init(t_data *data)
 {
 	// data = NULL;
-	data->ambient = NULL;
+	// data->ambient = NULL;
 	// data->ambient->ratio = 0;
 	// data->ambient->rgb_1 = 0;
 	// data->ambient->rgb_2 = 0;
 	// data->ambient->rgb_3 = 0;
-	data->camera = NULL;
-	data->light = NULL;
+	// data->camera = NULL;
+	// data->light = NULL;
 	data->img.width = 900;
 	data->img.height = 900;
 	return (data);
