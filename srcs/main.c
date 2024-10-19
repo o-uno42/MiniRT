@@ -32,9 +32,9 @@ void	img_init(t_img *img)
 t_data	*start_ambient(t_data *data)
 {
 	data->ambient.ratio = 0.0;
-	data->ambient.rgb_1 = 0;
-	data->ambient.rgb_2 = 0;
-	data->ambient.rgb_3 = 0;
+	data->ambient.rgb.r = 0;
+	data->ambient.rgb.g = 0;
+	data->ambient.rgb.b = 0;
 	return (data);
 }
 

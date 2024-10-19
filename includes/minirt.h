@@ -69,6 +69,26 @@ typedef struct s_ray
 	int		end;
 }			t_ray;
 
+// typedef struct s_pos
+// {
+// 	float		x;
+// 	float		y;
+// 	float		z;
+// }				t_pos;
+
+typedef struct s_vect
+{
+	float		x;
+	float		y;
+	float		z;
+}				t_vect;
+
+typedef struct s_rgb
+{
+	int		r;
+	int		g;
+	int		b;
+}				t_rgb;
 // typedef struct s_player
 // {
 // 	char	dir;
@@ -87,16 +107,12 @@ typedef struct s_ray
 typedef struct s_ambient
 {
 	float		ratio;
-	int			rgb_1;
-	int			rgb_2;
-	int			rgb_3;
+	t_rgb		rgb;
 }				t_ambient;
 
 typedef struct s_camera
 {
-	float		x;
-	float		y;
-	float		z;
+	t_vect	pos;
 
 	float		vx;
 	float		vy;
@@ -107,28 +123,28 @@ typedef struct s_camera
 
 typedef struct s_light
 {
-	float		x;
-	float		y;
-	float		z;
+	t_vect		pos;
 
 	float		bright;
 
-	int			rgb_1;
-	int			rgb_2;
-	int			rgb_3;
+	t_rgb		rgb;
 }				t_light;
 
 typedef struct s_sphere
 {
-	float		x;
-	float		y;
-	float		z;
+	t_vect		pos;
 	float		diameter;
-	int			rgb_1;
-	int			rgb_2;
-	int			rgb_3;
+	float		radius;
+	t_rgb		rgb;
 }				t_sphere;
 
+typedef struct s_plane
+{
+	t_vect		pos;
+	t_vect		posn;
+	t_vect		vect;
+	t_rgb		rgb;
+}				t_plane;
 
 typedef struct s_img
 {
@@ -149,6 +165,8 @@ typedef struct s_data
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
+	t_sphere	sphere;
+	t_plane		plane;
 	// void		*ptr;
 	// void		*win;
 	// int			height;
@@ -169,6 +187,8 @@ int    render(t_data *data);
 void    ambient_init(t_data *data, char *line);
 void	camera_init(t_data *data, char *line);
 void	light_init(t_data *data, char *line);
+void	sphere_init(t_data *data, char *line);
+void	plane_init(t_data *data, char *line);
 
 
 //	WINDOW MANAGEMENT

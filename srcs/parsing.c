@@ -108,6 +108,10 @@ void	prefix(char *line, t_data *data)
 		camera_init(data, line);
 	else if (ft_strncmp("L", line, i) == 0)
 		light_init(data, line);
+	else if (ft_strncmp("sp", line, i) == 0)
+		sphere_init(data, line);
+	else if (ft_strncmp("pl", line, i) == 0)
+		plane_init(data, line);
 }
 
 void	parsing(int fd, t_data *data)
