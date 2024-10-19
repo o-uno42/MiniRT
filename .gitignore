@@ -1,4 +1,5 @@
 *.o
 *.a
-objs/*.
+objs
+objs/*
 

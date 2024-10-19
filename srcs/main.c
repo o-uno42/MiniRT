@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/19 17:59:01 by thiew            ###   ########.fr       */
+/*   Updated: 2024/10/19 20:28:05 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*data_init(t_data *data)
 	data->camera = NULL;
 	data->light = NULL;
 	data->img.width = 900;
-	data->img.height = 700;
+	data->img.height = 900;
 	return (data);
 }
 void	inits(t_data *data, t_img *img)

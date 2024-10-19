@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/10/19 17:52:58 by thiew            ###   ########.fr       */
+/*   Updated: 2024/10/19 20:20:52 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 8
+#endif
+
+#ifndef PI
+# define PI 3.1415926535
 #endif
 
 # define BLACK   		0x000000
@@ -167,4 +171,12 @@ char	**ft_split_rt(char const *s, char c);
 
 //SAFE FT
 void    *safe_malloc(size_t size);
+
+//COLOR CREATION
+int		create_trgb(int t, int r, int g, int b);
+int		get_t(int trgb);
+int		get_r(int trgb);
+int		get_g(int trgb);
+int		get_b(int trgb);
+
 #endif
