@@ -103,10 +103,11 @@ void	prefix(char *line, t_data *data)
 		i++;
 	}
 	if (ft_strncmp("A", line, i) == 0)
-	{
-		;
-	}
-		// ambient_init(data, line);
+		ambient_init(data, line);
+	else if (ft_strncmp("C", line, i) == 0)
+		camera_init(data, line);
+	else if (ft_strncmp("L", line, i) == 0)
+		light_init(data, line);
 }
 
 void	parsing(int fd, t_data *data)
@@ -115,10 +116,9 @@ void	parsing(int fd, t_data *data)
 
 	while((line = get_next_line(fd)) !=NULL)
 	{
-		printf("PArsing\n");
 		check_line(line);
 		prefix(line, data);
-		printf("Linea: %s\n", line);
+		// printf("Linea: %s\n", line);
 		// printf("%s", line);
 	}
 }

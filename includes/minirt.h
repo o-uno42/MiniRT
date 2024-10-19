@@ -93,6 +93,12 @@ typedef struct s_camera
 	float		x;
 	float		y;
 	float		z;
+
+	float		vx;
+	float		vy;
+	float		vz;
+
+	int			fov;
 }				t_camera;
 
 typedef struct s_light
@@ -100,6 +106,9 @@ typedef struct s_light
 	float		x;
 	float		y;
 	float		z;
+
+	float		bright;
+
 	int			rgb_1;
 	int			rgb_2;
 	int			rgb_3;
@@ -133,9 +142,9 @@ typedef struct s_data
 	void	*mlx_ptr;
 	void	*mlx_win;
 	t_img		img;
-	t_ambient	*ambient;
-	t_camera	*camera;
-	t_light		*light;
+	t_ambient	ambient;
+	t_camera	camera;
+	t_light		light;
 	// void		*ptr;
 	// void		*win;
 	// int			height;
@@ -151,7 +160,11 @@ void	print_error(char *message);
 
 //	RENDER
 int    render(t_data *data);
+
+//INITS
 void    ambient_init(t_data *data, char *line);
+void	camera_init(t_data *data, char *line);
+void	light_init(t_data *data, char *line);
 
 
 //	WINDOW MANAGEMENT
