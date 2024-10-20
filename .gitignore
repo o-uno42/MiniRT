@@ -1,6 +1,8 @@
 *.o
 *.a
 **/*.a
+libft/*.a
+minilibx-linux/*.a
 objs
 objs/*
 
