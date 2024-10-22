@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/20 18:39:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/22 19:25:22 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,52 +74,92 @@ void	my_pixel_put(t_data *data, int x, int y, int color)
 // }
 
 
-static void	render_plane(int x, int y, t_data *data)
-{
-	int color;
-	int i = 0;
-	float ratio;
-	ratio = (float)x / (float)data->img.width;
-	color = interpolate_color(RED, RED, ratio);
+/* static void	render_plane(int x, int y, t_data *data) */
+/* { */
+/* 	int color; */
+/* 	int i = 0; */
+/* 	float ratio; */
+/* 	ratio = (float)x / (float)data->img.width; */
+/* 	color = interpolate_color(RED, RED, ratio); */
 
-	while (i < dot_product((sum_vect(data->plane.pos, data->plane.vect)), data->plane.posn))
-	{
-		if (dot_product((sum_vect(data->plane.pos, data->plane.vect)), data->plane.posn) == 0)
-			my_pixel_put(data, x, y, color);
-		i++;
-	}
-	// while (i < dot_product(data->plane.pos, data->plane.posn))
-	// {
-	// 	my_pixel_put(data, x, y, color);
-	// 	i++;
-	// }
+/* 	while (i < dot_product((sum_vect(data->plane.pos, data->plane.vect)), data->plane.posn)) */
+/* 	{ */
+/* 		if (dot_product((sum_vect(data->plane.pos, data->plane.vect)), data->plane.posn) == 0) */
+/* 			my_pixel_put(data, x, y, color); */
+/* 		i++; */
+/* 	} */
+/* 	// while (i < dot_product(data->plane.pos, data->plane.posn)) */
+/* 	// { */
+/* 	// 	my_pixel_put(data, x, y, color); */
+/* 	// 	i++; */
+/* 	// } */
 
 	
-}
+/* } */
 
-static void render_sphere(int x, int y, t_data *data) 
+void	render_sphere(int x, int y, t_data *data)
 {
-    float ratio;
+	t_vect	ray_dir;
+	t_vect	camera_pos;
+	t_vect	offset_vect;
+	float	aspect_ratio;
+	float	ratio;
     int color;
     int color2;
-	float d;
 
-    d = sqrt(square(x - (data->img.width / 2)) + square(y - (data->img.height / 2)));
-
+	camera_pos = data->camera.pos;
+	aspect_ratio = (float)data->img.width / (float)data->img.height;
     ratio = (float)x / (float)data->img.width;
-
     color = interpolate_color(CYAN, MAGENTA, ratio);
     color2 = interpolate_color(BLUE, BLACK, ratio);
-    if (d <= data->sphere.radius)
+
+	ray_dir.x = (2 * ((x + 0.5) / (float)data->img.width) - 1) * aspect_ratio;
+    ray_dir.y = (1 - 2 * ((y + 0.5) / (float)data->img.height));
+    ray_dir.z = -1;
+    ray_dir = normalize(ray_dir);
+
+	offset_vect = sub_vect(camera_pos, data->sphere.pos);
+
+	float a = dot_product(ray_dir, ray_dir);
+	float b = 2.0 * dot_product(offset_vect, ray_dir);
+	float c = dot_product(offset_vect, offset_vect) - square(data->sphere.radius);
+	float discriminant =  b * b - 4 * a * c;
+
+	if (discriminant >= 0)
 	{
-        my_pixel_put(data, x, y, color);
-		// if (d == data->sphere.radius)
-		// 	my_pixel_put(data, x, y, WHITE);
-		// render_light(x, y, data);
+		float t = (-b - sqrt(discriminant)) / (2.0 * a);
+		if (t > 0)
+		{
+			my_pixel_put(data, x, y, color);
+		}
 	}
-    else
+	else
         my_pixel_put(data, x, y, color2);
 }
+
+/* static void render_sphere(int x, int y, t_data *data) */ 
+/* { */
+/*     float ratio; */
+/*     int color; */
+/*     int color2; */
+/* 	float d; */
+
+/*     d = sqrt(square(x - (data->img.width / 2)) + square(y - (data->img.height / 2))); */
+
+/*     ratio = (float)x / (float)data->img.width; */
+
+/*     color = interpolate_color(CYAN, MAGENTA, ratio); */
+/*     color2 = interpolate_color(BLUE, BLACK, ratio); */
+/*     if (d <= data->sphere.radius) */
+/* 	{ */
+/*         my_pixel_put(data, x, y, color); */
+/* 		// if (d == data->sphere.radius) */
+/* 		// 	my_pixel_put(data, x, y, WHITE); */
+/* 		// render_light(x, y, data); */
+/* 	} */
+/*     else */
+/*         my_pixel_put(data, x, y, color2); */
+/* } */
 
 int    render(t_data *data)
 {
@@ -127,13 +167,13 @@ int    render(t_data *data)
 	int	y;
 
 	y = 0;
-	while (y <= data->img.height)
+	while (y < data->img.height)
 	{
 		x = 0;
-		while (x <= data->img.width)
+		while (x < data->img.width)
 		{
 			render_sphere(x, y, data);
-			render_plane(x, y, data);
+			/* render_plane(x, y, data); */
 			x++;
 		}
 		y++;

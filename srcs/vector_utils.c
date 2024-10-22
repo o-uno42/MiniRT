@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:25:00 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/20 18:30:14 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/22 18:53:32 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,28 @@ t_vect sum_vect(t_vect pos_1, t_vect pos_2)
     res.z = pos_1.z + pos_2.z;
 
     return (res);
+}
+
+t_vect	sub_vect(t_vect pos_1, t_vect pos_2)
+{
+	t_vect	res;
+
+	res.x = pos_1.x - pos_2.x;
+	res.y = pos_1.y - pos_2.y;
+	res.z = pos_1.z - pos_2.z;
+	return (res);
+}
+
+t_vect	normalize(t_vect v_orig)
+{
+	float	length;
+	t_vect	res;
+
+	length = sqrt(v_orig.x * v_orig.x + v_orig.y * v_orig.y + v_orig.z * v_orig.z);
+	res.x = v_orig.x / length;
+	res.y = v_orig.y / length;
+	res.z = v_orig.z / length;
+	return (res);
 }
 
 float	dot_product(t_vect pos_1, t_vect pos_2)
