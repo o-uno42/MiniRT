@@ -43,19 +43,18 @@
 # define AQUA			0x00FFFF
 
 
+
+typedef struct s_vect
+{
+	float		x;
+	float		y;
+	float		z;
+}				t_vect;
 typedef struct s_ray
 {
-	double	camera_pos;
-	double	x;
-	double	y;
-	int		map_x;
-	int		map_y;
-	int		step_x;
-	int		step_y;
-	double	wall_dist;
-	int		line_height;
-	int		start;
-	int		end;
+	t_vect	pos;
+
+	t_vect	dir;
 }			t_ray;
 
 // typedef struct s_pos
@@ -64,13 +63,6 @@ typedef struct s_ray
 // 	float		y;
 // 	float		z;
 // }				t_pos;
-
-typedef struct s_vect
-{
-	float		x;
-	float		y;
-	float		z;
-}				t_vect;
 
 typedef struct s_rgb
 {
@@ -93,6 +85,14 @@ typedef struct s_rgb
 // 	int		rotate;
 // }				t_player;
 
+typedef struct s_intersections
+{
+	t_vect		t0;
+	t_vect		t1;
+	int			refl_angle;
+	int			nb_collision;
+}				t_intersections;
+
 typedef struct s_ambient
 {
 	float		ratio;
@@ -103,9 +103,7 @@ typedef struct s_camera
 {
 	t_vect	pos;
 
-	float		vx;
-	float		vy;
-	float		vz;
+	t_vect	dir;
 
 	int			fov;
 }				t_camera;

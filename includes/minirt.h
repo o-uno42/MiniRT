@@ -53,7 +53,8 @@ float	dot_product(t_vect pos_1, t_vect pos_2);
 t_vect	normalize(t_vect v_orig);
 int		interpolate_color(int color1, int color2, float ratio);
 // MATH UTILS
-int		square(int i);
+int		square(float i);
+double	ft_atol(const char *nptr);
 
 //SPLIT
 char	**ft_split_rt(char const *s, char c);

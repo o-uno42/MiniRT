@@ -38,12 +38,12 @@
 // 	// 	j++;
 // 	// if (j != 1)
 // 	// 	print_error("Wrong parameters for Ambient Light");
-// 	data->ambient.ratio = ft_atoi(res[1]);
+// 	data->ambient.ratio = ft_atol(res[1]);
 // 	rgb = safe_malloc(sizeof(int) * 4);
 // 	rgb = ft_split(line, ',');
-// 	data->ambient.rgb_1 = ft_atoi(rgb[0]);
-// 	data->ambient.rgb_2 = ft_atoi(rgb[1]);
-// 	data->ambient.rgb_3 = ft_atoi(rgb[2]);
+// 	data->ambient.rgb_1 = ft_atol(rgb[0]);
+// 	data->ambient.rgb_2 = ft_atol(rgb[1]);
+// 	data->ambient.rgb_3 = ft_atol(rgb[2]);
 //     res = res;
 // 	printf("AMBIENT\nRatio: %f\nrgb: %i\n%i\n%i\n\n", data->ambient.ratio, data->ambient.rgb_1, data->ambient.rgb_2, data->ambient.rgb_3);
 
@@ -74,28 +74,19 @@ void	my_pixel_put(t_data *data, int x, int y, int color)
 // }
 
 
-/* static void	render_plane(int x, int y, t_data *data) */
-/* { */
-/* 	int color; */
-/* 	int i = 0; */
-/* 	float ratio; */
-/* 	ratio = (float)x / (float)data->img.width; */
-/* 	color = interpolate_color(RED, RED, ratio); */
+// static void	render_plane(int x, int y, t_data *data)
+// {
 
-/* 	while (i < dot_product((sum_vect(data->plane.pos, data->plane.vect)), data->plane.posn)) */
-/* 	{ */
-/* 		if (dot_product((sum_vect(data->plane.pos, data->plane.vect)), data->plane.posn) == 0) */
-/* 			my_pixel_put(data, x, y, color); */
-/* 		i++; */
-/* 	} */
-/* 	// while (i < dot_product(data->plane.pos, data->plane.posn)) */
-/* 	// { */
-/* 	// 	my_pixel_put(data, x, y, color); */
-/* 	// 	i++; */
-/* 	// } */
-
+// 	// float d = ((data->plane.vect.x * data->plane.posn.x) + (data->plane.vect.y * data->plane.posn.y)  + (data->plane.vect.z * data->plane.posn.z));
+// 	float D = ((data->plane.vect.x * data->plane.posn.x) + (data->plane.vect.y * data->plane.posn.y)  + (data->plane.vect.z * data->plane.posn.z));
 	
-/* } */
+// 	float z = -(data->plane.pos.x * x + data->plane.pos.y * y + D) / data->plane.pos.z;
+// 	// if (dot_product((sum_vect(data->plane.pos, data->plane.vect)), data->plane.posn) == 0)
+// 	float result = data->plane.posn.x * x + data->plane.posn.y * y + data->plane.posn.y * z + D;
+// 	if (result == 0 )
+// 		my_pixel_put(data, x, y, BLUE);
+	
+// }
 
 void	render_sphere(int x, int y, t_data *data)
 {
