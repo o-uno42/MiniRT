@@ -105,7 +105,7 @@ typedef struct s_camera
 
 	t_vect	dir;
 
-	int			fov;
+	float			fov;
 }				t_camera;
 
 typedef struct s_light
@@ -140,8 +140,8 @@ typedef struct s_img
 	int		bpp;
 	int		endian;
 	int		line_len;
-	int		width;
-	int		height;
+	float		width;
+	float 		height;
 }	t_img;
 
 typedef struct s_data
@@ -154,6 +154,7 @@ typedef struct s_data
 	t_light		light;
 	t_sphere	sphere;
 	t_plane		plane;
+	float		img_ratio;
 	// void		*ptr;
 	// void		*win;
 	// int			height;

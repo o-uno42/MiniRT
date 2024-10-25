@@ -93,6 +93,9 @@ int main(int ac, char **av)
 	inits(&data, &img);
 	parsing(fd, &data);
 
+	// data->sphere.diameter = ft_atoi(res[2]);
+	printf("%f", data.sphere.radius);
+
 	mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 2, esc_x, &data);
 	render(&data);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <math.h>
 
 inline int	square(float i)
 {
@@ -64,6 +65,20 @@ double	ft_atol(const char *nptr)
 	}
 	res = ft_atol_sign(nptr, i, s);
 	return(res);
+}
+
+inline float	max_nb(float nb1, float nb2)
+{
+	if (nb1 >= nb2) 
+		return (nb1);
+	return (nb2);
+}
+
+inline float	ratio(float nb1, float nb2)
+{
+	if (nb1 >= nb2) 
+		return (nb1 / nb2);
+	return (nb2 / nb1);
 }
 
 

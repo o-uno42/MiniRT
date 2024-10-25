@@ -58,9 +58,9 @@ void	sphere_init(t_data *data, char *line)
 
 	coords =safe_malloc(sizeof(char *) * 4);
 	coords = ft_split(res[1], ',');
-	data->sphere.pos.x = ft_atol(coords[0]);
-	data->sphere.pos.y = ft_atol(coords[1]);
-	data->sphere.pos.z = ft_atol(coords[2]);
+	data->sphere.pos.x = scale(ft_atol(coords[0]), data->img.width);
+	data->sphere.pos.y = scale(ft_atol(coords[1]), data->img.height);
+	data->sphere.pos.z = (ft_atol(coords[2]) / 100);
 
 	data->sphere.diameter = ft_atol(res[2]);
 	data->sphere.radius = (data->sphere.diameter/2);
@@ -118,20 +118,21 @@ void	camera_init(t_data *data, char *line)
 	res = ft_split(line, ' ');
 
 	coords = safe_malloc(sizeof(float) * 4);
-	coords = ft_split(res[2], ',');
+	coords = ft_split(res[1], ',');
 	data->camera.pos.x = ft_atol(coords[0]);
 	data->camera.pos.y = ft_atol(coords[1]);
 	data->camera.pos.z = ft_atol(coords[2]);
 
 	vector = safe_malloc(sizeof(float) * 4);
-	vector = ft_split(res[3], ',');
+	vector = ft_split(res[2], ',');
 	data->camera.dir.x = ft_atol(vector[0]);
-	// data->camera.dir.y = ft_atol(vector[1]);
-	// data->camera.dir.z = ft_atol(vector[2]);
+	// data->camera.dir.x = (ft_atol(vector[0]));
+	data->camera.dir.y = ft_atol(vector[1]);
+	data->camera.dir.z = ft_atol(vector[2]);
 	// data->camera.vy = ft_atol(vector[1]);
 	// data->camera.vz = ft_atol(vector[2]);
 
-	data->camera.fov = ft_atoi(res[4]);
+	data->camera.fov = ft_atoi(res[3]);
 	// printf ("CAMERA\nx: %f\ny: %f\nz: %f\nvx: %f\nvy: %f\nvz: %f\n\n", 
 	// 	data->camera.x, data->camera.y, data->camera.z, data->camera.vx, data->camera.vy, data->camera.vz);
 }

@@ -37,6 +37,7 @@ void	light_init(t_data *data, char *line);
 void	sphere_init(t_data *data, char *line);
 void	plane_init(t_data *data, char *line);
 
+float	scale(float point, float max_dimention);
 
 //	WINDOW MANAGEMENT
 int	keys(int keysym, t_data *map);
@@ -55,6 +56,9 @@ int		interpolate_color(int color1, int color2, float ratio);
 // MATH UTILS
 int		square(float i);
 double	ft_atol(const char *nptr);
+float	max_nb(float nb1, float nb2);
+float	ratio(float nb1, float nb2);
+
 
 //SPLIT
 char	**ft_split_rt(char const *s, char c);
@@ -68,5 +72,8 @@ int		get_t(int trgb);
 int		get_r(int trgb);
 int		get_g(int trgb);
 int		get_b(int trgb);
+
+// RAYS
+t_ray    camera_rays(int x, int y, t_data *data);
 
 #endif

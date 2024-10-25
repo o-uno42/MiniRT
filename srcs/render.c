@@ -61,16 +61,32 @@ void	my_pixel_put(t_data *data, int x, int y, int color)
 }
 
 
-// static void render_light(int x, int y, t_data *data)
+// static int render_light(int x, int y, int z, t_data *data)
 // {
-// 	int i = 0;
-// 	while (i <= data->light.bright)
-// 	{
-// 		if (i == data->sphere.radius)
-// 			my_pixel_put(data, x, y, WHITE);
-// 		i++;
-// 	}
+// 	// int d = 0;
+// 	z = z;
+// 	x = x;
+// 	y = y;
+// 	// while (i <= data->light.bright)
+// 	// {
+// 	// 	if (i == data->sphere.radius)
+// 	// 		my_pixel_put(data, x, y, WHITE);
+// 	// 	i++;
+// 	// }
+// 	// d = sqrt(square(x - data->sphere.pos.x) + square(y - data->sphere.pos.y));
+// 	// if (d <= data->sphere.radius * data->sphere.pos.z / 4)
+// 	// 	return (1);
+// 	// else
+// 	//  	return 0;;
+// 	// t_vect vector;
+// 	float	len_vect;
+	
+// 	// vector = vector;
+// 	len_vect = sqrt(square(data->light.pos.x) +square(data->light.pos.y)+square(data->light.pos.z));
 
+// 	printf ("len vect light:%f\n", len_vect);
+// 	return  (1);
+// 	// while ()
 // }
 
 
@@ -88,74 +104,99 @@ void	my_pixel_put(t_data *data, int x, int y, int color)
 	
 // }
 
-void	render_sphere(int x, int y, t_data *data)
+// void	render_sphere(int x, int y, t_data *data)
+// {
+// 	t_vect	ray_dir;
+// 	t_vect	camera_pos;
+// 	t_vect	offset_vect;
+// 	float	aspect_ratio;
+// 	float	ratio;
+//     int color;
+//     int color2;
+
+// 	camera_pos = data->camera.pos;
+// 	aspect_ratio = (float)data->img.width / (float)data->img.height;
+//     ratio = (float)x / (float)data->img.width;
+//     color = interpolate_color(CYAN, MAGENTA, ratio);
+//     color2 = interpolate_color(BLUE, BLACK, ratio);
+
+// 	ray_dir.x = (2 * ((x + 0.5) / (float)data->img.width) - 1) * aspect_ratio;
+//     ray_dir.y = (1 - 2 * ((y + 0.5) / (float)data->img.height));
+//     ray_dir.z = -1;
+//     ray_dir = normalize(ray_dir);
+
+// 	offset_vect = sub_vect(camera_pos, data->sphere.pos);
+
+// 	float a = dot_product(ray_dir, ray_dir);
+// 	float b = 2.0 * dot_product(offset_vect, ray_dir);
+// 	float c = dot_product(offset_vect, offset_vect) - square(data->sphere.radius);
+// 	float discriminant =  b * b - 4 * a * c;
+
+// 	if (discriminant >= 0)
+// 	{
+// 		float t = (-b - sqrt(discriminant)) / (2.0 * a);
+// 		if (t > 0)
+// 		{
+// 			my_pixel_put(data, x, y, color);
+// 		}
+// 	}
+// 	else
+//         my_pixel_put(data, x, y, color2);
+// }
+
+static int render_sphere(t_ray camera_ray, t_data *data)
 {
-	t_vect	ray_dir;
-	t_vect	camera_pos;
-	t_vect	offset_vect;
-	float	aspect_ratio;
-	float	ratio;
-    int color;
-    int color2;
+    // float ratio;
+    // int color;
+    // int color2;
+    float d;
+	// t_vect coords;
+	// int z = data->sphere.pos.z;
+	
+	// coords = camera_rays(x, y, z, data);
+	d = sqrt(square (camera_ray.dir.x - data->sphere.pos.x) + square(camera_ray.dir.y - data->sphere.pos.y));
 
-	camera_pos = data->camera.pos;
-	aspect_ratio = (float)data->img.width / (float)data->img.height;
-    ratio = (float)x / (float)data->img.width;
-    color = interpolate_color(CYAN, MAGENTA, ratio);
-    color2 = interpolate_color(BLUE, BLACK, ratio);
+    // ratio = (float)x / (float)data->img.width;
 
-	ray_dir.x = (2 * ((x + 0.5) / (float)data->img.width) - 1) * aspect_ratio;
-    ray_dir.y = (1 - 2 * ((y + 0.5) / (float)data->img.height));
-    ray_dir.z = -1;
-    ray_dir = normalize(ray_dir);
-
-	offset_vect = sub_vect(camera_pos, data->sphere.pos);
-
-	float a = dot_product(ray_dir, ray_dir);
-	float b = 2.0 * dot_product(offset_vect, ray_dir);
-	float c = dot_product(offset_vect, offset_vect) - square(data->sphere.radius);
-	float discriminant =  b * b - 4 * a * c;
-
-	if (discriminant >= 0)
+    // color = interpolate_color(CYAN, MAGENTA, ratio);
+    // color2 = interpolate_color(BLUE, BLACK, ratio);
+    if (d <= data->sphere.radius * data->sphere.pos.z)
 	{
-		float t = (-b - sqrt(discriminant)) / (2.0 * a);
-		if (t > 0)
+		if ((camera_ray.dir.x <= data->img.width) && (camera_ray.dir.y <= data->img.height))
 		{
-			my_pixel_put(data, x, y, color);
+
+			return( 1);
+			// render_light(camera_ray.x, camera_ray.y, z, data);
+
+			// if (render_light(x, y, data))
+			// 	my_pixel_put(data, coords.x, coords.y, WHITE);
+			// else
+			// 	my_pixel_put(data, coords.x, coords.y, GREEN);
 		}
+		// if (render_light(x, y, data) && (coords.x <= data->img.width) && (coords.y <= data->img.height))
+        // 	my_pixel_put(data, coords.x, coords.y, WHITE);
+		// else if (!render_light(x, y, data) && (coords.x <= data->img.width) && (coords.y <= data->img.height))
+		// 	my_pixel_put(data, coords.x, coords.y, GREEN);
 	}
-	else
-        my_pixel_put(data, x, y, color2);
+	return 0;
+    // else
+	// 	if ((x + data->camera.pos.x <= data->img.width) && (y + data->camera.pos.y <= data->img.height))
+	// 	my_pixel_put(data, x+ data->camera.pos.x, y + data->camera.pos.y, BLUE );
 }
 
-/* static void render_sphere(int x, int y, t_data *data) */ 
-/* { */
-/*     float ratio; */
-/*     int color; */
-/*     int color2; */
-/* 	float d; */
-
-/*     d = sqrt(square(x - (data->img.width / 2)) + square(y - (data->img.height / 2))); */
-
-/*     ratio = (float)x / (float)data->img.width; */
-
-/*     color = interpolate_color(CYAN, MAGENTA, ratio); */
-/*     color2 = interpolate_color(BLUE, BLACK, ratio); */
-/*     if (d <= data->sphere.radius) */
-/* 	{ */
-/*         my_pixel_put(data, x, y, color); */
-/* 		// if (d == data->sphere.radius) */
-/* 		// 	my_pixel_put(data, x, y, WHITE); */
-/* 		// render_light(x, y, data); */
-/* 	} */
-/*     else */
-/*         my_pixel_put(data, x, y, color2); */
-/* } */
+// void	render_scene(int x, int y, t_data *data)
+// {
+// 	render_sphere(x, y, data);
+// }
 
 int    render(t_data *data)
 {
 	int	x;
 	int	y;
+	// int z;
+	t_ray camera_ray;
+
+	data->img_ratio = ratio(data->img.width, data->img.height);
 
 	y = 0;
 	while (y < data->img.height)
@@ -163,7 +204,10 @@ int    render(t_data *data)
 		x = 0;
 		while (x < data->img.width)
 		{
-			render_sphere(x, y, data);
+			camera_ray = camera_rays(x, y,data);
+			// render_scene(camera_ray, data);
+			if(render_sphere(camera_ray,  data))
+				my_pixel_put(data, x, y, RED);
 			/* render_plane(x, y, data); */
 			x++;
 		}
