@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/20 19:00:20 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/25 20:23:00 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef		STRUCTS_H
@@ -102,8 +102,10 @@ typedef struct s_ambient
 typedef struct s_camera
 {
 	t_vect	pos;
-
 	t_vect	dir;
+	t_vect	forward;
+	t_vect	right;
+	t_vect	up;
 
 	float			fov;
 }				t_camera;

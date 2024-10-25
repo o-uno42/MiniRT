@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/10/22 18:55:27 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/25 20:21:49 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void    movement(t_data *data);
 t_vect 	sum_vect(t_vect pos_1, t_vect pos_2);
 t_vect	sub_vect(t_vect pos_1, t_vect pos_2);
 float	dot_product(t_vect pos_1, t_vect pos_2);
+t_vect	cross_product(t_vect a, t_vect b);
 t_vect	normalize(t_vect v_orig);
 int		interpolate_color(int color1, int color2, float ratio);
 // MATH UTILS

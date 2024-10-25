@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/20 18:33:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/25 20:44:15 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,12 @@ void	camera_init(t_data *data, char *line)
 	char	**res;
 	char	**coords;
 	char	**vector;
+	t_vect	world_up;
 
-	res = safe_malloc(sizeof(float) * 4);
+	world_up.x = 0;
+	world_up.y = 1;
+	world_up.z = 0;
+	res = safe_malloc(sizeof(float) * 4); // IS this alloc necessary if later we use split???
 	res = ft_split(line, ' ');
 
 	coords = safe_malloc(sizeof(float) * 4);
@@ -133,6 +137,9 @@ void	camera_init(t_data *data, char *line)
 	// data->camera.vz = ft_atol(vector[2]);
 
 	data->camera.fov = ft_atoi(res[3]);
+	data->camera.forward = normalize(sub_vect(data->camera.dir, data->camera.pos));
+	data->camera.right = normalize(cross_product(world_up, data->camera.forward));
+	data->camera.up = cross_product(data->camera.forward, data->camera.right);
 	// printf ("CAMERA\nx: %f\ny: %f\nz: %f\nvx: %f\nvy: %f\nvz: %f\n\n", 
 	// 	data->camera.x, data->camera.y, data->camera.z, data->camera.vx, data->camera.vy, data->camera.vz);
 }

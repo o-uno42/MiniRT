@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:25:00 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/22 18:53:32 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/25 20:21:04 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,17 @@ float	dot_product(t_vect pos_1, t_vect pos_2)
 {
 	return ((pos_1.x * pos_2.x) + (pos_1.y * pos_2.y) + (pos_1.z * pos_2.z));
 }
+
+t_vect	cross_product(t_vect a, t_vect b)
+{
+	t_vect	result;
+
+	result.x = a.y * b.z - a.z * b.y;
+	result.y = a.z * b.x - a.x * b.z;
+	result.z = a.x * b.y - a.y * b.x;
+	return (result);
+}
+
 
 int	interpolate_color(int color1, int color2, float ratio)
 {
