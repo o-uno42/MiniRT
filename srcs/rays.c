@@ -31,9 +31,18 @@ t_ray    camera_rays(int x, int y, t_data *data)
 {
 	t_ray ray;
 
-	ray.dir.x = (2 * ((x + 0.5) / data->img.width) - 1) * tan(data->camera.fov / 2 * M_PI / 180) * data->img_ratio; // TODO we need to check which is greater W or H 
-	ray.dir.y = (1 - 2 * ((y + 0.5) / data->img.height)) * tan(data->camera.fov / 2 * M_PI / 180);
+	if (max_nb(data->img.width, data->img.height) == data->img.width)
+	{
+		ray.dir.x = (2 * ((x + 0.5) / data->img.width) - 1) * tan(data->camera.fov / 2 * M_PI / 180) * data->img_ratio; 
+		ray.dir.y = (1 - 2 * ((y + 0.5) / data->img.height)) * tan(data->camera.fov / 2 * M_PI / 180);
+	}
+	else 
+	{
+		ray.dir.x = (2 * ((x + 0.5) / data->img.width) - 1) * tan(data->camera.fov / 2 * M_PI / 180);
+		ray.dir.y = (1 - 2 * ((y + 0.5) / data->img.height)) * tan(data->camera.fov / 2 * M_PI / 180) * data->img_ratio; 
+	}
 	ray.dir.z  = -1;
+	ray.dir = normalize(sub_vect(ray.dir, data->camera.pos));
 	ray.dir = camera_to_world(ray.dir, data->camera);
 	ray.pos = data->camera.pos;
    return (ray);

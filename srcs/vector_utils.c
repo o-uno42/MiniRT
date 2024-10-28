@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:25:00 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/25 20:21:04 by thiew            ###   ########.fr       */
+/*   Updated: 2024/10/28 10:57:40 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ t_vect	cross_product(t_vect a, t_vect b)
 	result.y = a.z * b.x - a.x * b.z;
 	result.z = a.x * b.y - a.y * b.x;
 	return (result);
+}
+
+inline float	magnitude(t_vect v)
+{
+	return (sqrt(square(v.x) + square(v.y) + square(v.z)));
 }
 
 

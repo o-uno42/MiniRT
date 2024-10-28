@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/25 20:44:15 by thiew            ###   ########.fr       */
+/*   Updated: 2024/10/28 18:09:19 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	sphere_init(t_data *data, char *line)
 
 	coords =safe_malloc(sizeof(char *) * 4);
 	coords = ft_split(res[1], ',');
-	data->sphere.pos.x = scale(ft_atol(coords[0]), data->img.width);
-	data->sphere.pos.y = scale(ft_atol(coords[1]), data->img.height);
-	data->sphere.pos.z = (ft_atol(coords[2]) / 100);
+	data->sphere.pos.x = ft_atol(coords[0]);
+	data->sphere.pos.y = ft_atol(coords[1]);
+	data->sphere.pos.z = ft_atol(coords[2]);
 
 	data->sphere.diameter = ft_atol(res[2]);
 	data->sphere.radius = (data->sphere.diameter/2);
@@ -137,7 +137,7 @@ void	camera_init(t_data *data, char *line)
 	// data->camera.vz = ft_atol(vector[2]);
 
 	data->camera.fov = ft_atoi(res[3]);
-	data->camera.forward = normalize(sub_vect(data->camera.dir, data->camera.pos));
+	data->camera.forward = normalize(data->camera.dir);// normalize(sub_vect(data->camera.dir, data->camera.pos));
 	data->camera.right = normalize(cross_product(world_up, data->camera.forward));
 	data->camera.up = cross_product(data->camera.forward, data->camera.right);
 	// printf ("CAMERA\nx: %f\ny: %f\nz: %f\nvx: %f\nvy: %f\nvz: %f\n\n", 

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:38:36 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/20 18:39:21 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/28 15:30:20 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,15 @@ inline float	ratio(float nb1, float nb2)
 		return (nb1 / nb2);
 	return (nb2 / nb1);
 }
+
+inline	void	swap(float *a, float *b)
+{
+	float c;
+	
+	c = *a;
+	*a = *b;
+	*b = c;
+}
+
 
 
