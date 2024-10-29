@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/28 18:09:19 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/29 18:00:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,16 @@ void	camera_init(t_data *data, char *line)
 
 	data->camera.fov = ft_atoi(res[3]);
 	data->camera.forward = normalize(data->camera.dir);// normalize(sub_vect(data->camera.dir, data->camera.pos));
-	data->camera.right = normalize(cross_product(world_up, data->camera.forward));
-	data->camera.up = cross_product(data->camera.forward, data->camera.right);
+	if (data->camera.dir.x == 0 && data->camera.dir.z == 0)
+	{
+		data->camera.right = create_vector(1.0, 0, 0);
+		data->camera.up = create_vector(0, 0, 1.0);
+	}
+	else
+	{
+		data->camera.right = normalize(cross_product(world_up, data->camera.forward));
+		data->camera.up = cross_product(data->camera.forward, data->camera.right);
+	}
 	// printf ("CAMERA\nx: %f\ny: %f\nz: %f\nvx: %f\nvy: %f\nvz: %f\n\n", 
 	// 	data->camera.x, data->camera.y, data->camera.z, data->camera.vx, data->camera.vy, data->camera.vz);
 }

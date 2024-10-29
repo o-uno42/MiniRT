@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/10/28 16:29:15 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/10/29 17:58:06 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	light_init(t_data *data, char *line);
 void	sphere_init(t_data *data, char *line);
 void	plane_init(t_data *data, char *line);
 
-float	scale(float point, float max_dimention);
+float	scale(float point, float max_dimension);
 
 //	WINDOW MANAGEMENT
 int	keys(int keysym, t_data *map);
@@ -55,6 +55,7 @@ float	dot_product(t_vect pos_1, t_vect pos_2);
 t_vect	cross_product(t_vect a, t_vect b);
 t_vect	normalize(t_vect v_orig);
 float	magnitude(t_vect v);
+t_vect	create_vector(float x, float y, float z);
 int		interpolate_color(int color1, int color2, float ratio);
 // MATH UTILS
 int		square(float i);
