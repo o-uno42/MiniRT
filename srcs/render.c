@@ -214,7 +214,7 @@ t_objs *sorted_objects(t_data *data, t_ray camera_ray)
     return (objects);
 }
 
-void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int index_obj)
+void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int index_obj, t_ray *light)
 {
 	int		color;
 
@@ -225,7 +225,12 @@ void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int inde
 		// printf("%i", type);
 		color = create_color(data->obj[index_obj].sphere->rgb, data->ambient);
 		if(render_sphere(camera_ray, data, index_obj))
-			my_pixel_put(data, x, y, color);
+		{
+			if(light_intersect(data, light))
+				my_pixel_put(data, x, y, WHITE);
+			else
+				my_pixel_put(data, x, y, color);
+		}
 	}
 	else if (type == 2)
 	{
@@ -235,7 +240,7 @@ void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int inde
 	}
 }
 
-void	render_objs(t_data *data, t_ray camera_ray, int x, int y)
+void	render_objs(t_data *data, t_ray camera_ray, int x, int y, t_ray *light)
 {
 	int i = 0;
 	int index_obj = 0;
@@ -244,7 +249,7 @@ void	render_objs(t_data *data, t_ray camera_ray, int x, int y)
 	while (data->obj[i].type_obj != END)
 	{
 		// printf("rendering\n");
-		render_obj(data, camera_ray, data->obj[i].type_obj, x, y, index_obj);
+		render_obj(data, camera_ray, data->obj[i].type_obj, x, y, index_obj, light);
 		i++;
 		index_obj++;
 	}
@@ -257,6 +262,7 @@ int    render(t_data *data)
 	int	y;
 	// int z;
 	t_ray camera_ray;
+	t_ray *light;
 	t_objs	*sorted;
 
 	int i = -1;
@@ -270,6 +276,8 @@ int    render(t_data *data)
 	data->obj = sorted;
 	// print_sphere(data->sphere);
 
+	light = light_rays(data);
+	light = light;
 	y = 0;
 	while (y < data->img.height)
 	{
@@ -277,7 +285,7 @@ int    render(t_data *data)
 		while (x < data->img.width)
 		{
 			camera_ray = camera_rays(x, y,data);
-			render_objs(data, camera_ray, x, y);
+			render_objs(data, camera_ray, x, y, light);
 			x++;
 		}
 		y++;

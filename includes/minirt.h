@@ -63,6 +63,8 @@ double	ft_atol(const char *nptr);
 float	max_nb(float nb1, float nb2);
 float	ratio(float nb1, float nb2);
 void	swap(float *a, float *b);
+
+bool solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);
 // DEBUG UTILS
 void	print_sphere(t_sphere sphere);
 void	print_camera(t_camera camera);
@@ -85,8 +87,12 @@ int		get_b(int trgb);
 
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
+t_ray    *light_rays(t_data *data);
 
 //COLOR
 int     create_color(t_rgb rgb, t_ambient ambient);
+
+//LIGHT
+bool    light_intersect(t_data *data, t_ray *light);
 
 #endif
