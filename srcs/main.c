@@ -40,16 +40,16 @@ t_data	*start_ambient(t_data *data)
 
 void	*data_init(t_data *data)
 {
-	// data = NULL;
-	// data->ambient = NULL;
-	// data->ambient->ratio = 0;
-	// data->ambient->rgb_1 = 0;
-	// data->ambient->rgb_2 = 0;
-	// data->ambient->rgb_3 = 0;
-	// data->camera = NULL;
-	// data->light = NULL;
+	int i = 0;
 	data->img.width = 900;
 	data->img.height = 900;
+	data->obj = safe_malloc(sizeof(t_objs) * 1024);
+	while (i < 1024)
+	{
+		data->obj[i].type_obj = NOTHING;
+		i++;
+	}
+	data->index_objs = 0;
 	return (data);
 }
 void	inits(t_data *data, t_img *img)
@@ -85,6 +85,7 @@ int main(int ac, char **av)
 	int		fd;
 	t_data	data;
 	t_img	img;
+	int i = 0;
 	ac = ac;
 
 	fd = open(av[1], O_RDONLY);
@@ -92,10 +93,8 @@ int main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	inits(&data, &img);
 	parsing(fd, &data);
-
-	// data->sphere.diameter = ft_atoi(res[2]);
-	printf("%f", data.sphere.radius);
-
+	while(i++ < 50)
+		printf("type main: %i\n", data.obj[i].type_obj);
 	mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 2, esc_x, &data);
 	render(&data);

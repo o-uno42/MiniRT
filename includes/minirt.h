@@ -20,6 +20,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <float.h>
 # include <X11/keysym.h>
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
@@ -35,9 +36,8 @@ int    render(t_data *data);
 void    ambient_init(t_data *data, char *line);
 void	camera_init(t_data *data, char *line);
 void	light_init(t_data *data, char *line);
-void	sphere_init(t_data *data, char *line);
-void	plane_init(t_data *data, char *line);
-
+void	sphere_init(t_data *data, char *line, int nb_spheres, int i);
+void	plane_init(t_data *data, char *line, int nb_planes, int i);
 float	scale(float point, float max_dimension);
 
 //	WINDOW MANAGEMENT
@@ -85,5 +85,8 @@ int		get_b(int trgb);
 
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
+
+//COLOR
+int     create_color(t_rgb rgb, t_ambient ambient);
 
 #endif

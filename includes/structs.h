@@ -125,6 +125,7 @@ typedef struct s_sphere
 	float		diameter;
 	float		radius;
 	t_rgb		rgb;
+	int			nb;
 }				t_sphere;
 
 typedef struct s_plane
@@ -133,6 +134,7 @@ typedef struct s_plane
 	t_vect		posn;
 	t_vect		vect;
 	t_rgb		rgb;
+	int			nb;
 }				t_plane;
 
 typedef struct s_img
@@ -146,6 +148,23 @@ typedef struct s_img
 	float 		height;
 }	t_img;
 
+
+typedef enum s_type_obj
+{
+	NOTHING,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	END
+}				t_type_obj;
+typedef struct s_objs
+{
+	t_sphere	*sphere;
+	t_plane		*plane;
+	t_type_obj	type_obj;
+	int			sphere_capacity;
+}				t_objs;
+
 typedef struct s_data
 {
 	void	*mlx_ptr;
@@ -154,9 +173,12 @@ typedef struct s_data
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
-	t_sphere	sphere;
-	t_plane		plane;
+	t_objs		*obj;
+	// t_sphere	*sphere;
+	// t_plane		*plane;
 	float		img_ratio;
+	int			index_objs;
+	// t_obj		index_obj;
 	// void		*ptr;
 	// void		*win;
 	// int			height;

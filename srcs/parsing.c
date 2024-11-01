@@ -90,12 +90,21 @@ int	check_line(char *line)
 	return (0);
 }
 
-void	prefix(char *line, t_data *data)
+void	prefix(char *line, t_data *data, int *nb_objs)
 {
 	int i;
+	// int j;
+	int z;
 
 	i = 0;
+	// j = 0;
+	z = 0;
 	data = data;
+	// data->obj[j].sphere->nb = 0;
+	// data->obj[j].plane->nb = 0;
+	
+	// data->obj[data->index_objs].sphere = NULL;
+	// data->obj[data->index_objs].type_obj = NOTHING;
 	while (line[i])
 	{
 		if (line[i] == ' ')
@@ -109,21 +118,62 @@ void	prefix(char *line, t_data *data)
 	else if (ft_strncmp("L", line, i) == 0)
 		light_init(data, line);
 	else if (ft_strncmp("sp", line, i) == 0)
-		sphere_init(data, line);
+	{
+		// printf("entering\n");
+		// data->obj[(*nb_objs)].type_obj = SPHERE;
+		if (data->obj[(*nb_objs)].sphere == NULL)
+		{
+			printf("initializing sphere\n");
+			data->obj[(*nb_objs)].sphere = safe_malloc(sizeof(t_sphere));
+		}
+		printf("sphere: %i\n", data->obj[(*nb_objs)].type_obj);
+		sphere_init(data, line, z, (*nb_objs));
+		// data->obj[j].sphere->nb++;
+		z++;
+		(*nb_objs)++;
+	}
 	else if (ft_strncmp("pl", line, i) == 0)
-		plane_init(data, line);
+	{
+		// printf("entering\n");
+		// data->obj[(*nb_objs)].type_obj = SPHERE;
+		if (data->obj[(*nb_objs)].plane == NULL)
+		{
+			printf("initializing plane\n");
+			data->obj[(*nb_objs)].plane = safe_malloc(sizeof(t_plane));
+		}
+		printf("plane: %i\n", data->obj[(*nb_objs)].type_obj);
+		plane_init(data, line, z, (*nb_objs));
+		// data->obj[j].sphere->nb++;
+		z++;
+		(*nb_objs)++;
+	}
+	// data->obj[data->index_objs].type_obj = END;
+	// else if (ft_strncmp("pl", line, i) == 0)
+	// {
+	// 	plane_init(data, line, data->obj[data->index_objs].plane->nb);
+	// 	data->obj[data->index_objs].plane->nb++;
+	// 	data->index_objs++;
+	// }
 }
 
 void	parsing(int fd, t_data *data)
 {
 	char	*line;
+	int		i;
+	int		nb_objects;
+
+	i = 0;
+	nb_objects = 0;
 
 	while((line = get_next_line(fd)) !=NULL)
 	{
 		check_line(line);
-		prefix(line, data);
-		// printf("Linea: %s\n", line);
-		// printf("%s", line);
+		prefix(line, data, &nb_objects);
+		// free(line);
+		i++;
 	}
+	printf("exiting parsing\n");
+	data->obj[nb_objects].type_obj = END;
+	printf("type end: %i\n", data->obj[nb_objects].type_obj);
 }
 
