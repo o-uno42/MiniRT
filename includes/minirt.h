@@ -93,6 +93,6 @@ t_ray    *light_rays(t_data *data);
 int     create_color(t_rgb rgb, t_ambient ambient);
 
 //LIGHT
-bool    light_intersect(t_data *data, t_ray *light);
+bool    light_intersect(t_data *data, t_ray *light, int index);
 
 #endif

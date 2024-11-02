@@ -1,24 +1,31 @@
 #include "../includes/minirt.h"
 #include <stdbool.h>
 
-bool    light_intersect(t_data *data, t_ray *light)
+bool    light_intersect(t_data *data, t_ray *light, int index)
 {
-	t_vect	offset_vect;
-	float	intersect1;
-	float	intersect2;
+    printf("light: %f\n", light->pos.x);
+    // printf("light: %f\n", light->bright);
+    int i = 0;
+    t_vect oc;
+    while (i < data->light.nb_rays)
+    {
+        oc.x = light[i].pos.x - data->obj[index].sphere->pos.x, 
+        oc.y = light[i].pos.y - data->obj[index].sphere->pos.y, 
+        oc.z = light[i].pos.z - data->obj[index].sphere->pos.z;
+        float a = dot_product(light[i].dir, light[i].dir);
+        float b = 2.0f * dot_product(oc, light[i].dir);
+        float c = dot_product(oc, oc) - (data->obj[index].sphere->radius * data->obj[index].sphere->radius);
+        
+        float discriminant = b * b - 4 * a * c;
 
-
-	offset_vect = sub_vect(data->camera.pos, data->obj[index].sphere->pos);
-
-	float a = dot_product(camera_ray.dir, camera_ray.dir);
-	float b = 2.0 * dot_product(camera_ray.dir, offset_vect);
-	float c = dot_product(offset_vect, offset_vect) - square(data->obj[index].sphere->radius);
-	if (solve_quadratic(a, b, c, &intersect1, &intersect2))
-	{
-		if (intersect1 > 0)
-			return (true);
-	}
-	return (false);
+        if (discriminant >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+        i++;
+    }
+    return false;
 }
 
 t_ray    *light_rays(t_data *data)
@@ -28,7 +35,8 @@ t_ray    *light_rays(t_data *data)
     t_ray *ray;
 
     nb_rays = 300;
-    ray = safe_malloc(sizeof(t_ray) *nb_rays + 1);
+    data->light.nb_rays = nb_rays;
+    ray = safe_malloc(sizeof(t_ray) *nb_rays);
     ray->pos = data->light.pos;
     while (i < nb_rays)
     {

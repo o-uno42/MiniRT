@@ -117,6 +117,8 @@ typedef struct s_light
 	float		bright;
 
 	t_rgb		rgb;
+
+	int			nb_rays;
 }				t_light;
 
 typedef struct s_sphere

@@ -226,7 +226,7 @@ void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int inde
 		color = create_color(data->obj[index_obj].sphere->rgb, data->ambient);
 		if(render_sphere(camera_ray, data, index_obj))
 		{
-			if(light_intersect(data, light))
+			if(light_intersect(data, light, index_obj))
 				my_pixel_put(data, x, y, WHITE);
 			else
 				my_pixel_put(data, x, y, color);
