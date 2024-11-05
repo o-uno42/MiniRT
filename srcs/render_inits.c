@@ -6,46 +6,60 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/29 18:00:49 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/05 22:27:29 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
+t_hitinfo	init_hit(t_data *data)
+{
+	t_hitinfo	hit;
+
+	hit.p = create_vector(0, 0, 0);
+	hit.t = LONG_MAX;
+	hit.normal = create_vector(0, 0 , 0);
+	hit.rgb = data->ambient.rgb;
+	return (hit);
+}
 void	plane_init(t_data *data, char *line, int nb_planes, int i)
 {
 	char	**res;
 	char	**coords;
 	char	**vect;
 	char	**rgb;
+	t_plane	*plane;
+	(void)nb_planes;
 
 	data->obj[i].type_obj = PLANE;
+	plane = (t_plane *)safe_malloc(sizeof(t_plane));
+	data->obj[i].object = plane;
 	res = safe_malloc(sizeof(char *) * 4);
 	res = ft_split(line, ' ');
 
 	coords =safe_malloc(sizeof(char *) * 4);
 	coords = ft_split(res[1], ',');
-	data->obj[i].plane[nb_planes].pos.x = ft_atol(coords[0]);
-	data->obj[i].plane[nb_planes].pos.y = ft_atol(coords[1]);
-	data->obj[i].plane[nb_planes].pos.z = ft_atol(coords[2]);
+	plane->pos.x = ft_atol(coords[0]);
+	plane->pos.y = ft_atol(coords[1]);
+	plane->pos.z = ft_atol(coords[2]);
 
 	// printf("%f", data->plane.pos.z);
 
-	data->obj[i].plane[nb_planes].posn.x = data->obj[i].plane[nb_planes].pos.x;
-	data->obj[i].plane[nb_planes].posn.y = data->obj[i].plane[nb_planes].pos.y + 10;
-	data->obj[i].plane[nb_planes].posn.z = data->obj[i].plane[nb_planes].pos.z;
+	plane->posn.x = plane->pos.x;
+	plane->posn.y = plane->pos.y + 10;
+	plane->posn.z = plane->pos.z;
 
 	vect = safe_malloc(sizeof(char *) * 4);
 	vect = ft_split(res[2],  ',');
-	data->obj[i].plane[nb_planes].vect.x = ft_atol(vect[0]);
-	data->obj[i].plane[nb_planes].vect.y = ft_atol(vect[1]);
-	data->obj[i].plane[nb_planes].vect.z = ft_atol(vect[2]);
+	plane->vect.x = ft_atol(vect[0]);
+	plane->vect.y = ft_atol(vect[1]);
+	plane->vect.z = ft_atol(vect[2]);
 
 	rgb = safe_malloc(sizeof(int) * 4);
 	rgb = ft_split(res[3], ',');
-	data->obj[i].plane[nb_planes].rgb.r = ft_atol(rgb[0]);
-	data->obj[i].plane[nb_planes].rgb.g = ft_atol(rgb[1]);
-	data->obj[i].plane[nb_planes].rgb.b = ft_atol(rgb[2]);
+	plane->rgb.r = ft_atol(rgb[0]);
+	plane->rgb.g = ft_atol(rgb[1]);
+	plane->rgb.b = ft_atol(rgb[2]);
 }
 
 void	sphere_init(t_data *data, char *line, int nb_spheres, int i)
@@ -53,25 +67,30 @@ void	sphere_init(t_data *data, char *line, int nb_spheres, int i)
 	char	**res;
 	char	**coords;
 	char	**rgb;
+	t_sphere	*sphere;
+	(void)nb_spheres;
+	
 
 	data->obj[i].type_obj = SPHERE;
+	sphere = (t_sphere *)safe_malloc(sizeof(t_sphere));
+	data->obj[i].object = sphere;
 	res = safe_malloc(sizeof(char *) * 4);
 	res = ft_split(line, ' ');
 
 	coords =safe_malloc(sizeof(char *) * 4);
 	coords = ft_split(res[1], ',');
-	data->obj[i].sphere[nb_spheres].pos.x = ft_atol(coords[0]);
-	data->obj[i].sphere[nb_spheres].pos.y = ft_atol(coords[1]);
-	data->obj[i].sphere[nb_spheres].pos.z = ft_atol(coords[2]);
+	sphere->pos.x = ft_atol(coords[0]);
+	sphere->pos.y = ft_atol(coords[1]);
+	sphere->pos.z = ft_atol(coords[2]);
 
-	data->obj[i].sphere[nb_spheres].diameter = ft_atol(res[2]);
-	data->obj[i].sphere[nb_spheres].radius = (data->obj->sphere[nb_spheres].diameter/2);
+	sphere->diameter = ft_atol(res[2]);
+	sphere->radius = sphere->diameter / 2;
 
 	rgb = safe_malloc(sizeof(int) * 4);
 	rgb = ft_split(res[3], ',');
-	data->obj[i].sphere[nb_spheres].rgb.r = ft_atol(rgb[0]);
-	data->obj[i].sphere[nb_spheres].rgb.g = ft_atol(rgb[1]);
-	data->obj[i].sphere[nb_spheres].rgb.b = ft_atol(rgb[2]);
+	sphere->rgb.r = ft_atol(rgb[0]);
+	sphere->rgb.g = ft_atol(rgb[1]);
+	sphere->rgb.b = ft_atol(rgb[2]);
 }
 
 void    ambient_init(t_data *data, char *line)

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/10 14:09:28 by thiew            ###   ########.fr       */
+/*   Updated: 2024/11/05 20:47:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	prefix(char *line, t_data *data, int *nb_objs)
 		if (data->obj[(*nb_objs)].sphere == NULL)
 		{
 			printf("initializing sphere\n");
-			data->obj[(*nb_objs)].sphere = safe_malloc(sizeof(t_sphere));
+			//data->obj[(*nb_objs)].sphere = safe_malloc(sizeof(t_sphere));
 		}
 		printf("sphere: %i\n", data->obj[(*nb_objs)].type_obj);
 		sphere_init(data, line, z, (*nb_objs));
@@ -139,7 +139,7 @@ void	prefix(char *line, t_data *data, int *nb_objs)
 		if (data->obj[(*nb_objs)].plane == NULL)
 		{
 			printf("initializing plane\n");
-			data->obj[(*nb_objs)].plane = safe_malloc(sizeof(t_plane));
+			//data->obj[(*nb_objs)].plane = safe_malloc(sizeof(t_plane));
 		}
 		printf("plane: %i\n", data->obj[(*nb_objs)].type_obj);
 		plane_init(data, line, z, (*nb_objs));

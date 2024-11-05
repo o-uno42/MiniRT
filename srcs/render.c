@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/28 17:20:32 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/05 22:42:05 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,40 +52,68 @@ bool solve_quadratic(const float a, const float b, const float c, float *x0, flo
 		swap(x0, x1);
 	return (true);
 }
-			
-bool	render_sphere(t_ray camera_ray, t_data *data, int index)
+
+void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_camera camera, t_sphere *sphere)
+{
+	if (intersect > hit->t)
+		return ;
+	hit->t = intersect;
+	hit->p = sum_vect(camera.pos, scale_vect(camera.dir, intersect));
+	hit->normal = normalize(sub_vect(hit->p, sphere->pos));
+	hit->rgb = sphere->rgb;
+	printf("hit in sphere is: %f\n", hit->t);
+	if (dot_product(camera.dir, hit->normal) < 0)
+		hit->is_outside = true;
+	else
+	{
+		hit->normal = scale_vect(hit->normal, -1);
+		hit->is_outside = false;
+	}
+}
+
+bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit)
 {
 	t_vect	offset_vect;
 	float	intersect1;
 	float	intersect2;
 
-
-	offset_vect = sub_vect(data->camera.pos, data->obj[index].sphere->pos);
+	offset_vect = sub_vect(data->camera.pos, sphere->pos);
 
 	float a = dot_product(camera_ray.dir, camera_ray.dir);
 	float b = 2.0 * dot_product(camera_ray.dir, offset_vect);
-	float c = dot_product(offset_vect, offset_vect) - square(data->obj[index].sphere->radius);
+	float c = dot_product(offset_vect, offset_vect) - square((*sphere).radius);
 	if (solve_quadratic(a, b, c, &intersect1, &intersect2))
 	{
 		if (intersect1 > 0)
 			return (true);
 	}
+	calc_hit_sphere(hit, intersect1, data->camera, sphere);
 	return (false);
 }
 
 
 //formula : data->plane.vect.x * (camera_ray.dir.x - data->plane.pos.x) + data->plane.vect.y * (camera_ray.dir.y - data->plane.pos.y)  + data->plane.vect.z * (camera_ray.dir.z - data->plane.pos.z);
-bool render_plane(t_ray camera_ray, t_data *data, int index_obj)
+bool render_plane(t_ray camera_ray, t_plane *plane, t_camera camera, t_hitinfo *hit)
 {
     float visibility;
 	
-	visibility = dot_product(data->obj[index_obj].plane->vect, camera_ray.dir);
+	visibility = dot_product(plane->vect, camera_ray.dir);
     if (visibility <= 0)
         return (false);
 
-    float D = -(dot_product(data->obj[index_obj].plane->vect, data->obj[index_obj].plane->pos));
+    float D = -(dot_product(plane->vect, plane->pos));
 
-    float t = -(D + dot_product(data->obj[index_obj].plane->vect, camera_ray.pos)) / visibility;
+    float t = -(D + dot_product(plane->vect, camera_ray.pos)) / visibility;
+
+	if(t < hit->t)
+	{
+		hit->t = t;
+		hit->p = sum_vect(camera.pos, scale_vect(camera.dir, t));
+		hit->normal = plane->vect;
+		hit->is_outside = true;
+		hit->rgb = plane->rgb;
+		printf("hit in plane is: %f\n", hit->t);
+	}
 
     return (t > 0);
 }
@@ -214,39 +242,32 @@ t_objs *sorted_objects(t_data *data, t_ray camera_ray)
     return (objects);
 }
 
-void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int index_obj)
+void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 {
-	int		color;
+	int i;
+	/* int	color; */
+	t_type_obj	type;
 
-		// printf("Generic :%i\n", type);
-	if (type == 1)
-	{
-		// printf("RENDER SPHERE\n");
-		// printf("%i", type);
-		color = create_color(data->obj[index_obj].sphere->rgb, data->ambient);
-		if(render_sphere(camera_ray, data, index_obj))
-			my_pixel_put(data, x, y, color);
-	}
-	else if (type == 2)
-	{
-		color = create_color(data->obj[index_obj].plane->rgb, data->ambient);
-		if(render_plane(camera_ray, data, index_obj))
-			my_pixel_put(data, x, y, color);
-	}
-}
-
-void	render_objs(t_data *data, t_ray camera_ray, int x, int y)
-{
-	int i = 0;
-	int index_obj = 0;
 
 	i = 0;
 	while (data->obj[i].type_obj != END)
 	{
-		// printf("rendering\n");
-		render_obj(data, camera_ray, data->obj[i].type_obj, x, y, index_obj);
+		type = data->obj[i].type_obj;
+		if (type == SPHERE)
+		{
+			/* color = create_color(((t_sphere *)data->obj[i].object)->rgb, data->ambient); */
+			if(render_sphere(camera_ray, data, data->obj[i].object, hit))
+				type = type;
+				/* my_pixel_put(data, x, y, color); */
+		}
+		else if (type == PLANE)
+		{
+			/* color = create_color(((t_plane *)data->obj[i].object)->rgb, data->ambient); */
+			if(render_plane(camera_ray, data->obj[i].object, data->camera, hit))
+				type = type;
+				/* my_pixel_put(data, x, y, color); */
+		}
 		i++;
-		index_obj++;
 	}
 }
 
@@ -257,18 +278,21 @@ int    render(t_data *data)
 	int	y;
 	// int z;
 	t_ray camera_ray;
-	t_objs	*sorted;
+	/* t_objs	*sorted; */
+	t_hitinfo hit;
 
-	int i = -1;
-	while(i++ < 50)
-		printf("type render: %i\n", data->obj[i].type_obj);
+	/* int i = -1; */
+	/* while(i++ < 50) */
+		/* printf("type render: %i\n", data->obj[i].type_obj); */
+
 
 	data->img_ratio = ratio(data->img.width, data->img.height);
+	data->hit = hit;
 	print_camera(data->camera);
 	// sorted = safe_malloc(sizeof(t_objs) * 1024);
-	sorted = sorted_objects(data, camera_ray);
-	data->obj = sorted;
-	// print_sphere(data->sphere);
+	/* sorted = sorted_objects(data, camera_ray); */
+	/* data->obj = sorted; */
+	/* print_sphere(data->obj[0].object); */
 
 	y = 0;
 	while (y < data->img.height)
@@ -276,8 +300,13 @@ int    render(t_data *data)
 		x = 0;
 		while (x < data->img.width)
 		{
+			hit = init_hit(data);
 			camera_ray = camera_rays(x, y,data);
-			render_objs(data, camera_ray, x, y);
+			render_objs(data, camera_ray, &data->hit);
+			printf("hit is: %f\n", data->hit.t);
+			my_pixel_put(data, x, y, create_color(hit.rgb, data->ambient));
+			
+
 			x++;
 		}
 		y++;

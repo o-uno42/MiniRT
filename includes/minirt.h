@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/10/29 17:58:06 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/05 22:00:10 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	print_error(char *message);
 int    render(t_data *data);
 
 // RENDER INITS
+t_hitinfo	init_hit(t_data *data);
 void    ambient_init(t_data *data, char *line);
 void	camera_init(t_data *data, char *line);
 void	light_init(t_data *data, char *line);
@@ -56,6 +57,7 @@ t_vect	cross_product(t_vect a, t_vect b);
 t_vect	normalize(t_vect v_orig);
 float	magnitude(t_vect v);
 t_vect	create_vector(float x, float y, float z);
+t_vect	scale_vect(t_vect v, float scalar);
 int		interpolate_color(int color1, int color2, float ratio);
 // MATH UTILS
 int		square(float i);
@@ -64,7 +66,7 @@ float	max_nb(float nb1, float nb2);
 float	ratio(float nb1, float nb2);
 void	swap(float *a, float *b);
 // DEBUG UTILS
-void	print_sphere(t_sphere sphere);
+void	print_sphere(t_sphere *sphere);
 void	print_camera(t_camera camera);
 void	print_ray(t_ray ray);
 void	print_rgb(t_rgb color);

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/19 20:28:05 by thiew            ###   ########.fr       */
+/*   Updated: 2024/11/05 21:01:35 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int main(int ac, char **av)
 	int		fd;
 	t_data	data;
 	t_img	img;
-	int i = 0;
+	/* int i = 0; */
 	ac = ac;
 
 	fd = open(av[1], O_RDONLY);
@@ -93,8 +93,8 @@ int main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	inits(&data, &img);
 	parsing(fd, &data);
-	while(i++ < 50)
-		printf("type main: %i\n", data.obj[i].type_obj);
+	/* while(i++ < 50) */
+	/* 	printf("type main: %i\n", data.obj[i].type_obj); */
 	mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 2, esc_x, &data);
 	render(&data);

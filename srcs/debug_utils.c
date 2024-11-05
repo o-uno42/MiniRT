@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:01:30 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/28 16:27:25 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/05 21:23:53 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	print_camera(t_camera camera)
 	printf("\n");
 }
 
-void	print_sphere(t_sphere sphere)
+void	print_sphere(t_sphere *sphere)
 {
 	printf("SPHERE\n");
 	printf("sphere.pos: ");
-	print_vect(sphere.pos);
-	printf("diameter: %f, radius: %f, color: ", sphere.diameter, sphere.radius);
-	print_rgb(sphere.rgb);
+	print_vect((*sphere).pos);
+	printf("diameter: %f, radius: %f, color: ", (*sphere).diameter, (*sphere).radius);
+	print_rgb((*sphere).rgb);
 	printf("\n");
 }
 
