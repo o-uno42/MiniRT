@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/25 20:23:00 by thiew            ###   ########.fr       */
+/*   Updated: 2024/11/04 14:45:56 by thiew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef		STRUCTS_H
@@ -14,10 +14,8 @@
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 8
-#endif
-
-#ifndef PI
 # define PI 3.1415926535
+# define t_point t_vect
 #endif
 
 # define BLACK   		0x000000
@@ -52,7 +50,7 @@ typedef struct s_vect
 }				t_vect;
 typedef struct s_ray
 {
-	t_vect	pos;
+	t_point	pos;
 
 	t_vect	dir;
 }			t_ray;
@@ -70,25 +68,20 @@ typedef struct s_rgb
 	int		g;
 	int		b;
 }				t_rgb;
-// typedef struct s_player
-// {
-// 	char	dir;
-// 	int		moved;
-// 	double	pos_x;
-// 	double	pos_y;
-// 	double	dir_x;
-// 	double	dir_y;
-// 	double	plane_x;
-// 	double	plane_y;
-// 	int		move_x;
-// 	int		move_y;
-// 	int		rotate;
-// }				t_player;
+
+typedef struct s_hitinfo
+{
+	t_point		p;
+	t_vect		normal;
+	float		t;
+	bool		is_outside;
+	t_rgb		color;
+}				t_hitinfo;
 
 typedef struct s_intersections
 {
-	t_vect		t0;
-	t_vect		t1;
+	t_point		t0;
+	t_point		t1;
 	int			refl_angle;
 	int			nb_collision;
 }				t_intersections;
@@ -101,7 +94,7 @@ typedef struct s_ambient
 
 typedef struct s_camera
 {
-	t_vect	pos;
+	t_point	pos;
 	t_vect	dir;
 	t_vect	forward;
 	t_vect	right;
@@ -112,7 +105,7 @@ typedef struct s_camera
 
 typedef struct s_light
 {
-	t_vect		pos;
+	t_point		pos;
 
 	float		bright;
 
@@ -121,7 +114,7 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
-	t_vect		pos;
+	t_point		pos;
 	float		diameter;
 	float		radius;
 	t_rgb		rgb;
@@ -130,7 +123,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_vect		pos;
+	t_point		pos;
 	t_vect		posn;
 	t_vect		vect;
 	t_rgb		rgb;
@@ -159,6 +152,7 @@ typedef enum s_type_obj
 }				t_type_obj;
 typedef struct s_objs
 {
+	void		*object;
 	t_sphere	*sphere;
 	t_plane		*plane;
 	t_type_obj	type_obj;
