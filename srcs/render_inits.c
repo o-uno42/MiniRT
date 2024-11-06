@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/06 19:00:56 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 22:06:11 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	cylinder_init(t_data *data, char *line, int i)
 	cylinder->pos.x = ft_atol(coords[0]);
 	cylinder->pos.y = ft_atol(coords[1]);
 	cylinder->pos.z = ft_atol(coords[2]);
-	free_mtx(coords);
 
 	coords = ft_split(res[2], ',');
 	cylinder->dir.x = ft_atol(coords[0]);
@@ -125,7 +124,7 @@ void	cylinder_init(t_data *data, char *line, int i)
 	cylinder->radius = cylinder->diameter / 2;
 	cylinder->height = ft_atol(res[4]);
 
-	coords = ft_split(res[3], ',');
+	coords = ft_split(res[5], ',');
 	cylinder->rgb.r = ft_atol(coords[0]);
 	cylinder->rgb.g = ft_atol(coords[1]);
 	cylinder->rgb.b = ft_atol(coords[2]);
@@ -133,6 +132,7 @@ void	cylinder_init(t_data *data, char *line, int i)
 	cylinder->p1 = p1;
 	cylinder->p2 = p2;
 	free_mtx(coords);
+	free_mtx(res);
 }
 
 void    ambient_init(t_data *data, char *line)

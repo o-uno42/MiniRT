@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:01:30 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/06 11:59:51 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 22:11:39 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,20 @@ void	print_sphere(t_sphere *sphere)
 	printf("\n");
 }
 
+void	print_cylinder(t_cylinder *cylinder)
+{
+	printf("CYLINDER\n");
+	printf("cylinder.pos: ");
+	print_vect((*cylinder).pos);
+	printf("cylinder.p1: ");
+	print_vect((*cylinder).p1);
+	printf("cylinder.p2: ");
+	print_vect((*cylinder).p2);
+	printf("diameter: %f, radius: %f, height: %f color: ", (*cylinder).diameter, (*cylinder).radius, (*cylinder).height);
+	print_rgb((*cylinder).rgb);
+	printf("\n");
+}
+
 void	print_plane(t_plane *plane)
 {
 	printf("PLANE\n");
@@ -74,8 +88,10 @@ void	print_object(t_objs *object, t_type_obj type)
 {
 	if (type == SPHERE)
 		print_sphere(object->object);
-	if (type == PLANE)
+	else if (type == PLANE)
 		print_plane(object->object);
+	else if (type == CYLINDER)
+		print_cylinder(object->object);
 }
 
 void print_all_obj(t_data *data)

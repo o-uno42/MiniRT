@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/06 14:14:47 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 22:03:04 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,48 @@ bool solve_quadratic(const float a, const float b, const float c, float *x0, flo
 	return (true);
 }
 
+void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_camera camera, t_cylinder *cylinder)
+{
+	if (intersect >= hit->t)
+		return ;
+	hit->t = intersect;
+	hit->p = sum_vect(camera.pos, scale_vect(camera.dir, intersect));
+	/* hit->normal = */ 
+	hit->rgb = cylinder->rgb;
+}
+
+bool	render_cylinder(t_data *data, t_camera camera, t_cylinder *cylinder, t_hitinfo *hit)
+{
+	float	a;
+	float	b;
+	float	c;
+	float	intersect1;
+	float	intersect2;
+	t_vect	comp;
+	t_vect	pdelt;
+	t_vect	b1;
+	t_vect	c1;
+
+	pdelt = sub_vect(camera.pos, cylinder->pos);
+	comp = sub_vect(camera.dir, scale_vect(cylinder->dir, dot_product(camera.dir, cylinder->dir)));
+	a = dot_product(comp, comp);
+	b1 = sub_vect(pdelt, scale_vect(cylinder->dir, dot_product(pdelt, cylinder->dir)));
+	b = 2 * dot_product(comp, b1); 
+	c1 = sub_vect(pdelt, scale_vect(cylinder->dir, dot_product(pdelt, cylinder->dir)));
+	c = dot_product(c1, c1) - square(cylinder->radius);
+	if(solve_quadratic(a, b, c, &intersect1, &intersect2))
+	{
+		if (intersect1 > 0)
+		{
+			calc_hit_cyl(hit, intersect1, data->camera, cylinder);
+			return (true);
+		}
+	}
+	intersect1 = FLT_MAX;
+	calc_hit_cyl(hit, intersect1, data->camera, cylinder);
+	return (true);
+}
+ 
 void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_camera camera, t_sphere *sphere)
 {
 	if (intersect >= hit->t)
@@ -158,6 +200,8 @@ void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 				type = type;
 				/* my_pixel_put(data, x, y, color); */
 		}
+		else if(type == CYLINDER)
+			render_cylinder(data, data->camera, data->obj[i].object, hit);
 		i++;
 	}
 }
