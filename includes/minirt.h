@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/06 14:13:26 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:57:05 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	camera_init(t_data *data, char *line);
 void	light_init(t_data *data, char *line);
 void	sphere_init(t_data *data, char *line, int i);
 void	plane_init(t_data *data, char *line, int i);
+void	cylinder_init(t_data *data, char *line, int i);
 float	scale(float point, float max_dimension);
 
 //	WINDOW MANAGEMENT
@@ -94,5 +95,8 @@ t_ray    camera_rays(int x, int y, t_data *data);
 int     create_color(t_rgb rgb, t_ambient ambient);
 int 	just_color(t_rgb rgb);
 int		interpolate_color(int color1, int color2, float ratio);
+
+//FREE FUNCTIONS
+void	free_mtx(char **mtx);
 
 #endif

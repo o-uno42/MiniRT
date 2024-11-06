@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/06 12:05:42 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:31:18 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -118,6 +118,18 @@ typedef struct s_sphere
 	t_rgb		rgb;
 	int			nb;
 }				t_sphere;
+
+typedef struct	s_cylinder
+{
+	POINT	pos;
+	POINT	p1;
+	POINT	p2;
+	t_vect	dir;
+	float	diameter;
+	float	radius;
+	float	height;
+	t_rgb	rgb;
+}				t_cylinder;
 
 typedef struct s_plane
 {

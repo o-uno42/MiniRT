@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/06 14:03:43 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 19:00:56 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,31 @@ void	plane_init(t_data *data, char *line, int i)
 	data->obj[i].type_obj = PLANE;
 	plane = (t_plane *)safe_malloc(sizeof(t_plane));
 	data->obj[i].object = plane;
-	res = safe_malloc(sizeof(char *) * 4);
 	res = ft_split(line, ' ');
 
-	coords =safe_malloc(sizeof(char *) * 4);
 	coords = ft_split(res[1], ',');
 	plane->pos.x = ft_atol(coords[0]);
 	plane->pos.y = ft_atol(coords[1]);
 	plane->pos.z = ft_atol(coords[2]);
 
-	// printf("%f", data->plane.pos.z);
-
 	plane->posn.x = plane->pos.x;
 	plane->posn.y = plane->pos.y + 10;
 	plane->posn.z = plane->pos.z;
 
-	vect = safe_malloc(sizeof(char *) * 4);
 	vect = ft_split(res[2],  ',');
 	plane->vect.x = ft_atol(vect[0]);
 	plane->vect.y = ft_atol(vect[1]);
 	plane->vect.z = ft_atol(vect[2]);
 
-	rgb = safe_malloc(sizeof(int) * 4);
 	rgb = ft_split(res[3], ',');
 	plane->rgb.r = ft_atol(rgb[0]);
 	plane->rgb.g = ft_atol(rgb[1]);
 	plane->rgb.b = ft_atol(rgb[2]);
+	free_mtx(rgb);
+	free_mtx(vect);
+	free_mtx(coords);
+	free_mtx(res);
+
 }
 
 void	sphere_init(t_data *data, char *line, int i)
@@ -71,10 +70,8 @@ void	sphere_init(t_data *data, char *line, int i)
 	data->obj[i].type_obj = SPHERE;
 	sphere = (t_sphere *)safe_malloc(sizeof(t_sphere));
 	data->obj[i].object = sphere;
-	res = safe_malloc(sizeof(char *) * 4);
 	res = ft_split(line, ' ');
 
-	coords =safe_malloc(sizeof(char *) * 4);
 	coords = ft_split(res[1], ',');
 	sphere->pos.x = ft_atol(coords[0]);
 	sphere->pos.y = ft_atol(coords[1]);
@@ -83,11 +80,59 @@ void	sphere_init(t_data *data, char *line, int i)
 	sphere->diameter = ft_atol(res[2]);
 	sphere->radius = sphere->diameter / 2;
 
-	rgb = safe_malloc(sizeof(int) * 4);
 	rgb = ft_split(res[3], ',');
 	sphere->rgb.r = ft_atol(rgb[0]);
 	sphere->rgb.g = ft_atol(rgb[1]);
 	sphere->rgb.b = ft_atol(rgb[2]);
+	free_mtx(rgb);
+	free_mtx(coords);
+	free_mtx(res);
+}
+
+void	top_bottom_point(POINT *p1, POINT *p2, t_cylinder cylinder)
+{
+	*p1 = sum_vect(cylinder.pos, scale_vect(cylinder.dir, cylinder.height / 2));
+	*p2 = sum_vect(cylinder.pos, scale_vect(cylinder.dir, (- cylinder.height) / 2));
+}
+
+void	cylinder_init(t_data *data, char *line, int i)
+{
+	char		**res;
+	char		**coords;
+	t_cylinder	*cylinder;
+	POINT		p1;
+	POINT		p2;
+
+	data->obj[i].type_obj = CYLINDER;
+	cylinder = (t_cylinder *)safe_malloc(sizeof(t_cylinder)); 
+	data->obj[i].object = cylinder;
+	res = ft_split(line, ' ');
+
+	coords = ft_split(res[1], ',');
+	cylinder->pos.x = ft_atol(coords[0]);
+	cylinder->pos.y = ft_atol(coords[1]);
+	cylinder->pos.z = ft_atol(coords[2]);
+	free_mtx(coords);
+
+	coords = ft_split(res[2], ',');
+	cylinder->dir.x = ft_atol(coords[0]);
+	cylinder->dir.y = ft_atol(coords[1]);
+	cylinder->dir.z = ft_atol(coords[2]);
+	cylinder->dir = normalize(cylinder->dir);
+	free_mtx(coords);
+
+	cylinder->diameter = ft_atol(res[3]);
+	cylinder->radius = cylinder->diameter / 2;
+	cylinder->height = ft_atol(res[4]);
+
+	coords = ft_split(res[3], ',');
+	cylinder->rgb.r = ft_atol(coords[0]);
+	cylinder->rgb.g = ft_atol(coords[1]);
+	cylinder->rgb.b = ft_atol(coords[2]);
+	top_bottom_point(&p1, &p2, *cylinder);
+	cylinder->p1 = p1;
+	cylinder->p2 = p2;
+	free_mtx(coords);
 }
 
 void    ambient_init(t_data *data, char *line)

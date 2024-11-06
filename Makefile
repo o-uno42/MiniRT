@@ -7,12 +7,12 @@ HEADER = includes/minirt.h
 SRC_DIR = srcs
 OBJ_DIR = objs
 FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c \
-			 $(SRC_DIR)/parsing.c $(SRC_DIR)/render.c $(SRC_DIR)/split.c $(SRC_DIR)/safe_ft.c \
-			 $(SRC_DIR)/color_creation.c $(SRC_DIR)/render_inits.c \
+			 $(SRC_DIR)/parsing.c $(SRC_DIR)/split.c $(SRC_DIR)/safe_ft.c \
+			 $(SRC_DIR)/color_creation.c $(SRC_DIR)/color.c \
 			 $(SRC_DIR)/vector_utils.c $(SRC_DIR)/math_utils.c \
-			 $(SRC_DIR)/rays.c \
-			 $(SRC_DIR)/debug_utils.c \
-			 $(SRC_DIR)/color.c
+			 $(SRC_DIR)/render.c $(SRC_DIR)/render_inits.c $(SRC_DIR)/rays.c \
+			 $(SRC_DIR)/debug_utils.c $(SRC_DIR)/free_functions.c \
+
 FILES_OBJS = $(FILES_SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 
