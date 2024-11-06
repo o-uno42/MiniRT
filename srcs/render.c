@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/05 22:42:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 14:14:47 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ bool solve_quadratic(const float a, const float b, const float c, float *x0, flo
 
 void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_camera camera, t_sphere *sphere)
 {
-	if (intersect > hit->t)
+	if (intersect >= hit->t)
 		return ;
 	hit->t = intersect;
 	hit->p = sum_vect(camera.pos, scale_vect(camera.dir, intersect));
 	hit->normal = normalize(sub_vect(hit->p, sphere->pos));
 	hit->rgb = sphere->rgb;
-	printf("hit in sphere is: %f\n", hit->t);
+	/* printf("hit in sphere is: %f\n", hit->t); */
 	if (dot_product(camera.dir, hit->normal) < 0)
 		hit->is_outside = true;
 	else
@@ -85,8 +85,12 @@ bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *
 	if (solve_quadratic(a, b, c, &intersect1, &intersect2))
 	{
 		if (intersect1 > 0)
+		{
+			calc_hit_sphere(hit, intersect1, data->camera, sphere);
 			return (true);
+		}
 	}
+	intersect1 = FLT_MAX;
 	calc_hit_sphere(hit, intersect1, data->camera, sphere);
 	return (false);
 }
@@ -105,39 +109,17 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_camera camera, t_hitinfo *
 
     float t = -(D + dot_product(plane->vect, camera_ray.pos)) / visibility;
 
-	if(t < hit->t)
+	if( t > 0 && t < hit->t)
 	{
 		hit->t = t;
 		hit->p = sum_vect(camera.pos, scale_vect(camera.dir, t));
 		hit->normal = plane->vect;
 		hit->is_outside = true;
 		hit->rgb = plane->rgb;
-		printf("hit in plane is: %f\n", hit->t);
+		/* printf("hit->t plane: %f\t t plane: %f\n", hit->t, t); */
 	}
 
     return (t > 0);
-}
-
-t_plane		nearest_plane(t_data *data, t_ray camera_ray)
-{
-	int i;
-	float distance;
-	float	max;
-	t_plane plane;
-
-	i = 0;
-	max = LONG_MAX;
-	plane = data->obj->plane[i];
-	while (i < data->index_objs)
-	{
-		distance = data->obj->plane[i].pos.z - camera_ray.pos.z;
-		{
-			if (distance < max)
-				plane = data->obj->plane[i];
-		}
-		i++;
-	}
-	return (plane);
 }
 
 void swap_objs(t_objs *a, t_objs *b)
@@ -149,98 +131,7 @@ void swap_objs(t_objs *a, t_objs *b)
     *b = tmp;
 }		
 
-float get_object_distance(t_objs *obj, t_ray camera_ray)
-{
-    float dist;
 
-    switch (obj->type_obj)
-    {
-        case SPHERE:
-            dist = obj->sphere->pos.z - camera_ray.pos.z;
-            break;
-        case PLANE:
-            dist = obj->plane->pos.z - camera_ray.pos.z;
-            break;
-        default:
-            dist = INFINITY;
-    }
-    return (dist);
-}
-
-// t_sphere *sorted_spheres(t_data *data, t_ray camera_ray)
-// {
-//     int i;
-// 	int j;
-//     t_sphere *sphere;
-// 	float dist1;
-// 	float dist2;
-
-// 	i = 0;
-// 	j = 0;
-//     sphere = safe_malloc(sizeof(t_sphere) * (data->obj->sphere->nb + 1));
-//     while (i < data->obj->sphere->nb)
-// 	{
-//         sphere[i] = data->obj->sphere[i];
-// 		i++;
-// 	}
-// 	i = 0;
-//     while (i < data->obj->sphere->nb - 1)
-//     {
-// 		j = 0;
-//         while (j < data->obj->sphere->nb - i - 1)
-//         {
-//             dist1 = sphere[j].pos.z - camera_ray.pos.z;
-//             dist2 = sphere[j + 1].pos.z - camera_ray.pos.z;
-            
-//             if (dist1 < dist2)
-//                 swap_spheres(&sphere[j], &sphere[j + 1]);
-// 			j++;
-//         }
-// 		i++;
-//     }
-//     return (sphere);
-// }
-t_objs *sorted_objects(t_data *data, t_ray camera_ray)
-{
-    int i = 0;
-    t_objs *objects;
-    float dist1;
-    float dist2;
-	int j;
-
-    objects = safe_malloc(sizeof(t_objs) * 1024);
-
-    int num_objects = 0;
-    while (data->obj[num_objects].type_obj != END)
-	{
-		num_objects++;
-	}
-
-	i = 0;
-    while (i < num_objects)
-	{
-        objects[i] = data->obj[i];
-		i++;
-	}
-    i = 0;
-    while (i < num_objects - 1)
-    {
-		j = 0;
-        while (j < num_objects - i - 1)
-        {
-            dist1 = get_object_distance(&objects[j], camera_ray);
-            dist2 = get_object_distance(&objects[j + 1], camera_ray);
-
-            if (dist1 < dist2)
-                swap_objs(&objects[j], &objects[j + 1]);
-			j++;
-        }
-		i++;
-    }
-    objects[num_objects].type_obj = END;
-    
-    return (objects);
-}
 
 void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 {
@@ -287,7 +178,7 @@ int    render(t_data *data)
 
 
 	data->img_ratio = ratio(data->img.width, data->img.height);
-	data->hit = hit;
+	/* data->hit = hit; */
 	print_camera(data->camera);
 	// sorted = safe_malloc(sizeof(t_objs) * 1024);
 	/* sorted = sorted_objects(data, camera_ray); */
@@ -301,12 +192,15 @@ int    render(t_data *data)
 		while (x < data->img.width)
 		{
 			hit = init_hit(data);
+			data->hit = hit;
+			/* printf(" cords: x: %d, y: %d,\thit is: %f\n",x ,y, data->hit.t); */
 			camera_ray = camera_rays(x, y,data);
 			render_objs(data, camera_ray, &data->hit);
-			printf("hit is: %f\n", data->hit.t);
-			my_pixel_put(data, x, y, create_color(hit.rgb, data->ambient));
-			
-
+			my_pixel_put(data, x, y, create_color(data->hit.rgb, data->ambient));
+			/* if (data->hit.t < FLT_MAX - 1.0) */
+			/* 	my_pixel_put(data, x, y, WHITE); */
+			/* else */
+			/* 	my_pixel_put(data, x, y, BLACK); */
 			x++;
 		}
 		y++;
@@ -315,6 +209,121 @@ int    render(t_data *data)
 		data->img.img_ptr, 0, 0);
 	return (0);
 }
+
+/* t_plane		nearest_plane(t_data *data, t_ray camera_ray) */
+/* { */
+/* 	int i; */
+/* 	float distance; */
+/* 	float	max; */
+/* 	t_plane plane; */
+
+/* 	i = 0; */
+/* 	max = LONG_MAX; */
+/* 	plane = data->obj->plane[i]; */
+/* 	while (i < data->index_objs) */
+/* 	{ */
+/* 		distance = data->obj->plane[i].pos.z - camera_ray.pos.z; */
+/* 		{ */
+/* 			if (distance < max) */
+/* 				plane = data->obj->plane[i]; */
+/* 		} */
+/* 		i++; */
+/* 	} */
+/* 	return (plane); */
+/* } */
+
+/* float get_object_distance(t_objs *obj, t_ray camera_ray) */
+/* { */
+/*     float dist; */
+
+/*     switch (obj->type_obj) */
+/*     { */
+/*         case SPHERE: */
+/*             dist = obj->sphere->pos.z - camera_ray.pos.z; */
+/*             break; */
+/*         case PLANE: */
+/*             dist = obj->plane->pos.z - camera_ray.pos.z; */
+/*             break; */
+/*         default: */
+/*             dist = INFINITY; */
+/*     } */
+/*     return (dist); */
+/* } */
+
+// t_sphere *sorted_spheres(t_data *data, t_ray camera_ray)
+// {
+//     int i;
+// 	int j;
+//     t_sphere *sphere;
+// 	float dist1;
+// 	float dist2;
+
+// 	i = 0;
+// 	j = 0;
+//     sphere = safe_malloc(sizeof(t_sphere) * (data->obj->sphere->nb + 1));
+//     while (i < data->obj->sphere->nb)
+// 	{
+//         sphere[i] = data->obj->sphere[i];
+// 		i++;
+// 	}
+// 	i = 0;
+//     while (i < data->obj->sphere->nb - 1)
+//     {
+// 		j = 0;
+//         while (j < data->obj->sphere->nb - i - 1)
+//         {
+//             dist1 = sphere[j].pos.z - camera_ray.pos.z;
+//             dist2 = sphere[j + 1].pos.z - camera_ray.pos.z;
+            
+//             if (dist1 < dist2)
+//                 swap_spheres(&sphere[j], &sphere[j + 1]);
+// 			j++;
+//         }
+// 		i++;
+//     }
+//     return (sphere);
+// }
+/* t_objs *sorted_objects(t_data *data, t_ray camera_ray) */
+/* { */
+/*     int i = 0; */
+/*     t_objs *objects; */
+/*     float dist1; */
+/*     float dist2; */
+/* 	int j; */
+
+/*     objects = safe_malloc(sizeof(t_objs) * 1024); */
+
+/*     int num_objects = 0; */
+/*     while (data->obj[num_objects].type_obj != END) */
+/* 	{ */
+/* 		num_objects++; */
+/* 	} */
+
+/* 	i = 0; */
+/*     while (i < num_objects) */
+/* 	{ */
+/*         objects[i] = data->obj[i]; */
+/* 		i++; */
+/* 	} */
+/*     i = 0; */
+/*     while (i < num_objects - 1) */
+/*     { */
+/* 		j = 0; */
+/*         while (j < num_objects - i - 1) */
+/*         { */
+/*             dist1 = get_object_distance(&objects[j], camera_ray); */
+/*             dist2 = get_object_distance(&objects[j + 1], camera_ray); */
+
+/*             if (dist1 < dist2) */
+/*                 swap_objs(&objects[j], &objects[j + 1]); */
+/* 			j++; */
+/*         } */
+/* 		i++; */
+/*     } */
+/*     objects[num_objects].type_obj = END; */
+    
+/*     return (objects); */
+/* } */
 
 /* static int render_sphere(t_ray camera_ray, t_data *data) */
 /* { */

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:25:00 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/05 22:00:19 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 14:11:20 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,4 @@ inline	t_vect	create_vector(float x, float y, float z)
 	res.y = y;
 	res.z = z;
 	return (res);
-}
-
-
-int	interpolate_color(int color1, int color2, float ratio)
-{
-	int	t;
-	int	r;
-	int	g;
-	int	b;
-
-	t = (int)(get_t(color1) * (1 - ratio) + get_t(color2) * ratio);
-	r = (int)(get_r(color1) * (1 - ratio) + get_r(color2) * ratio);
-	g = (int)(get_g(color1) * (1 - ratio) + get_g(color2) * ratio);
-	b = (int)(get_b(color1) * (1 - ratio) + get_b(color2) * ratio);
-	return (create_trgb(t, r, g, b));
 }

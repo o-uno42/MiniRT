@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/05 22:27:29 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 14:03:43 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@ t_hitinfo	init_hit(t_data *data)
 	t_hitinfo	hit;
 
 	hit.p = create_vector(0, 0, 0);
-	hit.t = LONG_MAX;
+	hit.t = FLT_MAX;
 	hit.normal = create_vector(0, 0 , 0);
 	hit.rgb = data->ambient.rgb;
 	return (hit);
 }
-void	plane_init(t_data *data, char *line, int nb_planes, int i)
+void	plane_init(t_data *data, char *line, int i)
 {
 	char	**res;
 	char	**coords;
 	char	**vect;
 	char	**rgb;
 	t_plane	*plane;
-	(void)nb_planes;
 
 	data->obj[i].type_obj = PLANE;
 	plane = (t_plane *)safe_malloc(sizeof(t_plane));
@@ -62,14 +61,12 @@ void	plane_init(t_data *data, char *line, int nb_planes, int i)
 	plane->rgb.b = ft_atol(rgb[2]);
 }
 
-void	sphere_init(t_data *data, char *line, int nb_spheres, int i)
+void	sphere_init(t_data *data, char *line, int i)
 {
 	char	**res;
 	char	**coords;
 	char	**rgb;
 	t_sphere	*sphere;
-	(void)nb_spheres;
-	
 
 	data->obj[i].type_obj = SPHERE;
 	sphere = (t_sphere *)safe_malloc(sizeof(t_sphere));

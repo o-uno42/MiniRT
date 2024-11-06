@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/05 22:19:08 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 12:05:42 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -150,10 +150,7 @@ typedef enum s_type_obj
 typedef struct s_objs
 {
 	void		*object;
-	t_sphere	*sphere;
-	t_plane		*plane;
 	t_type_obj	type_obj;
-	int			sphere_capacity;
 }				t_objs;
 
 typedef struct s_data

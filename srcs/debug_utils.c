@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:01:30 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/05 21:23:53 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 11:59:51 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,37 @@ void	print_sphere(t_sphere *sphere)
 	print_rgb((*sphere).rgb);
 	printf("\n");
 }
+
+void	print_plane(t_plane *plane)
+{
+	printf("PLANE\n");
+	printf("plane.pos: ");
+	print_vect((*plane).pos);
+	printf("plane.vect: ");
+	print_vect((*plane).vect);
+	print_rgb((*plane).rgb);
+	printf("\n");
+}
+
+void	print_object(t_objs *object, t_type_obj type)
+{
+	if (type == SPHERE)
+		print_sphere(object->object);
+	if (type == PLANE)
+		print_plane(object->object);
+}
+
+void print_all_obj(t_data *data)
+{
+	int i;
+
+	i = -1;
+	while (data->obj[++i].type_obj != END)
+	{
+		printf("object index: %d \t", i);
+		print_object(&data->obj[i], data->obj[i].type_obj);
+	}
+}
+
 
 
