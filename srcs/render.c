@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/07 17:20:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/07 20:14:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,45 @@ bool solve_quadratic(const float a, const float b, const float c, float *x0, flo
 	return (true);
 }
 
-void cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder)
+bool cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res)
 {
 	t_vect	hypotenuse;
 	t_vect	proj;
-	POINT	res;
+	t_vect	p_to_res;
+	float	proj_len;
 
 	camera_ray = camera_ray;
 	hypotenuse = sub_vect(hit->p, cylinder->pos);
 	proj = scale_vect(cylinder->dir, dot_product(hypotenuse, cylinder->dir));
-	res = sum_vect(cylinder->pos, proj);
-	hit->normal = normalize(sub_vect(hit->p, res));
+	*res = sum_vect(cylinder->pos, proj);
+	p_to_res = sub_vect(*res, cylinder->p1);
+	proj_len = dot_product(p_to_res, cylinder->dir);
+	if (proj_len >= 0 && proj_len <= cylinder->height)
+		return (true);
+	else
+		return (false);
 }
 
 void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
 {
 	/* float prev_hit; */
+	/* POINT	prev; */
+	/* POINT	res; */
 	
 	/* prev_hit = hit->t; */
+	/* prev = hit->p; */
 	if (intersect >= hit->t)
 		return ;
 	hit->t = intersect;
 	hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
-	/* cyl_end(hit, camera_ray, cylinder); */
-	/* hit->normal = */ 
+	/* if(!cyl_end(hit, camera_ray, cylinder, &res)) */
+	/* { */
+	/* 	hit->t = prev_hit; */
+	/* 	hit->p = prev; */
+	/* 	return; */
+	/* } */
 	hit->rgb = cylinder->rgb;
+	/* hit->normal = normalize(sub_vect(hit->p, res)); */
 }
 
 
@@ -194,8 +208,7 @@ void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 {
 	int i;
 	t_type_obj	type;
-
-
+	
 	i = 0;
 	while (data->obj[i].type_obj != END)
 	{
