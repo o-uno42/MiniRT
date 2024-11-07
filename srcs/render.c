@@ -6,15 +6,11 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/06 22:03:04 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/07 17:20:09 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
-// #include <climits>
-#include <math.h>
-#include <stdbool.h>
-#include <stdio.h>
 
 void	my_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -53,17 +49,35 @@ bool solve_quadratic(const float a, const float b, const float c, float *x0, flo
 	return (true);
 }
 
-void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_camera camera, t_cylinder *cylinder)
+void cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder)
 {
+	t_vect	hypotenuse;
+	t_vect	proj;
+	POINT	res;
+
+	camera_ray = camera_ray;
+	hypotenuse = sub_vect(hit->p, cylinder->pos);
+	proj = scale_vect(cylinder->dir, dot_product(hypotenuse, cylinder->dir));
+	res = sum_vect(cylinder->pos, proj);
+	hit->normal = normalize(sub_vect(hit->p, res));
+}
+
+void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
+{
+	/* float prev_hit; */
+	
+	/* prev_hit = hit->t; */
 	if (intersect >= hit->t)
 		return ;
 	hit->t = intersect;
-	hit->p = sum_vect(camera.pos, scale_vect(camera.dir, intersect));
+	hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
+	/* cyl_end(hit, camera_ray, cylinder); */
 	/* hit->normal = */ 
 	hit->rgb = cylinder->rgb;
 }
 
-bool	render_cylinder(t_data *data, t_camera camera, t_cylinder *cylinder, t_hitinfo *hit)
+
+bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit)
 {
 	float	a;
 	float	b;
@@ -75,8 +89,9 @@ bool	render_cylinder(t_data *data, t_camera camera, t_cylinder *cylinder, t_hiti
 	t_vect	b1;
 	t_vect	c1;
 
-	pdelt = sub_vect(camera.pos, cylinder->pos);
-	comp = sub_vect(camera.dir, scale_vect(cylinder->dir, dot_product(camera.dir, cylinder->dir)));
+	data=data;
+	pdelt = sub_vect(camera_ray.pos, cylinder->pos);
+	comp = sub_vect(camera_ray.dir, scale_vect(cylinder->dir, dot_product(camera_ray.dir, cylinder->dir)));
 	a = dot_product(comp, comp);
 	b1 = sub_vect(pdelt, scale_vect(cylinder->dir, dot_product(pdelt, cylinder->dir)));
 	b = 2 * dot_product(comp, b1); 
@@ -86,12 +101,12 @@ bool	render_cylinder(t_data *data, t_camera camera, t_cylinder *cylinder, t_hiti
 	{
 		if (intersect1 > 0)
 		{
-			calc_hit_cyl(hit, intersect1, data->camera, cylinder);
+			calc_hit_cyl(hit, intersect1, camera_ray, cylinder);
 			return (true);
 		}
 	}
 	intersect1 = FLT_MAX;
-	calc_hit_cyl(hit, intersect1, data->camera, cylinder);
+	calc_hit_cyl(hit, intersect1, camera_ray, cylinder);
 	return (true);
 }
  
@@ -178,7 +193,6 @@ void swap_objs(t_objs *a, t_objs *b)
 void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 {
 	int i;
-	/* int	color; */
 	t_type_obj	type;
 
 
@@ -187,21 +201,11 @@ void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 	{
 		type = data->obj[i].type_obj;
 		if (type == SPHERE)
-		{
-			/* color = create_color(((t_sphere *)data->obj[i].object)->rgb, data->ambient); */
-			if(render_sphere(camera_ray, data, data->obj[i].object, hit))
-				type = type;
-				/* my_pixel_put(data, x, y, color); */
-		}
+			render_sphere(camera_ray, data, data->obj[i].object, hit);
 		else if (type == PLANE)
-		{
-			/* color = create_color(((t_plane *)data->obj[i].object)->rgb, data->ambient); */
-			if(render_plane(camera_ray, data->obj[i].object, data->camera, hit))
-				type = type;
-				/* my_pixel_put(data, x, y, color); */
-		}
+			render_plane(camera_ray, data->obj[i].object, data->camera, hit);
 		else if(type == CYLINDER)
-			render_cylinder(data, data->camera, data->obj[i].object, hit);
+			render_cylinder(camera_ray, data, data->obj[i].object, hit);
 		i++;
 	}
 }
@@ -211,24 +215,11 @@ int    render(t_data *data)
 {
 	int	x;
 	int	y;
-	// int z;
 	t_ray camera_ray;
-	/* t_objs	*sorted; */
 	t_hitinfo hit;
 
-	/* int i = -1; */
-	/* while(i++ < 50) */
-		/* printf("type render: %i\n", data->obj[i].type_obj); */
-
-
 	data->img_ratio = ratio(data->img.width, data->img.height);
-	/* data->hit = hit; */
 	print_camera(data->camera);
-	// sorted = safe_malloc(sizeof(t_objs) * 1024);
-	/* sorted = sorted_objects(data, camera_ray); */
-	/* data->obj = sorted; */
-	/* print_sphere(data->obj[0].object); */
-
 	y = 0;
 	while (y < data->img.height)
 	{
@@ -241,10 +232,6 @@ int    render(t_data *data)
 			camera_ray = camera_rays(x, y,data);
 			render_objs(data, camera_ray, &data->hit);
 			my_pixel_put(data, x, y, create_color(data->hit.rgb, data->ambient));
-			/* if (data->hit.t < FLT_MAX - 1.0) */
-			/* 	my_pixel_put(data, x, y, WHITE); */
-			/* else */
-			/* 	my_pixel_put(data, x, y, BLACK); */
 			x++;
 		}
 		y++;
