@@ -20,9 +20,9 @@ t_vect camera_to_world(t_vect dir, t_camera camera)
 {
 	t_vect	world_dir;
 
-	world_dir.x = dir.x * (-camera.right.x) + dir.y * (-camera.up.x) + dir.z * (-camera.forward.x);
-	world_dir.y = dir.x * (-camera.right.y) + dir.y * (-camera.up.y) + dir.z * (-camera.forward.y);
-	world_dir.z = dir.x * (-camera.right.z) + dir.y * (-camera.up.z) + dir.z * (-camera.forward.z);
+	world_dir.x = dir.x * camera.right.x + dir.y * (camera.up.x) + dir.z * (camera.forward.x);
+	world_dir.y = dir.x * camera.right.y + dir.y * (camera.up.y) + dir.z * (camera.forward.y);
+	world_dir.z = dir.x * camera.right.z + dir.y * (camera.up.z) + dir.z * (camera.forward.z);
 
 	return (world_dir);
 }

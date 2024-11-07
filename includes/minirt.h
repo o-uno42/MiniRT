@@ -51,6 +51,9 @@ void    movement(t_data *data);
 // VECTOR UTILS
 t_vect 	sum_vect(t_vect pos_1, t_vect pos_2);
 t_vect	sub_vect(t_vect pos_1, t_vect pos_2);
+t_vect	mult_vect(t_vect pos_1, t_vect pos_2);
+t_vect scale_vector(t_vect vect, float i);
+
 float	dot_product(t_vect pos_1, t_vect pos_2);
 t_vect	cross_product(t_vect a, t_vect b);
 t_vect	normalize(t_vect v_orig);
@@ -93,6 +96,11 @@ t_ray    *light_rays(t_data *data);
 int     create_color(t_rgb rgb, t_ambient ambient);
 
 //LIGHT
+
 bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, int index);
+
+t_vect   specular_light_sphere(t_data *data, t_ray *light, t_ray camera_ray, int index);
+
+bool reflection_intersect(t_data *data, t_vect reflection_vect, t_ray camera_ray, int index);
 
 #endif

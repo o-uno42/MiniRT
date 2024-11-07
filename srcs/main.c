@@ -40,15 +40,24 @@ t_data	*start_ambient(t_data *data)
 
 void	*data_init(t_data *data)
 {
-	int i = 0;
+	// int i = 0;
+	// t_vect vect;
 	data->img.width = 900;
 	data->img.height = 900;
-	data->obj = safe_malloc(sizeof(t_objs) * 1024);
-	while (i < 1024)
-	{
-		data->obj[i].type_obj = NOTHING;
-		i++;
-	}
+	// i = 0;
+	// data->bounce = safe_malloc(sizeof(t_hitpoint) * 1024);
+	// while (i < 1024)
+	// {
+	// 	data->bounce[i].hitpoint = vect;
+	// 	i++;
+	// }
+	data->intersect = safe_malloc(sizeof(t_intersections) * 1024);
+	// data->obj = safe_malloc(sizeof(t_objs) * 1024);
+	// while (i < 1024)
+	// {
+	// 	data->obj[i].type_obj = NOTHING;
+	// 	i++;
+	// }
 	data->index_objs = 0;
 	return (data);
 }

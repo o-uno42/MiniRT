@@ -64,6 +64,14 @@ typedef struct s_ray
 // 	float		z;
 // }				t_pos;
 
+
+
+typedef struct 	s_hitpoint
+{
+	t_vect		hitpoint;
+	t_vect		outpoint;
+}				t_hitpoint;
+
 typedef struct s_rgb
 {
 	int		r;
@@ -114,11 +122,15 @@ typedef struct s_light
 {
 	t_vect		pos;
 
+	t_ray		*rays;
+
 	float		bright;
 
 	t_rgb		rgb;
 
 	int			nb_rays;
+
+	t_vect		reflect;
 }				t_light;
 
 typedef struct s_sphere
@@ -175,11 +187,13 @@ typedef struct s_data
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
+	// t_hitpoint	*bounce;
 	t_objs		*obj;
 	// t_sphere	*sphere;
 	// t_plane		*plane;
 	float		img_ratio;
 	int			index_objs;
+	t_intersections *intersect;
 	// t_obj		index_obj;
 	// void		*ptr;
 	// void		*win;

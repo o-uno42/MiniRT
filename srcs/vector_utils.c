@@ -32,6 +32,27 @@ t_vect	sub_vect(t_vect pos_1, t_vect pos_2)
 	return (res);
 }
 
+
+t_vect	mult_vect(t_vect pos_1, t_vect pos_2)
+{
+	t_vect	res;
+
+	res.x = pos_1.x * pos_2.x;
+	res.y = pos_1.y * pos_2.y;
+	res.z = pos_1.z * pos_2.z;
+	return (res);
+}
+
+t_vect scale_vector(t_vect vect, float i)
+{
+    t_vect res;
+
+    res.x = vect.x * i;
+    res.y = vect.y * i;
+    res.z = vect.z * i;
+    return (res);
+}
+
 t_vect	normalize(t_vect v_orig)
 {
 	float	length;

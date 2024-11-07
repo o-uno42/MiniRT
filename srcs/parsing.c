@@ -165,6 +165,7 @@ void	parsing(int fd, t_data *data)
 	i = 0;
 	nb_objects = 0;
 
+	data->obj = safe_malloc(sizeof(t_objs) * 1024);
 	while((line = get_next_line(fd)) !=NULL)
 	{
 		check_line(line);
@@ -173,6 +174,12 @@ void	parsing(int fd, t_data *data)
 		i++;
 	}
 	printf("exiting parsing\n");
+	// data->obj = safe_malloc(sizeof(t_objs) * nb_objects);
+	// while (i < nb_objects)
+	// {
+	// 	data->obj[i].type_obj = NOTHING;
+	// 	i++;
+	// }
 	data->obj[nb_objects].type_obj = END;
 	printf("type end: %i\n", data->obj[nb_objects].type_obj);
 }

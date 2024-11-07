@@ -31,9 +31,9 @@ void	plane_init(t_data *data, char *line, int nb_planes, int i)
 
 	// printf("%f", data->plane.pos.z);
 
-	data->obj[i].plane[nb_planes].posn.x = data->obj[i].plane[nb_planes].pos.x;
-	data->obj[i].plane[nb_planes].posn.y = data->obj[i].plane[nb_planes].pos.y + 10;
-	data->obj[i].plane[nb_planes].posn.z = data->obj[i].plane[nb_planes].pos.z;
+	// data->obj[i].plane[nb_planes].posn.x = data->obj[i].plane[nb_planes].pos.x;
+	// data->obj[i].plane[nb_planes].posn.y = data->obj[i].plane[nb_planes].pos.y + 10;
+	// data->obj[i].plane[nb_planes].posn.z = data->obj[i].plane[nb_planes].pos.z;
 
 	vect = safe_malloc(sizeof(char *) * 4);
 	vect = ft_split(res[2],  ',');
@@ -54,6 +54,7 @@ void	sphere_init(t_data *data, char *line, int nb_spheres, int i)
 	char	**coords;
 	char	**rgb;
 
+	// data->obj = safe_malloc(sizeof(t_objs));
 	data->obj[i].type_obj = SPHERE;
 	res = safe_malloc(sizeof(char *) * 4);
 	res = ft_split(line, ' ');
@@ -65,7 +66,7 @@ void	sphere_init(t_data *data, char *line, int nb_spheres, int i)
 	data->obj[i].sphere[nb_spheres].pos.z = ft_atol(coords[2]);
 
 	data->obj[i].sphere[nb_spheres].diameter = ft_atol(res[2]);
-	data->obj[i].sphere[nb_spheres].radius = (data->obj->sphere[nb_spheres].diameter/2);
+	data->obj[i].sphere[nb_spheres].radius = (data->obj[i].sphere[nb_spheres].diameter/2);
 
 	rgb = safe_malloc(sizeof(int) * 4);
 	rgb = ft_split(res[3], ',');
@@ -177,6 +178,8 @@ void	light_init(t_data *data, char *line)
 	data->light.rgb.r = ft_atol(rgb[0]);
 	data->light.rgb.g = ft_atol(rgb[1]);
 	data->light.rgb.b = ft_atol(rgb[2]);
+
+	data->light.rays = safe_malloc(sizeof(t_ray) * 1024);
 	// printf("LIGHT\nCoords: %f\n%f\n%f\nBright: %f\nRgb: %i\n%i\n%i\n\n", 
 	// 	data->light.x, data->light.y, data->light.z, data->light.bright,
 	// 		data->light.rgb_1, data->light.rgb_2, data->light.rgb_3);

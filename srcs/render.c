@@ -68,7 +68,10 @@ bool	render_sphere(t_ray camera_ray, t_data *data, int index)
 	if (solve_quadratic(a, b, c, &intersect1, &intersect2))
 	{
 		if (intersect1 > 0)
+		{
+			data->intersect->t0 = sum_vect(camera_ray.pos,scale_vector(camera_ray.dir, intersect1));
 			return (true);
+		}
 	}
 	return (false);
 }
@@ -217,6 +220,7 @@ t_objs *sorted_objects(t_data *data, t_ray camera_ray)
 void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int index_obj, t_ray *light)
 {
 	int		color;
+	// t_vect	reflection_vect;
 
 		// printf("Generic :%i\n", type);
 	if (type == 1)
@@ -226,10 +230,19 @@ void	render_obj(t_data *data, t_ray camera_ray, int type, int x, int y, int inde
 		color = create_color(data->obj[index_obj].sphere->rgb, data->ambient);
 		if(render_sphere(camera_ray, data, index_obj))
 		{
-			if(light_intersect(data, light, camera_ray, index_obj))
+			// my_pixel_put(data, x, y, light_intersect(data, light, camera_ray, index_obj));
+			if(!light_intersect(data, light, camera_ray, index_obj))
 				my_pixel_put(data, x, y, WHITE);
+			// else if (light_intersect(data, light, camera_ray, index_obj) == 3)
+			// 	my_pixel_put(data, x, y, BLACK);
 			else
 				my_pixel_put(data, x, y, color);
+			
+			// reflection_vect = specular_light_sphere(data, light, camera_ray, index_obj);
+
+			// if (reflection_intersect(data, reflection_vect, camera_ray, index_obj))
+			// 	my_pixel_put(data, x, y, RED);
+			
 		}
 	}
 	else if (type == 2)
@@ -248,6 +261,7 @@ void	render_objs(t_data *data, t_ray camera_ray, int x, int y, t_ray *light)
 	i = 0;
 	while (data->obj[i].type_obj != END)
 	{
+		// printf("TYPE : %i", data->obj[i].type_obj);
 		// printf("rendering\n");
 		render_obj(data, camera_ray, data->obj[i].type_obj, x, y, index_obj, light);
 		i++;
