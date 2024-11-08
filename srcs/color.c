@@ -25,6 +25,15 @@ int just_color(t_rgb rgb)
     return ((r << 16) | (g << 8) | b);
 }
 
+t_rgb	extract_color(int r, int g, int b)
+{
+	t_rgb	color;
+
+	color.b = b;
+	color.g = g;
+	color.r = r;
+	return (color);
+}
 
 int	interpolate_color(int color1, int color2, float ratio)
 {

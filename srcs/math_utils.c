@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:38:36 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/10/28 15:30:20 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/08 15:31:47 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,14 @@ inline float	max_nb(float nb1, float nb2)
 		return (nb1);
 	return (nb2);
 }
+
+inline float	min_nb(float nb1, float nb2)
+{
+	if (nb1 <= nb2) 
+		return (nb1);
+	return (nb2);
+}
+
 
 inline float	ratio(float nb1, float nb2)
 {
