@@ -107,6 +107,10 @@ typedef struct s_light
 
 	float		bright;
 
+	float		nb_rays;
+
+	float		len_ray;
+
 	t_rgb		rgb;
 }				t_light;
 

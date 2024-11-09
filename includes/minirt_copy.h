@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/08 18:46:25 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/06 18:57:05 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ void	print_error(char *message);
 
 //	RENDER
 int    render(t_data *data);
-bool solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);
-
-bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit);
 
 // RENDER INITS
 t_hitinfo	init_hit(t_data *data);
@@ -66,7 +63,6 @@ t_vect	scale_vect(t_vect v, float scalar);
 int		square(float i);
 double	ft_atol(const char *nptr);
 float	max_nb(float nb1, float nb2);
-float	min_nb(float nb1, float nb2);
 float	ratio(float nb1, float nb2);
 void	swap(float *a, float *b);
 // DEBUG UTILS
@@ -92,18 +88,17 @@ int		get_r(int trgb);
 int		get_g(int trgb);
 int		get_b(int trgb);
 
-//LIGHT
-bool light_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
-t_ray    *light_rays(t_data *data);
-
-
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
+
+// LIGHT
+
+bool light_intersect(t_data *data, t_ray *light, int i, t_ray camera_ray, t_hitinfo *hit);
+t_ray    *light_rays(t_data *data);
 
 //COLOR
 int     create_color(t_rgb rgb, t_ambient ambient);
 int 	just_color(t_rgb rgb);
-t_rgb	extract_color(int r, int g, int b);
 int		interpolate_color(int color1, int color2, float ratio);
 
 //FREE FUNCTIONS
