@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/07 16:11:03 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/11 19:40:11 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,58 @@ void	plane_init(t_data *data, char *line, int i)
 	free_mtx(coords);
 	free_mtx(res);
 
+}
+
+void	top_bottom_cone(POINT *p1, POINT *p2, t_cone cone)
+{
+	*p1 = sum_vect(cone.pos, scale_vect(cone.dir, cone.height / 2));
+	*p2 = sum_vect(cone.pos, scale_vect(cone.dir, - cone.height / 2));
+}
+
+void	cone_angle(t_cone *cone)
+{
+	float	angle;
+	angle = atan2((*cone).radius, (*cone).height);
+	(*cone).theta_r = angle;
+	(*cone).theta_d = angle * (180 / M_PI);
+}
+
+void	cone_init(t_data *data, char *line, int i)
+{
+	char		**res;
+	char		**coords;
+	t_cone		*cone;
+	POINT		p1;
+	POINT		p2;
+
+	data->obj[i].type_obj = CONE;
+	cone = (t_cone *)safe_malloc(sizeof(t_cone)); 
+	data->obj[i].object = cone;
+	res = ft_split(line, ' ');
+
+	coords = ft_split(res[1], ',');
+	cone->pos = create_vector(ft_atol(coords[0]),ft_atol(coords[1]),ft_atol(coords[2]));
+	free_mtx(coords);
+
+	coords = ft_split(res[2], ',');
+	cone->dir = create_vector(ft_atol(coords[0]),ft_atol(coords[1]),ft_atol(coords[2]));
+	cone->dir = normalize(cone->dir);
+	free_mtx(coords);
+
+	cone->diameter = ft_atol(res[3]);
+	cone->radius = cone->diameter / 2;
+	cone->height = ft_atol(res[4]);
+	cone_angle(cone);
+	top_bottom_cone(&p1, &p2, *cone); 
+	cone->p1 = p1;
+	cone->p2 = p2;
+
+	coords = ft_split(res[5], ',');
+	cone->rgb.r = ft_atol(coords[0]);
+	cone->rgb.g = ft_atol(coords[1]);
+	cone->rgb.b = ft_atol(coords[2]);
+	free_mtx(coords);
+	free_mtx(res);
 }
 
 void	sphere_init(t_data *data, char *line, int i)
@@ -131,6 +183,43 @@ void	cylinder_init(t_data *data, char *line, int i)
 	top_bottom_point(&p1, &p2, *cylinder);
 	cylinder->p1 = p1;
 	cylinder->p2 = p2;
+	free_mtx(coords);
+	free_mtx(res);
+}
+
+void	hyperboloid_init(t_data *data, char *line, int i)
+{
+	char		**res;
+	char		**coords;
+	t_hyperboloid	*hyperboloid;
+
+	data->obj[i].type_obj = HYPERBOLOID;
+	hyperboloid = (t_hyperboloid *)safe_malloc(sizeof(t_hyperboloid)); 
+	data->obj[i].object = hyperboloid;
+	res = ft_split(line, ' ');
+
+	coords = ft_split(res[1], ',');
+	hyperboloid->pos.x = ft_atol(coords[0]);
+	hyperboloid->pos.y = ft_atol(coords[1]);
+	hyperboloid->pos.z = ft_atol(coords[2]);
+
+	coords = ft_split(res[2], ',');
+	hyperboloid->dir.x = ft_atol(coords[0]);
+	hyperboloid->dir.y = ft_atol(coords[1]);
+	hyperboloid->dir.z = ft_atol(coords[2]);
+	hyperboloid->dir = normalize(hyperboloid->dir);
+	free_mtx(coords);
+
+	coords = ft_split(res[3], ',');
+	hyperboloid->a = ft_atol(coords[0]);
+	hyperboloid->b = ft_atol(coords[1]);
+	hyperboloid->c = ft_atol(coords[2]);
+	free_mtx(coords);
+
+	coords = ft_split(res[4], ',');
+	hyperboloid->rgb.r = ft_atol(coords[0]);
+	hyperboloid->rgb.g = ft_atol(coords[1]);
+	hyperboloid->rgb.b = ft_atol(coords[2]);
 	free_mtx(coords);
 	free_mtx(res);
 }

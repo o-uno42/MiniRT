@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/09 13:58:41 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/11 16:48:11 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	light_init(t_data *data, char *line);
 void	sphere_init(t_data *data, char *line, int i);
 void	plane_init(t_data *data, char *line, int i);
 void	cylinder_init(t_data *data, char *line, int i);
+void	hyperboloid_init(t_data *data, char *line, int i);
+void	cone_init(t_data *data, char *line, int i);
 float	scale(float point, float max_dimension);
 //	RENDER
 int		render(t_data *data);
@@ -45,6 +47,8 @@ int		render(t_data *data);
 bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit);
 bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit);
 bool 	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit);
+bool	render_hyperboloid(t_ray camera_ray, t_data *data, t_hyperboloid *hyperboloid, t_hitinfo *hit);
+bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 //OBJECT_UTILS
 void 	swap_objs(t_objs *a, t_objs *b);
 bool 	solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);

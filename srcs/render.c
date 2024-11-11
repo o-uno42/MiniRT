@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/09 13:50:35 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/11 19:13:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 		{
 			render_cylinder(camera_ray, data, data->obj[i].object, hit);
 		}
+		else if(type == HYPERBOLOID)
+			render_hyperboloid(camera_ray,data, data->obj[i].object, hit);	
+		else if (type == CONE)
+			render_cone(camera_ray, data, data->obj[i].object, hit);
 		i++;
 	}
 }
@@ -57,6 +61,7 @@ int    render(t_data *data)
 	t_ray *rays = light_rays(data);
 	// int i;
 
+	/* print_all_obj(data); */
 	data->img_ratio = ratio(data->img.width, data->img.height);
 	print_camera(data->camera);
 	y = 0;

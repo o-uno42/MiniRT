@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/07 16:11:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/11 13:36:24 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -135,6 +135,35 @@ typedef struct	s_cylinder
 	t_rgb	rgb;
 }				t_cylinder;
 
+typedef struct s_hyperboloid
+{
+	POINT	pos;
+	POINT	p1;
+	POINT	p2;
+	t_vect	dir;
+	float	a;
+	float	b;
+	float	c;
+	float	height;
+	float	diameter;
+	float	radius;
+	t_rgb	rgb;
+}				t_hyperboloid;
+
+typedef struct s_cone
+{
+	POINT	pos;
+	POINT	p1;
+	POINT	p2;
+	t_vect	dir;
+	float	diameter;
+	float	radius;
+	float	height;
+	float	theta_r;
+	float	theta_d;
+	t_rgb	rgb;
+}				t_cone;
+
 typedef struct s_plane
 {
 	POINT		pos;
@@ -161,6 +190,8 @@ typedef enum s_type_obj
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CONE,
+	HYPERBOLOID,
 	END
 }				t_type_obj;
 typedef struct s_objs

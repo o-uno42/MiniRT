@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/06 19:08:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/11 14:01:29 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,16 @@ void	prefix(char *line, t_data *data, int *nb_objs)
 	else if (ft_strncmp("cy", line, i) == 0)
 	{
 		cylinder_init(data, line, (*nb_objs));
+		(*nb_objs)++;
+	}
+	else if (ft_strncmp("hy", line, i) == 0)
+	{
+		hyperboloid_init(data, line, (*nb_objs));
+		(*nb_objs)++;
+	}
+	else if (ft_strncmp("cn", line, i) == 0)
+	{
+		cone_init(data, line, *nb_objs);
 		(*nb_objs)++;
 	}
 }
