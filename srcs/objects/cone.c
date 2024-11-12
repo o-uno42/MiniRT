@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:54:51 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/11 19:34:28 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/12 12:35:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,18 @@ bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit)
 	POINT	pcenter;
 	t_vect	pdelt;
 	t_vect	normal;
+	/* float	r; */
+	/* float	h; */
 
 	visibility = dot_product(cone->dir, ray.dir);
 	visibility2 = dot_product(scale_vect(cone->dir, -1), ray.dir);
 	if (visibility <= 0 && visibility2 <= 0)
 		return (false);
+	/* r = cone->height / 2 * tan(cone->theta_r); */
+	/* h = magnitude(sub_vect(cone->p1, cone->pos)); */
+	/* printf("radius : %f \t height: %f\t", r, h); */
+	/* r = h * tan(cone->theta_r); */
+	/* printf("new radius: %f\n", r); */
 
 	float t = dot_product(cone->dir, sub_vect(cone->p1, ray.pos)) / visibility;
 	float t2 = dot_product(scale_vect(cone->dir, -1), sub_vect(cone->p2, ray.pos)) / visibility2;
@@ -103,8 +110,8 @@ bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit)
 		/* printf("t: %f, t2: %f, p: [%f, %f, %f], pdelt: [%f, %f, %f], radius check: %f\n", t, t2, p.x, p.y, p.z, pdelt.x, pdelt.y, pdelt.z, magnitude(pdelt)); */
 		hit->normal = normal;
 		caps_hit(cone, hit, p, chosen_t); 
-		if (magnitude(pdelt) > cone->radius - 0.27 && magnitude(pdelt) <= cone->radius)
-			hit->rgb = extract_color(0, 0, 0);
+		/* if (magnitude(pdelt) > cone->radius - 0.07 && magnitude(pdelt) <= cone->radius) */
+		/* 	hit->rgb = extract_color(0, 0, 0); */
 		return (true);
 	}	
 	return (false);
@@ -150,13 +157,13 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 		if (t1 > 0 && t1 < hit->t)
 		{
 			hit_cone(hit, t1, ray, cone);
-			return (true);
+			/* return (true); */
 		}
 	}
 	if(!caps_cone(ray, cone, hit))
 	{
 		t1 = FLT_MAX;
-		hit_cone(hit, t1, ray, cone);
+		/* hit_cone(hit, t1, ray, cone); */
 		return (true);
 	}
 

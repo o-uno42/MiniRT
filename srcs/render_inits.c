@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/11 19:40:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/12 12:06:58 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	top_bottom_cone(POINT *p1, POINT *p2, t_cone cone)
 void	cone_angle(t_cone *cone)
 {
 	float	angle;
-	angle = atan2((*cone).radius, (*cone).height);
+	angle = atan2((*cone).radius, (*cone).height / 2);
 	(*cone).theta_r = angle;
 	(*cone).theta_d = angle * (180 / M_PI);
 }
@@ -97,7 +97,7 @@ void	cone_init(t_data *data, char *line, int i)
 	free_mtx(coords);
 
 	cone->diameter = ft_atol(res[3]);
-	cone->radius = cone->diameter / 2;
+	cone->radius = cone->diameter / 2.0;
 	cone->height = ft_atol(res[4]);
 	cone_angle(cone);
 	top_bottom_cone(&p1, &p2, *cone); 
