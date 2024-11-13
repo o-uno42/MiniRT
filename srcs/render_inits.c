@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/12 12:06:58 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 19:24:57 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ void	plane_init(t_data *data, char *line, int i)
 	plane->rgb.r = ft_atol(rgb[0]);
 	plane->rgb.g = ft_atol(rgb[1]);
 	plane->rgb.b = ft_atol(rgb[2]);
+	if (res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+		plane->checker = ft_atoi(res[4]);
+	else
+		plane->checker = false;
+	if (res[5])
+		plane->tex = data->pics[ft_atoi(res[5])];
+
+
 	free_mtx(rgb);
 	free_mtx(vect);
 	free_mtx(coords);
@@ -108,6 +116,10 @@ void	cone_init(t_data *data, char *line, int i)
 	cone->rgb.r = ft_atol(coords[0]);
 	cone->rgb.g = ft_atol(coords[1]);
 	cone->rgb.b = ft_atol(coords[2]);
+	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+		cone->checker = ft_atoi(res[4]);
+	else
+		cone->checker = false;
 	free_mtx(coords);
 	free_mtx(res);
 }
@@ -136,6 +148,12 @@ void	sphere_init(t_data *data, char *line, int i)
 	sphere->rgb.r = ft_atol(rgb[0]);
 	sphere->rgb.g = ft_atol(rgb[1]);
 	sphere->rgb.b = ft_atol(rgb[2]);
+	if (res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+		sphere->checker = ft_atoi(res[4]);
+	else
+		sphere->checker = false;
+	if (res[5])
+		sphere->tex = data->pics[ft_atoi(res[5])];
 	free_mtx(rgb);
 	free_mtx(coords);
 	free_mtx(res);
@@ -183,6 +201,12 @@ void	cylinder_init(t_data *data, char *line, int i)
 	top_bottom_point(&p1, &p2, *cylinder);
 	cylinder->p1 = p1;
 	cylinder->p2 = p2;
+	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+		cylinder->checker = ft_atoi(res[4]);
+	else
+		cylinder->checker = false;
+	if (res[7])
+		cylinder->tex = data->pics[ft_atoi(res[7])];
 	free_mtx(coords);
 	free_mtx(res);
 }
@@ -330,4 +354,41 @@ void	light_init(t_data *data, char *line)
 	// printf("LIGHT\nCoords: %f\n%f\n%f\nBright: %f\nRgb: %i\n%i\n%i\n\n", 
 	// 	data->light.x, data->light.y, data->light.z, data->light.bright,
 	// 		data->light.rgb_1, data->light.rgb_2, data->light.rgb_3);
+}
+
+void	pic_init(t_data *data, char *line, int nb_pics)
+{
+	char **res;
+	char **part;
+	t_picture	pic;
+
+	res = ft_split(line, ' ');
+
+	/* pic = (t_picture *)safe_malloc(sizeof(t_picture)); */
+	part = ft_split(res[1], ':');
+	pic.path = part[1];
+	printf("path: %s\n", pic.path);
+	pic.h =900;
+	pic.w =900;
+	/* part = ft_split(res[2], ':'); */
+	/* pic.w = ft_atoi(part[1]); */
+	/* free_mtx(part); */
+	/* part = ft_split(res[3], ':'); */
+	/* pic.h = ft_atoi(part[1]); */
+	/* free_mtx(part); */
+
+	/* pic.pic = NULL; */
+	printf("pic.pic: %p\n", pic.pic);
+	pic.pic = mlx_xpm_file_to_image(data->mlx_ptr, pic.path, &pic.w, &pic.h);
+	if (!pic.pic)
+	{
+		fprintf(stderr, "Error: Failed to load image from path %s\n", pic.path);
+		free_mtx(res);
+		return;
+	}
+	pic.data = mlx_get_data_addr(pic.pic, &pic.bpp, &pic.line_len, &pic.endian);
+	pic.index = nb_pics;
+	data->pic_idx = nb_pics;
+	data->pics[nb_pics] = pic;
+	free_mtx(part);
 }

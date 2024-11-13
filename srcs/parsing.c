@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/11 14:01:29 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 14:59:26 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	check_line(char *line)
 	return (0);
 }
 
-void	prefix(char *line, t_data *data, int *nb_objs)
+void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics)
 {
 	int i;
 
@@ -133,6 +133,11 @@ void	prefix(char *line, t_data *data, int *nb_objs)
 		cone_init(data, line, *nb_objs);
 		(*nb_objs)++;
 	}
+	else if (ft_strncmp("pic", line ,i) == 0)
+	{
+		pic_init(data, line, *nb_pics);
+		(*nb_pics)++;
+	}
 }
 
 void	parsing(int fd, t_data *data)
@@ -140,14 +145,16 @@ void	parsing(int fd, t_data *data)
 	char	*line;
 	int		i;
 	int		nb_objects;
+	int		nb_pics;
 
 	i = 0;
 	nb_objects = 0;
+	nb_pics = 0;
 
 	while((line = get_next_line(fd)) !=NULL)
 	{
 		check_line(line);
-		prefix(line, data, &nb_objects);
+		prefix(line, data, &nb_objects, &nb_pics);
 		// free(line);
 		i++;
 	}

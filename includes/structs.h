@@ -6,16 +6,18 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/11 13:36:24 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:03:17 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 8
-#  define PI 3.1415926535
-#  define POINT t_vect
+# ifndef MACROS
+#  define	BUFFER_SIZE 8
+#  define	PI 3.1415926535
+#  define	POINT t_vect
+#  define	SQUARE 5
+#  define	ANGLE_SIZE 0.05
 # endif
 
 # define BLACK 0x000000
@@ -59,6 +61,19 @@ typedef struct s_ray
 // 	float		y;
 // 	float		z;
 // }				t_pos;
+
+typedef	struct s_picture
+{
+	void	*pic;
+	char	*path;
+	char	*data;
+	int		bpp;
+	int		endian;
+	int		line_len;
+	int		w;
+	int		h;
+	int		index;
+}				t_picture;
 
 typedef struct s_rgb
 {
@@ -104,13 +119,9 @@ typedef struct s_camera
 typedef struct s_light
 {
 	POINT		pos;
-
 	float		bright;
-
 	float		nb_rays;
-
 	float		len_ray;
-
 	t_rgb		rgb;
 }				t_light;
 
@@ -121,6 +132,8 @@ typedef struct s_sphere
 	float		radius;
 	t_rgb		rgb;
 	int			nb;
+	bool		checker;
+	t_picture	tex;
 }				t_sphere;
 
 typedef struct	s_cylinder
@@ -133,6 +146,8 @@ typedef struct	s_cylinder
 	float	radius;
 	float	height;
 	t_rgb	rgb;
+	bool	checker;
+	t_picture	tex;
 }				t_cylinder;
 
 typedef struct s_hyperboloid
@@ -162,6 +177,8 @@ typedef struct s_cone
 	float	theta_r;
 	float	theta_d;
 	t_rgb	rgb;
+	bool	checker;
+	t_picture	tex;
 }				t_cone;
 
 typedef struct s_plane
@@ -171,6 +188,8 @@ typedef struct s_plane
 	t_vect		vect;
 	t_rgb		rgb;
 	int			nb;
+	bool		checker;
+	t_picture	tex;
 }				t_plane;
 
 typedef struct s_img
@@ -184,6 +203,7 @@ typedef struct s_img
 	float		height;
 }				t_img;
 
+
 typedef enum s_type_obj
 {
 	NOTHING,
@@ -194,6 +214,7 @@ typedef enum s_type_obj
 	HYPERBOLOID,
 	END
 }				t_type_obj;
+
 typedef struct s_objs
 {
 	void		*object;
@@ -205,6 +226,8 @@ typedef struct s_data
 	void		*mlx_ptr;
 	void		*mlx_win;
 	t_img		img;
+	t_picture	pics[128];
+	int			pic_idx;
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;

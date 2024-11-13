@@ -6,11 +6,57 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:44:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/09 13:45:54 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 19:33:53 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+
+void cap_texture(t_hitinfo *hit, t_cylinder *cyl)
+{
+    if (cyl->tex.data == NULL || cyl->checker == false) // Check if texture is loaded
+    {
+		printf("xxx\n");
+        hit->rgb = cyl->rgb;
+        return;
+    }
+
+    float u = fmod(hit->p.x / SQUARE, 1.0);
+    float v = fmod(hit->p.z / SQUARE, 1.0);
+
+    if (u < 0) u += 1.0;
+    if (v < 0) v += 1.0;
+
+    int tex_x = (int)(u * cyl->tex.w);
+    int tex_y = (int)(v * cyl->tex.h);
+
+    int color_offset = tex_y * cyl->tex.line_len + tex_x * (cyl->tex.bpp / 8);
+    int color = *(int *)(cyl->tex.data + color_offset);
+
+    hit->rgb = extract_color_from_int(color);
+}
+void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
+{
+	if (cyl->checker == false)
+	{
+		hit->rgb = cyl->rgb;
+		return ;
+	}
+
+	/* float theta = atan2(hit->p.z - cyl->pos.z, hit->p.x - cyl->pos.x); */
+	float theta = atan2(hit->p.z, hit->p.x);
+	/* float theta = atan2(hit->normal.z, hit->normal.x); */
+	float height = hit->p.y - cyl->p2.y;
+	/* float height = cyl->height; */
+
+	int square_theta = floor(theta  / ANGLE_SIZE);
+	int square_height = floor(height * cyl->diameter / SQUARE);
+
+	if ((square_theta + square_height) % 2 == 0)
+		hit->rgb = cyl->rgb;
+	else
+		hit->rgb = extract_color(0, 0, 0);
+}
  
 bool cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res)
 {
@@ -49,8 +95,8 @@ void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder 
 		hit->p = prev;
 		return;
 	}
-	hit->rgb = cylinder->rgb;
 	hit->normal = normalize(sub_vect(hit->p, res));
+	checker_cyl(hit, cylinder);
 }
 
 void	cap_hit(t_cylinder *cylinder, t_hitinfo *hit, POINT p, float t)
@@ -99,8 +145,9 @@ bool	caps(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo *hit)
 	{
 		hit->normal = normal;
 		cap_hit(cylinder, hit, p, chosen_t); 
-		if (magnitude(pdelt) > cylinder->radius - 0.07 && magnitude(pdelt) <= cylinder->radius)
-			hit->rgb = extract_color(0, 0, 0);
+		cap_texture(hit, cylinder);
+		/* if (magnitude(pdelt) > cylinder->radius - 0.07 && magnitude(pdelt) <= cylinder->radius) */
+		/* 	hit->rgb = extract_color(0, 0, 0); */
 		return (true);
 	}	
 

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:01:30 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/11 13:42:52 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 14:55:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,22 @@ void	print_object(t_objs *object, t_type_obj type)
 		print_cone(object->object);
 }
 
+void	print_pic(t_picture pic)
+{
+	printf("PICTURE nr:%d \n", pic.index);
+	printf(" path:%s \t line_len: %d \t w:%d, h:%d \t bpp:%d \t endian:%d \n", pic.path, pic.line_len, pic.w, pic.h, pic.bpp, pic.endian);
+	printf("data:%s \n\n", pic.data);
+}
+
+void	print_pictures(t_data *data)
+{
+	int	i;
+	
+	i = 0;
+	while (i <= data->pic_idx)
+		print_pic(data->pics[i]);
+}
+
 void print_all_obj(t_data *data)
 {
 	int i;
@@ -133,6 +149,7 @@ void print_all_obj(t_data *data)
 	{
 		printf("object index: %d \t", i);
 		print_object(&data->obj[i], data->obj[i].type_obj);
+		/* print_pictures(data); */
 	}
 }
 

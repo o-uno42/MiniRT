@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/11 16:48:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 19:09:53 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	parsing(int fd, t_data *data);
 void    movement(t_data *data);
 
 // RENDER INITS
+void	pic_init(t_data *data, char *line, int nb_pics);
 t_hitinfo	init_hit(t_data *data);
 void    ambient_init(t_data *data, char *line);
 void	camera_init(t_data *data, char *line);
@@ -52,6 +53,7 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 //OBJECT_UTILS
 void 	swap_objs(t_objs *a, t_objs *b);
 bool 	solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);
+void 	plane_texture(t_hitinfo *hit, t_plane *plane);
 
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
@@ -95,6 +97,7 @@ int		get_b(int trgb);
 int     create_color(t_rgb rgb, t_ambient ambient);
 int 	just_color(t_rgb rgb);
 t_rgb	extract_color(int r, int g, int b);
+t_rgb	extract_color_from_int(int color);
 int		interpolate_color(int color1, int color2, float ratio);
 
 //	WINDOW MANAGEMENT

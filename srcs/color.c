@@ -35,6 +35,16 @@ t_rgb	extract_color(int r, int g, int b)
 	return (color);
 }
 
+t_rgb	extract_color_from_int(int color)
+{
+	t_rgb	rgb;
+	
+	rgb.r = get_r(color);
+	rgb.g = get_g(color);
+	rgb.b = get_b(color);
+	return (rgb);
+}
+
 int	interpolate_color(int color1, int color2, float ratio)
 {
 	int	t;

@@ -1,12 +1,15 @@
-A 0.2 0,0,255 #ambient lighting
+A 0.5 0,0,255 #ambient lighting
 C 0,0,0 0,0,1 70 #camera
-L 10,10,10 1.0 10,0,255 #light
+L 20,0,-5 4.0 10,0,255 #light
+pic PATH:./wall_west.xpm #picture
+pic PATH:./wall_south.xpm #picture
+pic PATH:./background_0.xpm #picture
 # sp 0,0,100 100.6 10,255,255 #sphere
-# sp -2,3,30 20.6 20,30,99 #sphere
-# pl 10,0.2,10 0.0,1.0,0.0 200,100,99 #plane
-# pl 10,7.0,10 1.0,0.2,0.0 200,100,99 #plane
+sp -15,10,30 10.6 20,30,99 1 1 #sphere
+# pl 10,0.2,100 0.0,1.0,0.0 200,100,99 #plane
+pl 10,7.0,10 1.0,0.2,0.0 200,100,99 1 0 #plane
 # pl 10,20,10 1.0,0.0,0.0 10,8,9 #plane
 # pl 0.0,1.0,400 0,1.0,0 200,100,99 #plane
-# cy 0.0,6,20.6 1.0,0.0,0.9 4.2 21.42 255,0,0 #cylinder
+cy 0.0,-5,20.6 1.0,0.0,1.0 4.2 21.42 255,0,0 1 0 #cylinder
 cn 0.0,0.0,70.0 1.0,0.0,0.8 20.0 30.0 150,10,0 #cone
 # hy 0.0,0.0,70.0 0.0,0.0,1.0 5.0,5.0,1.0 10,170,55 #hyperboloid
