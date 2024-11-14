@@ -52,8 +52,13 @@ bool 	solve_quadratic(const float a, const float b, const float c, float *x0, fl
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
 //LIGHT
-bool	light_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
+bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit);
 t_ray	*light_rays(t_data *data);
+t_ambient  darker_ambient(t_ambient ambient, float i);
+t_vect reflect(t_vect in, t_vect normal);
+t_ray    *reflection_rays(t_data *data, t_hitinfo *hit);
+bool reflect_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
+bool    specular_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
 
 // VECTOR UTILS
 t_vect 	sum_vect(t_vect pos_1, t_vect pos_2);
@@ -89,6 +94,9 @@ int		get_g(int trgb);
 int		get_b(int trgb);
 //COLOR
 int     create_color(t_rgb rgb, t_ambient ambient);
+t_rgb     create_color_rgb(t_rgb rgb, t_ambient ambient);
+
+int     create_color_int(t_rgb rgb);
 int 	just_color(t_rgb rgb);
 t_rgb	extract_color(int r, int g, int b);
 int		interpolate_color(int color1, int color2, float ratio);

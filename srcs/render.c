@@ -29,6 +29,7 @@ void	render_objs(t_data *data, t_ray camera_ray, t_hitinfo *hit)
 	t_type_obj	type;
 	
 	i = 0;
+	// hit->rgb = create_color_rgb(hit->rgb, data->ambient);
 	while (data->obj[i].type_obj != END)
 	{
 		type = data->obj[i].type_obj;
@@ -55,6 +56,7 @@ int    render(t_data *data)
 	t_ray camera_ray;
 	t_hitinfo hit;
 	t_ray *rays = light_rays(data);
+	// t_ray *reflect;
 	// int i;
 
 	data->img_ratio = ratio(data->img.width, data->img.height);
@@ -67,11 +69,16 @@ int    render(t_data *data)
 		{
 			hit = init_hit(data);
 			data->hit = hit;
-			/* printf(" cords: x: %d, y: %d,\thit is: %f\n",x ,y, data->hit.t); */
 			camera_ray = camera_rays(x, y,data);
 			render_objs(data, camera_ray, &data->hit);
-			light_intersect(data, rays, &data->hit);
-				// my_pixel_put(data, x, y, WHITE);
+			if(light_intersect(data, rays, camera_ray, &data->hit))
+			{
+				;
+				// reflect = reflection_rays(data, &data->hit);
+				// reflect_intersect(data, reflect, &data->hit);
+			}
+			// specular_intersect(data, rays, &data->hit);
+			// my_pixel_put(data, x, y, just_color(data->hit.rgb));//create_color(data->hit.rgb, data->ambient));
 			my_pixel_put(data, x, y, create_color(data->hit.rgb, data->ambient));
 			x++;
 		}

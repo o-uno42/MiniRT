@@ -32,6 +32,7 @@ t_vect	sub_vect(t_vect pos_1, t_vect pos_2)
 	return (res);
 }
 
+
 t_vect	normalize(t_vect v_orig)
 {
 	float	length;

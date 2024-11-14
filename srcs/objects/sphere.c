@@ -30,6 +30,7 @@ void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *spher
 	}
 }
 
+
 bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit)
 {
 	data = data;

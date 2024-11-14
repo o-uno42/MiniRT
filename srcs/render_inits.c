@@ -48,6 +48,7 @@ void	plane_init(t_data *data, char *line, int i)
 	plane->vect.x = ft_atol(vect[0]);
 	plane->vect.y = ft_atol(vect[1]);
 	plane->vect.z = ft_atol(vect[2]);
+	// plane->vect = normalize(plane->vect);
 
 	rgb = ft_split(res[3], ',');
 	plane->rgb.r = ft_atol(rgb[0]);
