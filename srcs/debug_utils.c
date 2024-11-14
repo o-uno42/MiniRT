@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:01:30 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/13 14:55:55 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 19:50:41 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,13 @@ void	print_pictures(t_data *data)
 	int	i;
 	
 	i = 0;
-	while (i <= data->pic_idx)
+	if (data->pic_idx == 0)
+	{
 		print_pic(data->pics[i]);
+		return ;
+	}
+	while (i <= data->pic_idx)
+		print_pic(data->pics[i++]);
 }
 
 void print_all_obj(t_data *data)
@@ -149,8 +154,8 @@ void print_all_obj(t_data *data)
 	{
 		printf("object index: %d \t", i);
 		print_object(&data->obj[i], data->obj[i].type_obj);
-		/* print_pictures(data); */
 	}
+	print_pictures(data);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/14 16:34:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 20:56:31 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 //OBJECT_UTILS
 void 	swap_objs(t_objs *a, t_objs *b);
 bool 	solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);
-void 	plane_texture(t_hitinfo *hit, t_plane *plane);
+void 	plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic);
 
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);

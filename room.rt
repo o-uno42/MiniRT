@@ -1,12 +1,15 @@
 A 0.9 0,0,0 #ambient lighting
 C 5,20,8 0,-1,0 70 #camera
 L 5,5,3 1.0 10,0,255 #light
+pic PATH:./wall_south.xpm #picture
+pic PATH:./wall_west.xpm #picture
+pic PATH:./wall_west_normal.xpm #picture
 # sp 0,0,0 100.6 10,255,255 #sphere
 sp 3,2,11 3.6 20,30,99 #sphere
 sp 0,2,10 3.6 20,30,99 #sphere
 sp 0,4,10 2.6 20,30,99 #sphere
 # pl -4,0.1,10 0.2,1.0,0.0 250,120,150#plane
 # pl 10,0.2,10 1.0,0.2,0.0 200,100,99 #plane
-pl 10,0,10 0.0,1.0,0.0 70,150,200 #plane
-# pl 0.0,1.0,400 0,1.0,0 200,100,99 #plane
+pl 10,0,10 0.2,1.0,0.0 70,150,200 1 1 2 #plane
+# pl 0.0,1.0,50 0.0,0.0,-1.0 200,100,99 #plane
 cy 0.0,6,5.6 1.0,1.0,1.2 3 3.42 255,0,0 #cylinder
