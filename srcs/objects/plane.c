@@ -15,7 +15,7 @@
 
 void plane_texture(t_hitinfo *hit, t_plane *plane)
 {
-    if (plane->tex.data == NULL) // Check if texture is loaded
+    if (plane->tex.data == NULL || plane->checker == false) // Check if texture is loaded
     {
         hit->rgb = plane->rgb;
         return;
@@ -57,10 +57,15 @@ void	plane_checker(t_hitinfo *hit, t_plane *plane)
 		hit->rgb = extract_color( 0, 0 , 0);
 }
 
-void	plane_bump(t_hitinfo *hit)
+void	plane_bump(t_hitinfo *hit, t_plane *plane)
 {
 	t_vect	color_vect;
 	t_vect	delta;
+
+	if (plane->tex.data == NULL || plane->checker == false) // Check if texture is loaded
+    {
+        return;
+    }
 
 	color_vect = rgb_to_vect(hit->rgb);
 	delta = sub_vect(scale_down(color_vect, 127.5f), create_vector(1.0, 1.0, 1.0));
@@ -91,9 +96,10 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, t));
 		hit->normal = plane->vect;
 		hit->is_outside = true;
+		hit->rgb = plane->rgb;
 		/* plane_checker(hit, plane); */
 		plane_texture(hit, plane);
-		plane_bump(hit);
+		plane_bump(hit, plane);
 		/* printf("hit->t plane: %f\t t plane: %f\n", hit->t, t); */
 	}
 

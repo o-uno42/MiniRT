@@ -1,6 +1,6 @@
 A 0.9 0,0,0 #ambient lighting
 C 5,20,8 0,-1,0 70 #camera
-L 0,5,8 1.0 10,0,255 #light
+L 5,5,3 1.0 10,0,255 #light
 # sp 0,0,0 100.6 10,255,255 #sphere
 sp 3,2,11 3.6 20,30,99 #sphere
 sp 0,2,10 3.6 20,30,99 #sphere

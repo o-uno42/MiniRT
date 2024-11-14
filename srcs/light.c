@@ -229,7 +229,7 @@ bool intersect_plane(t_plane *plane, t_ray *ray, t_hitinfo *hit)
     hit->p = sum_vect(ray->pos, scale_vect(ray->dir, t));
     hit->normal = plane->vect;
     if (denom > 0)
-        hit->normal = scale_vect(hit->normal, -1);
+        hit->normal = scale_vect(hit->normal, 1);
     return true;
 }
 
@@ -256,6 +256,8 @@ t_vect	reflect_vect(t_vect v, t_vect n)
 	return (dst);
 }
 
+// float   check_shadow ()
+
 int  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_vect view_dir, float shininess)
 {
     // t_rgb white;
@@ -266,8 +268,8 @@ int  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_vect view_dir, float
     // white.b = 255;
     reflect = reflect_vect(hit->normal, light_dir);
     reflect = normalize(reflect);
-    view_dir =  sub_vect(view_dir, hit->p);
-    view_dir = normalize(view_dir);
+    // view_dir =  sub_vect(view_dir, hit->p);
+    // view_dir = normalize(view_dir);
     float spec = max_nb(0.0f, dot_product(reflect, view_dir));
     spec = pow(spec, shininess);
     return (spec);
@@ -330,9 +332,14 @@ bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hi
                     break;
                 }
             }
-            j++; 
+            j++;
         }
     
+        float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
+        float shadow_strength = 1.0f; 
+        float shadow_distance_factor = (1.0f + 0.1 * dist_to_light);
+        float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
+        //hit->rgb = dark_rgb(hit->rgb, darkness);
         angle_intensity = max_nb(0.0f, dot_product(hit->normal, light_dir));
         distance_factor = 1 / (1 + 0.1 * square(dist_to_light));
         
@@ -347,18 +354,31 @@ bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hi
                     t_rgb diffuse = bright_rgb(hit->rgb, total_intensity * 500);
                     // print_rgb(diffuse);
                     // print_rgb(specular);
-                    float specular = calculate_specular(hit, light_dir, camera_ray.dir, 30);
-                    hit->rgb = bright_rgb(diffuse, specular);
-                    // hit->rgb = diffuse;
+                    // float specular = calculate_specular(hit, light_dir, camera_ray.dir, 30);
+                    // hit->rgb = bright_rgb(diffuse, specular);
+                    hit->rgb = diffuse;
                 }
                 return true;
             }
         }
-        float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
-        float shadow_strength = 1.0f; 
-        float shadow_distance_factor = (1.0f + 0.05f * square(dist_to_light));
-        float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
+        shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
+        shadow_strength = 1.0f; 
+        shadow_distance_factor = (1.0f + 0.1 * dist_to_light);
+        darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
         hit->rgb = dark_rgb(hit->rgb, darkness);
+        // else
+        // {   
+        //     float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
+        //     float shadow_strength = 1.0f; 
+        //     float shadow_distance_factor = (1.0f + 0.05f * square(dist_to_light));
+        //     float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 10;
+        //     hit->rgb = dark_rgb(hit->rgb, darkness);
+        // }
+        // float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
+        // float shadow_strength = 1.0f; 
+        // float shadow_distance_factor = (1.0f + 0.1 * dist_to_light);
+        // float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
+        // hit->rgb = dark_rgb(hit->rgb, darkness);
         i++;
     }
     return false;

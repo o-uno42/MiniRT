@@ -16,7 +16,7 @@ void cap_texture(t_hitinfo *hit, t_cylinder *cyl)
 {
     if (cyl->tex.data == NULL || cyl->checker == false) // Check if texture is loaded
     {
-		printf("xxx\n");
+		// printf("xxx\n");
         hit->rgb = cyl->rgb;
         return;
     }
