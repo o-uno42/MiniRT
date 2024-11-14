@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/13 19:24:57 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 16:58:37 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ void	cylinder_init(t_data *data, char *line, int i)
 	cylinder->p1 = p1;
 	cylinder->p2 = p2;
 	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
-		cylinder->checker = ft_atoi(res[4]);
+		cylinder->checker = ft_atoi(res[6]);
 	else
 		cylinder->checker = false;
 	if (res[7])
