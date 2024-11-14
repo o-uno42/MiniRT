@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:01:30 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/06 22:11:39 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 14:55:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,32 @@ void	print_cylinder(t_cylinder *cylinder)
 	printf("\n");
 }
 
+void	print_cone(t_cone *cone)
+{
+	printf("CONE\n");
+	printf("cone.pos: ");
+	print_vect((*cone).pos);
+	printf("cone.p1: ");
+	print_vect((*cone).p1);
+	printf("cone.p2: ");
+	print_vect((*cone).p2);
+	printf(" theta radians: %f, theta degrees: %f \n", (*cone).theta_r, (*cone).theta_d);
+	printf("diameter: %f, radius: %f, height: %f color: ", (*cone).diameter, (*cone).radius, (*cone).height);
+	print_rgb((*cone).rgb);
+	printf("\n");
+}
+
+void	print_hyperboloid(t_hyperboloid *hyperboloid)
+{
+	printf("HYPERBOLOID\n");
+	printf("hyperboloid.pos: ");
+	print_vect((*hyperboloid).pos);
+	printf("hyperboloid.dir: ");
+	print_vect((*hyperboloid).dir);
+	printf("a: %f, b: %f, c: %f color: ", (*hyperboloid).a, (*hyperboloid).b, (*hyperboloid).c);
+	print_rgb((*hyperboloid).rgb);
+	printf("\n");
+}
 void	print_plane(t_plane *plane)
 {
 	printf("PLANE\n");
@@ -92,6 +118,26 @@ void	print_object(t_objs *object, t_type_obj type)
 		print_plane(object->object);
 	else if (type == CYLINDER)
 		print_cylinder(object->object);
+	else if (type == HYPERBOLOID)
+		print_hyperboloid(object->object);
+	else if (type == CONE)
+		print_cone(object->object);
+}
+
+void	print_pic(t_picture pic)
+{
+	printf("PICTURE nr:%d \n", pic.index);
+	printf(" path:%s \t line_len: %d \t w:%d, h:%d \t bpp:%d \t endian:%d \n", pic.path, pic.line_len, pic.w, pic.h, pic.bpp, pic.endian);
+	printf("data:%s \n\n", pic.data);
+}
+
+void	print_pictures(t_data *data)
+{
+	int	i;
+	
+	i = 0;
+	while (i <= data->pic_idx)
+		print_pic(data->pics[i]);
 }
 
 void print_all_obj(t_data *data)
@@ -103,6 +149,7 @@ void print_all_obj(t_data *data)
 	{
 		printf("object index: %d \t", i);
 		print_object(&data->obj[i], data->obj[i].type_obj);
+		/* print_pictures(data); */
 	}
 }
 

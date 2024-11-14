@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/09 13:58:41 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 16:34:05 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	parsing(int fd, t_data *data);
 void    movement(t_data *data);
 
 // RENDER INITS
+void	pic_init(t_data *data, char *line, int nb_pics);
 t_hitinfo	init_hit(t_data *data);
 void    ambient_init(t_data *data, char *line);
 void	camera_init(t_data *data, char *line);
@@ -38,6 +39,8 @@ void	light_init(t_data *data, char *line);
 void	sphere_init(t_data *data, char *line, int i);
 void	plane_init(t_data *data, char *line, int i);
 void	cylinder_init(t_data *data, char *line, int i);
+void	hyperboloid_init(t_data *data, char *line, int i);
+void	cone_init(t_data *data, char *line, int i);
 float	scale(float point, float max_dimension);
 //	RENDER
 int		render(t_data *data);
@@ -45,9 +48,12 @@ int		render(t_data *data);
 bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit);
 bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit);
 bool 	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit);
+bool	render_hyperboloid(t_ray camera_ray, t_data *data, t_hyperboloid *hyperboloid, t_hitinfo *hit);
+bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 //OBJECT_UTILS
 void 	swap_objs(t_objs *a, t_objs *b);
 bool 	solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);
+void 	plane_texture(t_hitinfo *hit, t_plane *plane);
 
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
@@ -69,6 +75,7 @@ t_vect	normalize(t_vect v_orig);
 float	magnitude(t_vect v);
 t_vect	create_vector(float x, float y, float z);
 t_vect	scale_vect(t_vect v, float scalar);
+t_vect	scale_down(t_vect v, float scalar);
 // MATH UTILS
 int		square(float i);
 double	ft_atol(const char *nptr);
@@ -99,6 +106,8 @@ t_rgb     create_color_rgb(t_rgb rgb, t_ambient ambient);
 int     create_color_int(t_rgb rgb);
 int 	just_color(t_rgb rgb);
 t_rgb	extract_color(int r, int g, int b);
+t_rgb	extract_color_from_int(int color);
+t_vect	rgb_to_vect(t_rgb color);
 int		interpolate_color(int color1, int color2, float ratio);
 
 //	WINDOW MANAGEMENT

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/05 21:01:35 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/13 14:56:44 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	print_error(char *message)
 
 void	img_init(t_img *img)
 {
-	img->img_ptr = mlx_init();
-	if (!img->img_ptr)
-		print_error("Img init error");
+	/* img->img_ptr = mlx_init(); */
+	/* if (!img->img_ptr) */
+	/* 	print_error("Img init error"); */
 	img->width = 0;
 	img->height = 0;
 }

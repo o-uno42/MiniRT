@@ -6,12 +6,66 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:47:37 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/09 13:48:19 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 16:41:16 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/minirt.h"
+
+void plane_texture(t_hitinfo *hit, t_plane *plane)
+{
+    if (plane->tex.data == NULL) // Check if texture is loaded
+    {
+        hit->rgb = plane->rgb;
+        return;
+    }
+
+    float u = fmod(hit->p.x / SQUARE, 1.0);
+    float v = fmod(hit->p.z / SQUARE, 1.0);
+
+    if (u < 0) u += 1.0;
+    if (v < 0) v += 1.0;
+
+    int tex_x = (int)(u * plane->tex.w);
+    int tex_y = (int)(v * plane->tex.h);
+
+    int color_offset = tex_y * plane->tex.line_len + tex_x * (plane->tex.bpp / 8);
+    int color = *(int *)(plane->tex.data + color_offset);
+
+    hit->rgb = extract_color_from_int(color);
+}
+
+void	plane_checker(t_hitinfo *hit, t_plane *plane)
+{
+	int	square_x;
+	int	square_y;
+	int	square_z;
+
+	if (plane->checker == false)
+	{
+		hit->rgb = plane->rgb;
+		return ;
+	}
+
+	square_x = floor(hit->p.x / SQUARE);
+	square_y = floor(hit->p.y / SQUARE);
+	square_z = floor(hit->p.z / SQUARE);
+	if ((square_x + square_y + square_z) % 2 == 0)
+		hit->rgb = plane->rgb;
+	else
+		hit->rgb = extract_color( 0, 0 , 0);
+}
+
+void	plane_bump(t_hitinfo *hit)
+{
+	t_vect	color_vect;
+	t_vect	delta;
+
+	color_vect = rgb_to_vect(hit->rgb);
+	delta = sub_vect(scale_down(color_vect, 127.5f), create_vector(1.0, 1.0, 1.0));
+	hit->normal = normalize(delta);
+}
 
 //formula : data->plane.vect.x * (camera_ray.dir.x - data->plane.pos.x) + data->plane.vect.y * (camera_ray.dir.y - data->plane.pos.y)  + data->plane.vect.z * (camera_ray.dir.z - data->plane.pos.z);
 bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
@@ -37,7 +91,9 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, t));
 		hit->normal = plane->vect;
 		hit->is_outside = true;
-		hit->rgb = plane->rgb;
+		/* plane_checker(hit, plane); */
+		plane_texture(hit, plane);
+		plane_bump(hit);
 		/* printf("hit->t plane: %f\t t plane: %f\n", hit->t, t); */
 	}
 
