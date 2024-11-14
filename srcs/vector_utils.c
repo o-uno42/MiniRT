@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:25:00 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/08 18:34:42 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 16:33:54 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,16 @@ t_vect	scale_vect(t_vect v, float scalar)
 	scaled.x = v.x * scalar;
 	scaled.y = v.y * scalar;
 	scaled.z = v.z * scalar;
+	return (scaled);
+}
+
+t_vect	scale_down(t_vect v, float scalar)
+{
+	t_vect	scaled;
+
+	scaled.x = v.x / scalar;
+	scaled.y = v.y / scalar;
+	scaled.z = v.z / scalar;
 	return (scaled);
 }
 

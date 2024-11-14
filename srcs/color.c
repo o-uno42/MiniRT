@@ -45,6 +45,16 @@ t_rgb	extract_color_from_int(int color)
 	return (rgb);
 }
 
+t_vect	rgb_to_vect(t_rgb color)
+{
+	t_vect	v;
+
+	v.x = color.r;
+	v.y = color.g;
+	v.z = color.b;
+	return (v);
+}
+
 int	interpolate_color(int color1, int color2, float ratio)
 {
 	int	t;

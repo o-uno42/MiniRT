@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:47:37 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/13 19:20:43 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 16:41:16 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ void	plane_checker(t_hitinfo *hit, t_plane *plane)
 	else
 		hit->rgb = extract_color( 0, 0 , 0);
 }
+
+void	plane_bump(t_hitinfo *hit)
+{
+	t_vect	color_vect;
+	t_vect	delta;
+
+	color_vect = rgb_to_vect(hit->rgb);
+	delta = sub_vect(scale_down(color_vect, 127.5f), create_vector(1.0, 1.0, 1.0));
+	hit->normal = normalize(delta);
+}
+
 //formula : data->plane.vect.x * (camera_ray.dir.x - data->plane.pos.x) + data->plane.vect.y * (camera_ray.dir.y - data->plane.pos.y)  + data->plane.vect.z * (camera_ray.dir.z - data->plane.pos.z);
 bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 {
@@ -81,6 +92,7 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		hit->is_outside = true;
 		/* plane_checker(hit, plane); */
 		plane_texture(hit, plane);
+		plane_bump(hit);
 		/* printf("hit->t plane: %f\t t plane: %f\n", hit->t, t); */
 	}
 

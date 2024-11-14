@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/13 17:51:42 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 16:38:24 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int    render(t_data *data)
 	int	y;
 	t_ray camera_ray;
 	t_hitinfo hit;
-	/* t_ray *rays = light_rays(data); */
+	t_ray *rays = light_rays(data);
 	// int i;
 
 	/* print_all_obj(data); */
@@ -75,7 +75,7 @@ int    render(t_data *data)
 			/* printf(" cords: x: %d, y: %d,\thit is: %f\n",x ,y, data->hit.t); */
 			camera_ray = camera_rays(x, y,data);
 			render_objs(data, camera_ray, &data->hit);
-			/* light_intersect(data, rays, &data->hit); */
+			light_intersect(data, rays, &data->hit);
 				// my_pixel_put(data, x, y, WHITE);
 			my_pixel_put(data, x, y, create_color(data->hit.rgb, data->ambient));
 			x++;

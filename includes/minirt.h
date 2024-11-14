@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/13 19:09:53 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 16:34:05 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_vect	normalize(t_vect v_orig);
 float	magnitude(t_vect v);
 t_vect	create_vector(float x, float y, float z);
 t_vect	scale_vect(t_vect v, float scalar);
+t_vect	scale_down(t_vect v, float scalar);
 // MATH UTILS
 int		square(float i);
 double	ft_atol(const char *nptr);
@@ -98,6 +99,7 @@ int     create_color(t_rgb rgb, t_ambient ambient);
 int 	just_color(t_rgb rgb);
 t_rgb	extract_color(int r, int g, int b);
 t_rgb	extract_color_from_int(int color);
+t_vect	rgb_to_vect(t_rgb color);
 int		interpolate_color(int color1, int color2, float ratio);
 
 //	WINDOW MANAGEMENT
