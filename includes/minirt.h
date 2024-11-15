@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/14 20:56:31 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/15 14:05:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void	cone_init(t_data *data, char *line, int i);
 float	scale(float point, float max_dimension);
 //	RENDER
 int		render(t_data *data);
+//	BONUS CHEKER
+void	bonus_sphere(t_sphere *sphere, bool light_finished);
+void	bonus_plane(t_plane *plane, bool light_finished);
+void	bonus_cylinder(t_cylinder *cylinder, bool light_finished);
+void	bonus_cone(t_cone *cone, bool light_finished);
 //OBJECTS
 bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit);
 bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit);

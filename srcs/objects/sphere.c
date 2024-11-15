@@ -6,13 +6,13 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:48 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/13 17:17:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/15 15:44:11 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-void	sphere_texture(t_hitinfo *hit, t_sphere *sphere)
+t_rgb	tex_sphere_color(t_hitinfo *hit, t_picture pic, t_sphere *sphere)
 {
 	float	theta;
 	float	phi;
@@ -21,12 +21,8 @@ void	sphere_texture(t_hitinfo *hit, t_sphere *sphere)
 	float	square_phi;
 	int		tex_theta;
 	int		tex_phi;
+	t_rgb	final;
 
-	if (sphere->checker == false || sphere->tex.data == NULL)
-	{
-		hit->rgb = sphere->rgb;
-		return ;
-	}
 	theta = atan2(hit->normal.z, hit->normal.x);
 	phi = acos(hit->normal.y / sphere->radius);
 	scale_theta = sphere->radius / 1.5; 
@@ -36,15 +32,40 @@ void	sphere_texture(t_hitinfo *hit, t_sphere *sphere)
 		square_theta += 1.0;
 	if (square_phi < 0)
 		square_phi += 1.0;
-	tex_theta = (int)(square_theta * sphere->tex.w);
-	tex_phi = (int)(square_phi * sphere->tex.h);
+	tex_theta = (int)(square_theta * pic.w);
+	tex_phi = (int)(square_phi * pic.h);
 	
-    int color_offset = tex_phi * sphere->tex.line_len + tex_theta * (sphere->tex.bpp / 8);
-    int color = *(int *)(sphere->tex.data + color_offset);
+    int color_offset = tex_phi * pic.line_len + tex_theta * (pic.bpp / 8);
+    int color = *(int *)(pic.data + color_offset);
+	final = extract_color_from_int(color);
+	return (final);
+}
 
-    hit->rgb = extract_color_from_int(color);
+void	sphere_texture(t_hitinfo *hit, t_sphere *sphere)
+{
 
+	if (sphere->checker == false || sphere->tex.data == NULL)
+	{
+		return ;
+	}
+    hit->rgb = tex_sphere_color(hit, sphere->tex, sphere);
+}
 
+void	sphere_bump(t_hitinfo *hit, t_sphere *sphere)
+{
+
+	t_rgb	normal_color;
+	t_vect	color_vect;
+	t_vect	delta;
+
+	if (sphere->tex_normal.data == NULL || sphere->checker == false)
+    {
+        return;
+    }
+	normal_color = tex_sphere_color(hit, sphere->tex_normal, sphere);
+	color_vect = rgb_to_vect(normal_color);
+	delta = sub_vect(scale_down(color_vect, 127.5f), create_vector(1.0, 1.0, 1.0));
+	hit->normal = normalize(delta);
 }
 
 void	checker_sphere(t_hitinfo *hit, t_sphere *sphere)
@@ -87,6 +108,7 @@ void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *spher
 	}
 	/* checker_sphere(hit, sphere); */
 	sphere_texture(hit, sphere);
+	sphere_bump(hit, sphere);
 }
 
 

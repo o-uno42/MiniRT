@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:44:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/13 19:33:53 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/15 15:06:28 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void cap_texture(t_hitinfo *hit, t_cylinder *cyl)
 {
     if (cyl->tex.data == NULL || cyl->checker == false) // Check if texture is loaded
     {
-		// printf("xxx\n");
         hit->rgb = cyl->rgb;
         return;
     }
@@ -43,14 +42,11 @@ void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
 		return ;
 	}
 
-	/* float theta = atan2(hit->p.z - cyl->pos.z, hit->p.x - cyl->pos.x); */
 	float theta = atan2(hit->p.z, hit->p.x);
-	/* float theta = atan2(hit->normal.z, hit->normal.x); */
 	float height = hit->p.y - cyl->p2.y;
-	/* float height = cyl->height; */
 
 	int square_theta = floor(theta  / ANGLE_SIZE);
-	int square_height = floor(height * cyl->diameter / SQUARE);
+	int square_height = floor(height * cyl->height * 2 / SQUARE);
 
 	if ((square_theta + square_height) % 2 == 0)
 		hit->rgb = cyl->rgb;
@@ -146,8 +142,6 @@ bool	caps(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo *hit)
 		hit->normal = normal;
 		cap_hit(cylinder, hit, p, chosen_t); 
 		cap_texture(hit, cylinder);
-		/* if (magnitude(pdelt) > cylinder->radius - 0.07 && magnitude(pdelt) <= cylinder->radius) */
-		/* 	hit->rgb = extract_color(0, 0, 0); */
 		return (true);
 	}	
 

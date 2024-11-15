@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/14 20:49:20 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/15 15:35:34 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -17,7 +17,7 @@
 #  define	PI 3.1415926535
 #  define	POINT t_vect
 #  define	SQUARE 5
-#  define	ANGLE_SIZE 0.05
+#  define	ANGLE_SIZE 0.5
 # endif
 
 # define BLACK 0x000000
@@ -133,7 +133,9 @@ typedef struct s_sphere
 	t_rgb		rgb;
 	int			nb;
 	bool		checker;
+	bool		bonus;
 	t_picture	tex;
+	t_picture	tex_normal;
 }				t_sphere;
 
 typedef struct	s_cylinder
@@ -147,7 +149,9 @@ typedef struct	s_cylinder
 	float	height;
 	t_rgb	rgb;
 	bool	checker;
+	bool	bonus;
 	t_picture	tex;
+	t_picture	tex_normal;
 }				t_cylinder;
 
 typedef struct s_hyperboloid
@@ -178,7 +182,9 @@ typedef struct s_cone
 	float	theta_d;
 	t_rgb	rgb;
 	bool	checker;
+	bool	bonus;
 	t_picture	tex;
+	t_picture	tex_normal;
 }				t_cone;
 
 typedef struct s_plane
@@ -190,6 +196,7 @@ typedef struct s_plane
 	t_rgb		rgb_norm;
 	int			nb;
 	bool		checker;
+	bool		bonus;
 	t_picture	tex;
 	t_picture	tex_norm;
 }				t_plane;

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/14 20:50:22 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/15 15:37:35 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,15 @@ void	plane_init(t_data *data, char *line, int i)
 	plane->rgb.g = ft_atol(rgb[1]);
 	plane->rgb.b = ft_atol(rgb[2]);
 	if (res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+	{
 		plane->checker = ft_atoi(res[4]);
+		plane->bonus = ft_atoi(res[4]);
+	}
 	else
+	{
 		plane->checker = false;
+		plane->bonus = false;
+	}
 	if (res[5])
 		plane->tex = data->pics[ft_atoi(res[5])];
 	if (res[6])
@@ -120,9 +126,15 @@ void	cone_init(t_data *data, char *line, int i)
 	cone->rgb.g = ft_atol(coords[1]);
 	cone->rgb.b = ft_atol(coords[2]);
 	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+	{
 		cone->checker = ft_atoi(res[4]);
+		cone->bonus = ft_atoi(res[4]);
+	}
 	else
+	{
 		cone->checker = false;
+		cone->bonus = false;
+	}
 	free_mtx(coords);
 	free_mtx(res);
 }
@@ -152,11 +164,19 @@ void	sphere_init(t_data *data, char *line, int i)
 	sphere->rgb.g = ft_atol(rgb[1]);
 	sphere->rgb.b = ft_atol(rgb[2]);
 	if (res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+	{
 		sphere->checker = ft_atoi(res[4]);
+		sphere->bonus = ft_atoi(res[4]);
+	}
 	else
+	{	
 		sphere->checker = false;
+		sphere->bonus = false;
+	}
 	if (res[5])
 		sphere->tex = data->pics[ft_atoi(res[5])];
+	if (res[6])
+		sphere->tex_normal = data->pics[ft_atoi(res[6])];
 	free_mtx(rgb);
 	free_mtx(coords);
 	free_mtx(res);
@@ -205,11 +225,19 @@ void	cylinder_init(t_data *data, char *line, int i)
 	cylinder->p1 = p1;
 	cylinder->p2 = p2;
 	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+	{
 		cylinder->checker = ft_atoi(res[6]);
+		cylinder->bonus = ft_atoi(res[6]);
+	}
 	else
+	{
 		cylinder->checker = false;
+		cylinder->bonus = false;
+	}
 	if (res[7])
 		cylinder->tex = data->pics[ft_atoi(res[7])];
+	if (res[8])
+		cylinder->tex_normal = data->pics[ft_atoi(res[8])];
 	free_mtx(coords);
 	free_mtx(res);
 }
