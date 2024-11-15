@@ -99,6 +99,21 @@ t_rgb bright_rgb(t_rgb rgb, float bright)
     return light_rgb;
 }
 
+t_rgb ultra_bright_rgb(t_rgb rgb, float bright)
+{
+    t_rgb light_rgb;
+
+    light_rgb.r = (int)(rgb.r * bright);
+    light_rgb.g = (int)(rgb.g * bright);
+    light_rgb.b = (int)(rgb.b * bright);
+
+    if (light_rgb.r > 255) light_rgb.r = 255;
+    if (light_rgb.g > 255) light_rgb.g = 255;
+    if (light_rgb.b > 255) light_rgb.b = 255;
+
+    return light_rgb;
+}
+
 t_rgb dark_rgb(t_rgb rgb, float darkness)
 {
     t_rgb light_rgb;
@@ -258,25 +273,22 @@ t_vect	reflect_vect(t_vect v, t_vect n)
 
 // float   check_shadow ()
 
-int  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_vect view_dir, float shininess)
+t_rgb  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_ray camera_ray, float shininess)
 {
-    // t_rgb white;
+    t_rgb white;
     t_vect reflect;
+    t_vect view_dir;
 
-    // white.r = 255;
-    // white.g = 255;
-    // white.b = 255;
+    white.r = 255;
+    white.g = 255;
+    white.b = 255;
     reflect = reflect_vect(hit->normal, light_dir);
     reflect = normalize(reflect);
-    // view_dir =  sub_vect(view_dir, hit->p);
-    // view_dir = normalize(view_dir);
+    view_dir =sub_vect(camera_ray.pos, hit->p);
+    view_dir = normalize(view_dir);
     float spec = max_nb(0.0f, dot_product(reflect, view_dir));
     spec = pow(spec, shininess);
-    return (spec);
-    // if (spec > 0.001)
-    //     return bright_rgb(white, spec);
-    // else
-    //     return (hit->rgb);
+    return ultra_bright_rgb(white, spec);
 }
 
 t_rgb add_rgb(t_rgb color1, t_rgb color2)
@@ -347,16 +359,17 @@ bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hi
         total_intensity += light_intensity;
 
     
+    
         if (!in_shadow) {
             if (total_intensity > 0) {
-                if (create_color_int(bright_rgb(hit->rgb, total_intensity * 500)) > create_color_int(hit->rgb))
+                if (create_color_int(bright_rgb(hit->rgb, total_intensity * 1000)) > create_color_int(hit->rgb))
                 {
-                    t_rgb diffuse = bright_rgb(hit->rgb, total_intensity * 500);
+                    t_rgb diffuse = bright_rgb(hit->rgb, total_intensity * 1000);
                     // print_rgb(diffuse);
                     // print_rgb(specular);
-                    // float specular = calculate_specular(hit, light_dir, camera_ray.dir, 30);
-                    // hit->rgb = bright_rgb(diffuse, specular);
-                    hit->rgb = diffuse;
+                    t_rgb specular = calculate_specular(hit, light_dir, camera_ray, 10);
+                    hit->rgb = add_rgb(diffuse, specular);
+                    // hit->rgb = diffuse;
                 }
                 return true;
             }
@@ -365,7 +378,17 @@ bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hi
         shadow_strength = 1.0f; 
         shadow_distance_factor = (1.0f + 0.1 * dist_to_light);
         darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
-        hit->rgb = dark_rgb(hit->rgb, darkness);
+        if (darkness > 0)
+        {
+            if (just_color(dark_rgb(hit->rgb, darkness)) > just_color(hit->rgb))
+            {
+                hit->rgb = hit->rgb;
+                // hit->rgb = dark_rgb(hit->rgb, darkness);
+            }
+            else {
+                hit->rgb = dark_rgb(hit->rgb, darkness);
+            }
+        }
         // else
         // {   
         //     float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
