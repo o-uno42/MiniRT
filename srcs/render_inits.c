@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/14 16:58:37 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 20:50:22 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	plane_init(t_data *data, char *line, int i)
 		plane->checker = false;
 	if (res[5])
 		plane->tex = data->pics[ft_atoi(res[5])];
+	if (res[6])
+		plane->tex_norm = data->pics[ft_atoi(res[6])];
 
 
 	free_mtx(rgb);
@@ -334,7 +336,7 @@ void	light_init(t_data *data, char *line)
 	char **res;
 	char **coords;
 	char **rgb;
-
+ 
 	res = safe_malloc(sizeof(float) * 4);
 	res = ft_split(line, ' ');
 
@@ -369,8 +371,8 @@ void	pic_init(t_data *data, char *line, int nb_pics)
 	part = ft_split(res[1], ':');
 	pic.path = part[1];
 	printf("path: %s\n", pic.path);
-	pic.h =900;
-	pic.w =900;
+	/* pic.h =900; */
+	/* pic.w =900; */
 	/* part = ft_split(res[2], ':'); */
 	/* pic.w = ft_atoi(part[1]); */
 	/* free_mtx(part); */
@@ -379,11 +381,11 @@ void	pic_init(t_data *data, char *line, int nb_pics)
 	/* free_mtx(part); */
 
 	/* pic.pic = NULL; */
-	printf("pic.pic: %p\n", pic.pic);
 	pic.pic = mlx_xpm_file_to_image(data->mlx_ptr, pic.path, &pic.w, &pic.h);
 	if (!pic.pic)
 	{
 		fprintf(stderr, "Error: Failed to load image from path %s\n", pic.path);
+		free_mtx(res);
 		free_mtx(res);
 		return;
 	}
@@ -391,5 +393,6 @@ void	pic_init(t_data *data, char *line, int nb_pics)
 	pic.index = nb_pics;
 	data->pic_idx = nb_pics;
 	data->pics[nb_pics] = pic;
-	free_mtx(part);
+	/* free_mtx(part); */
+	/* free_mtx(res); */
 }
