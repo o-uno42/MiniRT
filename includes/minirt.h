@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/15 14:05:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/15 17:30:16 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,23 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 void 	swap_objs(t_objs *a, t_objs *b);
 bool 	solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);
 void 	plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic);
+//CYLINDER UTILS
+void	tex_cyl(t_hitinfo *hit, t_cylinder *cyl);
+void	cyl_bump(t_hitinfo *hit, t_cylinder *cyl);
+void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl);
+void cap_texture(t_hitinfo *hit, t_cylinder *cyl);
+void	cap_bump(t_hitinfo *hit, t_cylinder *cyl);
+bool	caps(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo *hit);
+void	cap_hit(t_cylinder *cylinder, t_hitinfo *hit, POINT p, float t);
+//SPHERE UTILS
+t_rgb	tex_sphere_color(t_hitinfo *hit, t_picture pic, t_sphere *sphere);
+void	sphere_texture(t_hitinfo *hit, t_sphere *sphere);
+void	sphere_bump(t_hitinfo *hit, t_sphere *sphere);
+//PLANE UTILS
+t_rgb	tex_color(t_hitinfo *hit, t_picture pic);
+void plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic);
+void	plane_checker(t_hitinfo *hit, t_plane *plane);
+void	plane_bump(t_hitinfo *hit, t_plane *plane);
 
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
