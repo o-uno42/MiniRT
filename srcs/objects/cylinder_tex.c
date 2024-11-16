@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:19:49 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/15 17:30:23 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/16 20:24:50 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,16 @@ t_rgb	tex_cyl_color(t_hitinfo *hit, t_picture pic, t_cylinder *cyl)
 	int		tex_theta;
 	int		tex_height;
 
-	theta = atan2(hit->p.z, hit->p.x);
-	height = hit->p.y - cyl->p2.y;
+	if (dot_product(cyl->dir, create_vector(1, 0, 0)) >= dot_product(cyl->dir, create_vector(0, 0, 1)))
+	{
+		theta = atan2(hit->p.z, hit->p.x);
+		height = hit->p.y - cyl->p2.y;
+	}
+	else
+	{
+		theta = atan2(hit->p.x, hit->p.y);
+		height = hit->p.z - cyl->p2.z;
+	}
 
 	square_theta = fmod(theta  / ANGLE_SIZE, 1.0);
 	square_height = fmod(height * cyl->height * 2 / SQUARE, 1.0);

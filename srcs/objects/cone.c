@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:54:51 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/12 12:35:55 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/16 23:01:29 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,26 @@ bool	cone_end(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
 		return (false);
 }
 
+t_vect	cone_normal(t_hitinfo *hit, t_cone *cone)
+{
+	t_vect	normal;
+	t_vect	pdelta;
+	POINT	axisp;
+	float	adjacent;
+	float	scalar;
+
+	pdelta = sub_vect(cone->pos, hit->p);
+	adjacent = magnitude(pdelta);
+	scalar = adjacent / cos(cone->theta_r);
+	if (dot_product(cone->dir, pdelta) >= 0)
+		pdelta = scale_vect(cone->dir, scalar);
+	else
+		pdelta = scale_vect(cone->dir, -scalar);
+	axisp = sum_vect(cone->pos, pdelta);
+	normal = normalize(sub_vect(hit->p, axisp));
+	return (normal);
+}
+
 void	hit_cone(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 {
 
@@ -52,7 +72,9 @@ void	hit_cone(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 		return;
 	}
 	hit->rgb = cone->rgb;
-	/* hit->normal = normalize(sub_vect(hit->p, res)); TODO */
+	hit->normal = normalize(cone->pos);
+	hit->normal = cone_normal(hit, cone);
+	/* hit->normal = scale_vect(cone_normal(hit, cone), -1); */
 }
 
 void	caps_hit(t_cone *cone, t_hitinfo *hit, POINT p, float t)
