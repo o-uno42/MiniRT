@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:44:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/15 17:31:30 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/16 19:02:35 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder 
 	hit->normal = normalize(sub_vect(hit->p, res));
 	checker_cyl(hit, cylinder);
 	tex_cyl(hit, cylinder);
-	/* cyl_bump(hit, cylinder); */
+	cyl_bump(hit, cylinder);
 }
 
 bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit)
@@ -86,10 +86,10 @@ bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hit
 	}
 	if(!caps(camera_ray, cylinder, hit))
 	{
-		intersect1 = FLT_MAX;
-		calc_hit_cyl(hit, intersect1, camera_ray, cylinder);
-		return (true);
+		/* intersect1 = FLT_MAX; */
+		/* calc_hit_cyl(hit, intersect1, camera_ray, cylinder); */
+		/* return (true); */
 	}
-	return (true);
+	return (false);
 }
 

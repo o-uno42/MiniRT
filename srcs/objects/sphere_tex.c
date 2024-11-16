@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:28:47 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/15 16:30:10 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/16 18:55:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	sphere_texture(t_hitinfo *hit, t_sphere *sphere)
 
 	if (sphere->checker == false || sphere->tex.data == NULL)
 	{
+		hit->rgb = sphere->rgb;
 		return ;
 	}
     hit->rgb = tex_sphere_color(hit, sphere->tex, sphere);
