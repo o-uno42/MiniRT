@@ -26,6 +26,8 @@
 # include "../minilibx-linux/mlx.h"
 # include "structs.h"
 
+void	my_pixel_put(t_data *data, int x, int y, int color);
+
 //	PARSING
 void	parsing(int fd, t_data *data);
 void    movement(t_data *data);
@@ -58,13 +60,19 @@ void 	plane_texture(t_hitinfo *hit, t_plane *plane);
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
 //LIGHT
-bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit);
+
+t_rgb super_light_bonus_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit, int x, int y);
+
+t_rgb light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
+t_rgb light_bonus_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit, int z,  int x, int y);
 t_ray	*light_rays(t_data *data);
 t_ambient  darker_ambient(t_ambient ambient, float i);
 t_vect reflect(t_vect in, t_vect normal);
 t_ray    *reflection_rays(t_data *data, t_hitinfo *hit);
 bool reflect_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
 bool    specular_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
+void	light_bonus_init(t_data *data, char *line, int nb_lights);
+t_ray    *light_bonus_rays(t_data *data, int j);
 
 // VECTOR UTILS
 t_vect 	sum_vect(t_vect pos_1, t_vect pos_2);

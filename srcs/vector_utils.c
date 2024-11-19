@@ -94,3 +94,13 @@ inline	t_vect	create_vector(float x, float y, float z)
 	res.z = z;
 	return (res);
 }
+
+t_vect reflect(t_vect in, t_vect normal) 
+{
+    float dot = dot_product(in, normal);
+    t_vect result;
+    result.x = in.x - 2.0f * dot * normal.x;
+    result.y = in.y - 2.0f * dot * normal.y;
+    result.z = in.z - 2.0f * dot * normal.z;
+    return result;
+}

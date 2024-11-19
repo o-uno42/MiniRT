@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <time.h>
+// #include <climits>
 
 void	my_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -57,16 +59,28 @@ int    render(t_data *data)
 {
 	int	x;
 	int	y;
+	int z;
 	t_ray camera_ray;
 	t_hitinfo hit;
-	t_ray *rays = light_rays(data);
-	// t_ray *reflect;
-	// int i;
+	t_ray **bonus_rays = NULL;
 
-	/* print_all_obj(data); */
+	z = 0;
+	printf("--------------Main nb_lights: %i\n", data->nb_lights);
+	printf ("POS LIGHT BONUS :\n");
+	print_vect(data->light_bonus[0].pos);
 	data->img_ratio = ratio(data->img.width, data->img.height);
 	print_camera(data->camera);
 	y = 0;
+	z = 0;
+	z = z;
+	int d = 0;
+	// float res = 0;
+	bonus_rays = safe_malloc(data->nb_lights * sizeof(t_ray *));
+	while (d < data->nb_lights)
+	{
+		bonus_rays[d] = light_bonus_rays(data, d);
+		d++;
+	}
 	while (y < data->img.height)
 	{
 		x = 0;
@@ -76,15 +90,9 @@ int    render(t_data *data)
 			data->hit = hit;
 			camera_ray = camera_rays(x, y,data);
 			render_objs(data, camera_ray, &data->hit);
-			if(light_intersect(data, rays, camera_ray, &data->hit))
-			{
-				;
-				// reflect = reflection_rays(data, &data->hit);
-				// reflect_intersect(data, reflect, &data->hit);
-			}
-			// specular_intersect(data, rays, &data->hit);
-			// my_pixel_put(data, x, y, just_color(data->hit.rgb));//create_color(data->hit.rgb, data->ambient));
-			my_pixel_put(data, x, y, create_color(data->hit.rgb, data->ambient));
+			t_rgb res = super_light_bonus_intersect(data, bonus_rays, camera_ray, &data->hit, x, y);
+			// hit.rgb = light_bonus_intersect(data, bonus_rays, camera_ray, &data->hit, d, x, y);
+			my_pixel_put(data, x, y, just_color(res));
 			x++;
 		}
 		y++;

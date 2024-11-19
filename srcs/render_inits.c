@@ -357,6 +357,27 @@ void	light_init(t_data *data, char *line)
 	// 		data->light.rgb_1, data->light.rgb_2, data->light.rgb_3);
 }
 
+void light_bonus_init(t_data *data, char *line, int nb_lights)
+{
+    if (nb_lights == 0) {
+        data->light_bonus = safe_malloc(sizeof(t_light) * 3);
+    }
+    char **res = ft_split(line, ' ');
+    char **coords = ft_split(res[1], ',');
+    char **rgb = ft_split(res[3], ',');
+
+    // Set light properties
+    data->light_bonus[nb_lights].pos.x = ft_atol(coords[0]);
+    data->light_bonus[nb_lights].pos.y = ft_atol(coords[1]);
+    data->light_bonus[nb_lights].pos.z = ft_atol(coords[2]);
+
+    data->light_bonus[nb_lights].bright = ft_atol(res[2]);
+
+    data->light_bonus[nb_lights].rgb.r = ft_atol(rgb[0]);
+    data->light_bonus[nb_lights].rgb.g = ft_atol(rgb[1]);
+    data->light_bonus[nb_lights].rgb.b = ft_atol(rgb[2]);
+}
+
 void	pic_init(t_data *data, char *line, int nb_pics)
 {
 	char **res;

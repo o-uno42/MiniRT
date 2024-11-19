@@ -4,6 +4,7 @@
 // #include <iterator>
 #include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 // bool    light_intersect(t_data *data, t_ray *light, t_ray camera_ray, int index)
 // {
@@ -153,37 +154,8 @@ bool intersect_sphere(t_sphere *sphere, t_ray *ray, t_hitinfo *hit)
             return true;
         }
     }
-
-    // float discriminant = b * b - 4 * a * c;
-    
-    // if (discriminant < 0)
-    //     return false;
-
-    // x0 = (-b - sqrt(discriminant)) / (2 * a);
-    // x1 = (-b + sqrt(discriminant)) / (2 * a);
-    
-    // float t = x0;
-    // if (t < 0)
-    //     t = x1;
-    // if (t < 0)
-    //     return false;
-
-    // hit->t = t;
-
-    // hit->p = sum_vect(ray->pos, scale_vect(ray->dir, t));
-
-    // hit->normal = sub_vect(hit->p, sphere->pos);
-    // hit->normal = normalize(hit->normal);
-
-    // print_vect(hit->normal);
-    // printf("Sphere pos: (%f, %f, %f)\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
-    // printf("Hit point: (%f, %f, %f)\n", hit->p.x, hit->p.y, hit->p.z);
-    
-    // printf ("Intersect sphere\n");
     return true;
 }
-
-
 
 void	calc_hit_sphere_2(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *sphere)
 {
@@ -255,6 +227,7 @@ int intersect_object(t_objs object, t_ray *ray, t_hitinfo *hit)
         // return (intersect_sphere(object.object, ray, hit));
         return (render_sphere_shadow(*ray, NULL, object.object, hit));
     else if (object.type_obj == PLANE)
+        // return (render_plane(*ray, object.object, hit ));
         return (intersect_plane(object.object, ray, hit));
     else if (object.type_obj == CYLINDER)
         return (render_cylinder(*ray, NULL, object.object, hit));
@@ -271,10 +244,9 @@ t_vect	reflect_vect(t_vect v, t_vect n)
 	return (dst);
 }
 
-// float   check_shadow ()
-
-t_rgb  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_ray camera_ray, float shininess)
+t_rgb  calculate_specular(t_data *data, t_hitinfo *hit, t_vect light_dir, t_ray camera_ray, float shininess)
 {
+    data = data;
     t_rgb white;
     t_vect reflect;
     t_vect view_dir;
@@ -303,7 +275,147 @@ t_rgb add_rgb(t_rgb color1, t_rgb color2)
     return result;
 }
 
-bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit)
+float get_total_intensity(t_data *data, t_hitinfo *hit, t_vect light_dir, float dist_to_light)
+{
+    float angle_intensity;
+    float distance_factor;
+
+    angle_intensity = max_nb(0.0f, dot_product(hit->normal, light_dir));
+    distance_factor = 1 / (1 + 0.1 * square(dist_to_light));
+    return (angle_intensity * distance_factor * data->light.bright);
+}
+
+bool check_shadows(t_data *data, t_ray **light, t_hitinfo *hit, int light_index, float dist_to_light)
+{
+    t_hitinfo shadow_hit;
+    t_ray shadow_ray;
+    t_vect light_dir = sub_vect(light[light_index]->pos, hit->p);
+    light_dir = normalize(light_dir);
+    int i = 0;
+    shadow_ray.pos = hit->p;
+    shadow_ray.dir = light_dir;
+    
+    while (data->obj[i].type_obj != END)
+    {
+        if (intersect_object(data->obj[i], &shadow_ray, &shadow_hit))
+        {
+            if (shadow_hit.t < dist_to_light && shadow_hit.t > 0.0001)
+            {
+                return true;
+            }
+        }
+        i++;
+    }
+    return false;
+}
+
+t_vect get_light_dir(t_ray **light, t_hitinfo *hit, int d)
+{
+    t_vect light_dir = sub_vect(light[d]->pos, hit->p);
+    light_dir = normalize(light_dir);
+    return (light_dir);
+}
+
+
+t_rgb clamp_rgb(t_rgb color) {
+    color.r = (color.r < 0) ? 0 : (color.r > 255) ? 255 : color.r;
+    color.g = (color.g < 0) ? 0 : (color.g > 255) ? 255 : color.g;
+    color.b = (color.b < 0) ? 0 : (color.b > 255) ? 255 : color.b;
+    return color;
+}
+
+bool check_shadow(t_data *data, t_vect point, t_hitinfo *hit)
+{
+    bool    in_shadow;
+    t_ray shadow_ray;
+    t_hitinfo shadow_hit;
+    int     j;
+    int     i;
+
+    j = 0;
+    i = 0;
+    while (j < data->nb_lights)
+    {
+        t_light light = data->light_bonus[j];
+        t_vect light_dir = sub_vect(light.pos, point);
+        float light_dist = sqrt(dot_product(light_dir, light_dir));
+        light_dir = normalize(light_dir);
+        shadow_ray.pos = sum_vect(point, scale_vect(hit->normal, 0.0001));
+        shadow_ray.dir = light_dir;
+        in_shadow = false;
+        while (data->obj[i].type_obj != END)
+        {
+            if (intersect_object(data->obj[i], &shadow_ray, &shadow_hit))
+            {
+                if (shadow_hit.t > 0.0001 && shadow_hit.t < light_dist)
+                {
+                    in_shadow = true;
+                    break;
+                }
+            }
+            i++;
+        }
+        if (!in_shadow)
+            return false;
+        j++;
+    }
+    return true;
+}
+
+t_rgb super_light_bonus_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit, int x, int y)
+{
+    light = light;
+    x = x;
+    y = y;
+    t_rgb final_color = {0,0,0};
+    float total_intensity = 0;
+    t_rgb diffuse = {0,0,0};
+    t_rgb specular = {0,0,0};
+
+
+    int i = 0;
+    while (i < data->nb_lights)
+    {
+        t_light light = data->light_bonus[i];
+        t_vect light_dir = sub_vect(light.pos, hit->p);
+        float dist_to_light = sqrt(dot_product(light_dir, light_dir));
+        light_dir = normalize(light_dir);
+    
+        if (check_shadow(data, hit->p, hit))
+        {
+            float angle_intensity = max_nb(0.0f, dot_product(hit->normal, light_dir));
+            float distance_factor = 1 / (1 + 0.1 * square(dist_to_light));
+            float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
+            float shadow_strength = 1.0f; 
+            float shadow_distance_factor = (1.5 * dist_to_light);
+            float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 50;
+            if (darkness > 0)
+            {
+                if (just_color(dark_rgb(hit->rgb, darkness)) > just_color(hit->rgb))
+                    final_color = hit->rgb;
+                else
+                    final_color = dark_rgb(hit->rgb, darkness);
+            }
+        }
+        else
+        {
+            total_intensity = get_total_intensity(data, hit, light_dir, dist_to_light);
+            diffuse = bright_rgb(hit->rgb, total_intensity * 1000);
+            specular = calculate_specular(data, hit, light_dir, camera_ray, 10);
+            // hit->rgb = add_rgb(hit->rgb, add_rgb(diffuse, specular));
+            t_rgb sum_color = add_rgb(diffuse, specular);
+            final_color = add_rgb(sum_color, final_color);
+            // final_color = add_rgb(final_color, add_rgb(diffuse, specular));
+            // my_pixel_put(data, x, y, just_color(final_color));
+        }
+        i++;
+    }
+    final_color = create_color_rgb(final_color, data->ambient);
+    return clamp_rgb(final_color);
+}
+
+
+t_rgb light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit, int x, int y)
 {
     camera_ray = camera_ray;
     int i;
@@ -317,7 +429,7 @@ bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hi
 
     float angle_intensity;
     float distance_factor;
-    float light_intensity;
+    // float light_intensity;
 
     i = 0;
     j = 0;
@@ -329,10 +441,8 @@ bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hi
         dist_to_light = sqrt(dot_product(light_dir, light_dir));
         light_dir = normalize(light_dir);
         
-        shadow_ray.pos = hit->p;//sum_vect(hit->p, scale_vect(hit->normal, 0.0001)); 
+        shadow_ray.pos = hit->p; 
         shadow_ray.dir = light_dir;
-        // shadow_ray.dir = normalize(shadow_ray.dir);
-        // shadow_ray.pos = scale_vect(shadow_ray.pos, -1);
         in_shadow = false;
         j = 0;
         while (data->obj[j].type_obj != END)
@@ -346,77 +456,38 @@ bool light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hi
             }
             j++;
         }
-    
+        angle_intensity = max_nb(0.0f, dot_product(hit->normal, light_dir));
+        distance_factor = 1 / (1 + 0.1 * square(dist_to_light));
+        total_intensity = get_total_intensity(data, hit, light_dir, dist_to_light);
+        if (!in_shadow) {
+            if (total_intensity > 0) {
+                if (create_color_int(bright_rgb(add_rgb(hit->rgb, data->light.rgb), total_intensity * 1000)) > create_color_int(add_rgb(hit->rgb, data->light.rgb)))
+                {
+                    t_rgb diffuse = bright_rgb(add_rgb(hit->rgb, data->light.rgb), total_intensity * 1000);
+                    t_rgb specular = calculate_specular(data, hit, light_dir, camera_ray, 10);
+                    hit->rgb = add_rgb(diffuse, specular);
+                    my_pixel_put(data, x, y, just_color(hit->rgb));
+                }
+                return (hit->rgb);
+            }
+        }
         float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
         float shadow_strength = 1.0f; 
         float shadow_distance_factor = (1.0f + 0.1 * dist_to_light);
-        float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
-        //hit->rgb = dark_rgb(hit->rgb, darkness);
-        angle_intensity = max_nb(0.0f, dot_product(hit->normal, light_dir));
-        distance_factor = 1 / (1 + 0.1 * square(dist_to_light));
-        
-        light_intensity = angle_intensity * distance_factor * data->light.bright;
-        total_intensity += light_intensity;
-
-    
-    
-        if (!in_shadow) {
-            if (total_intensity > 0) {
-                if (create_color_int(bright_rgb(hit->rgb, total_intensity * 1000)) > create_color_int(hit->rgb))
-                {
-                    t_rgb diffuse = bright_rgb(hit->rgb, total_intensity * 1000);
-                    // print_rgb(diffuse);
-                    // print_rgb(specular);
-                    t_rgb specular = calculate_specular(hit, light_dir, camera_ray, 10);
-                    hit->rgb = add_rgb(diffuse, specular);
-                    // hit->rgb = diffuse;
-                }
-                return true;
-            }
-        }
-        shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
-        shadow_strength = 1.0f; 
-        shadow_distance_factor = (1.0f + 0.1 * dist_to_light);
-        darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
+        float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 30;
         if (darkness > 0)
         {
             if (just_color(dark_rgb(hit->rgb, darkness)) > just_color(hit->rgb))
-            {
                 hit->rgb = hit->rgb;
-                // hit->rgb = dark_rgb(hit->rgb, darkness);
-            }
-            else {
+            else 
                 hit->rgb = dark_rgb(hit->rgb, darkness);
-            }
         }
-        // else
-        // {   
-        //     float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
-        //     float shadow_strength = 1.0f; 
-        //     float shadow_distance_factor = (1.0f + 0.05f * square(dist_to_light));
-        //     float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 10;
-        //     hit->rgb = dark_rgb(hit->rgb, darkness);
-        // }
-        // float shadow_intensity = (1.0 - angle_intensity) * distance_factor * data->light.bright;
-        // float shadow_strength = 1.0f; 
-        // float shadow_distance_factor = (1.0f + 0.1 * dist_to_light);
-        // float darkness = shadow_intensity * (1.0f + shadow_distance_factor) * shadow_strength * 20;
-        // hit->rgb = dark_rgb(hit->rgb, darkness);
         i++;
     }
-    return false;
+    my_pixel_put(data, x, y, just_color(hit->rgb));
+    return (hit->rgb);
 }
 
-
-t_vect reflect(t_vect in, t_vect normal) 
-{
-    float dot = dot_product(in, normal);
-    t_vect result;
-    result.x = in.x - 2.0f * dot * normal.x;
-    result.y = in.y - 2.0f * dot * normal.y;
-    result.z = in.z - 2.0f * dot * normal.z;
-    return result;
-}
 
 t_ray    *light_rays(t_data *data)
 {
@@ -431,6 +502,35 @@ t_ray    *light_rays(t_data *data)
     while (i < nb_rays)
     {
         rays[i].pos = data->light.pos;
+
+        // rand restituisce un int random
+        double theta = ((double)rand() / RAND_MAX) * 2.0 * PI;
+        double phi = ((double)rand() / RAND_MAX) * PI;
+
+        rays[i].dir.x = sin(phi) * cos(theta);
+        rays[i].dir.y = sin(phi) * sin(theta);
+        rays[i].dir.z = cos(phi);
+        rays[i].dir = normalize(rays[i].dir);
+        
+        i++;
+    }
+    return (rays);
+}
+
+t_ray    *light_bonus_rays(t_data *data, int j)
+{
+    int nb_rays;
+    int i = 0;
+    t_ray *rays;
+
+    nb_rays = 300;
+    data->light.nb_rays = nb_rays;
+    rays = safe_malloc(sizeof(t_ray) * nb_rays);
+
+        // rays = light_rays(data);
+    while (i < nb_rays)
+    {
+        rays[i].pos = data->light_bonus[j].pos;
 
         // rand restituisce un int random
         double theta = ((double)rand() / RAND_MAX) * 2.0 * PI;
