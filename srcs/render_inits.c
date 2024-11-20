@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/15 17:08:38 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/17 15:41:06 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ void	cone_init(t_data *data, char *line, int i)
 	cone->rgb.b = ft_atol(coords[2]);
 	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
 	{
-		cone->checker = ft_atoi(res[4]);
-		cone->bonus = ft_atoi(res[4]);
+		cone->checker = ft_atoi(res[6]);
+		cone->bonus = ft_atoi(res[6]);
 	}
 	else
 	{
