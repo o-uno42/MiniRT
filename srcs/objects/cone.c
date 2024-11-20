@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:54:51 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/12 12:35:55 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/17 16:47:58 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,26 @@ bool	cone_end(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
 		return (false);
 }
 
+t_vect	cone_normal(t_hitinfo *hit, t_cone *cone)
+{
+	t_vect	normal;
+	t_vect	pdelta;
+	POINT	axisp;
+	float	adjacent;
+	float	scalar;
+
+	pdelta = sub_vect(cone->pos, hit->p);
+	adjacent = magnitude(pdelta);
+	scalar = adjacent / cos(cone->theta_r);
+	if (dot_product(cone->dir, pdelta) >= 0)
+		pdelta = scale_vect(cone->dir, scalar);
+	else
+		pdelta = scale_vect(cone->dir, -scalar);
+	axisp = sum_vect(cone->pos, pdelta);
+	normal = normalize(sub_vect(hit->p, axisp));
+	return (normal);
+}
+
 void	hit_cone(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 {
 
@@ -52,70 +72,12 @@ void	hit_cone(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 		return;
 	}
 	hit->rgb = cone->rgb;
-	/* hit->normal = normalize(sub_vect(hit->p, res)); TODO */
+	hit->normal = normalize(cone->pos);
+	hit->normal = cone_normal(hit, cone);
+	/* checker_cone(hit, cone); */
+	/* hit->normal = scale_vect(cone_normal(hit, cone), -1); */
 }
 
-void	caps_hit(t_cone *cone, t_hitinfo *hit, POINT p, float t)
-{
-	hit->p = p;
-	hit->t = t;
-	hit->rgb = cone->rgb;
-}
-
-bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit)
-{
-	float	visibility;
-	float	visibility2;
-	float	chosen_t;
-	POINT	p;
-	POINT	pcenter;
-	t_vect	pdelt;
-	t_vect	normal;
-	/* float	r; */
-	/* float	h; */
-
-	visibility = dot_product(cone->dir, ray.dir);
-	visibility2 = dot_product(scale_vect(cone->dir, -1), ray.dir);
-	if (visibility <= 0 && visibility2 <= 0)
-		return (false);
-	/* r = cone->height / 2 * tan(cone->theta_r); */
-	/* h = magnitude(sub_vect(cone->p1, cone->pos)); */
-	/* printf("radius : %f \t height: %f\t", r, h); */
-	/* r = h * tan(cone->theta_r); */
-	/* printf("new radius: %f\n", r); */
-
-	float t = dot_product(cone->dir, sub_vect(cone->p1, ray.pos)) / visibility;
-	float t2 = dot_product(scale_vect(cone->dir, -1), sub_vect(cone->p2, ray.pos)) / visibility2;
-
-	if (t2 > 0 && (t <= 0 || t > t2))
-	{
-		chosen_t = t2;
-		normal = scale_vect(cone->dir, -1);
-		pcenter = cone->p2;
-	}
-	else if (t > 0 && (t2 <= 0 || t2 > t))
-	{
-		chosen_t = t;
-		pcenter = cone->p1;
-		normal = cone->dir;
-
-	}
-	else
-		return (false);
-	p = sum_vect(ray.pos, scale_vect(ray.dir, chosen_t));
-	pdelt = sub_vect(p, pcenter);
-	if (magnitude(pdelt) <= cone->radius && chosen_t < hit->t)
-	{
-
-		/* printf("t: %f, t2: %f, p: [%f, %f, %f], pdelt: [%f, %f, %f], radius check: %f\n", t, t2, p.x, p.y, p.z, pdelt.x, pdelt.y, pdelt.z, magnitude(pdelt)); */
-		hit->normal = normal;
-		caps_hit(cone, hit, p, chosen_t); 
-		/* if (magnitude(pdelt) > cone->radius - 0.07 && magnitude(pdelt) <= cone->radius) */
-		/* 	hit->rgb = extract_color(0, 0, 0); */
-		return (true);
-	}	
-	return (false);
-}
 
 bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 {
@@ -162,9 +124,9 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 	}
 	if(!caps_cone(ray, cone, hit))
 	{
-		t1 = FLT_MAX;
-		/* hit_cone(hit, t1, ray, cone); */
-		return (true);
+		/* t1 = FLT_MAX; */
+		/* /1* hit_cone(hit, t1, ray, cone); *1/ */
+		/* return (true); */
 	}
 
 	return (false);

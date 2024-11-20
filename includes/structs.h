@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/14 20:49:20 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/16 20:09:10 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -17,8 +17,7 @@
 #  define	PI 3.1415926535
 #  define	POINT t_vect
 #  define	SQUARE 5
-#  define	ANGLE_SIZE 0.05
-#  define	NB_RAYS 300
+#  define	ANGLE_SIZE 0.5
 # endif
 
 # define BLACK 0x000000
@@ -120,7 +119,6 @@ typedef struct s_camera
 typedef struct s_light
 {
 	POINT		pos;
-	t_vect		dir;
 	float		bright;
 	float		nb_rays;
 	float		len_ray;
@@ -135,7 +133,9 @@ typedef struct s_sphere
 	t_rgb		rgb;
 	int			nb;
 	bool		checker;
+	bool		bonus;
 	t_picture	tex;
+	t_picture	tex_normal;
 }				t_sphere;
 
 typedef struct	s_cylinder
@@ -149,7 +149,9 @@ typedef struct	s_cylinder
 	float	height;
 	t_rgb	rgb;
 	bool	checker;
+	bool	bonus;
 	t_picture	tex;
+	t_picture	tex_normal;
 }				t_cylinder;
 
 typedef struct s_hyperboloid
@@ -180,7 +182,9 @@ typedef struct s_cone
 	float	theta_d;
 	t_rgb	rgb;
 	bool	checker;
+	bool	bonus;
 	t_picture	tex;
+	t_picture	tex_normal;
 }				t_cone;
 
 typedef struct s_plane
@@ -192,6 +196,7 @@ typedef struct s_plane
 	t_rgb		rgb_norm;
 	int			nb;
 	bool		checker;
+	bool		bonus;
 	t_picture	tex;
 	t_picture	tex_norm;
 }				t_plane;
@@ -225,7 +230,6 @@ typedef struct s_objs
 	t_type_obj	type_obj;
 }				t_objs;
 
-
 typedef struct s_data
 {
 	void		*mlx_ptr;
@@ -236,8 +240,6 @@ typedef struct s_data
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
-	t_light		*light_bonus;
-	int			nb_lights;
 	t_objs		*obj;
 	t_hitinfo	hit;
 	// t_sphere	*sphere;

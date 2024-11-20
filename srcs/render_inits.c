@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/14 20:50:22 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/17 15:41:06 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,15 @@ void	plane_init(t_data *data, char *line, int i)
 	plane->rgb.g = ft_atol(rgb[1]);
 	plane->rgb.b = ft_atol(rgb[2]);
 	if (res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+	{
 		plane->checker = ft_atoi(res[4]);
+		plane->bonus = ft_atoi(res[4]);
+	}
 	else
+	{
 		plane->checker = false;
+		plane->bonus = false;
+	}
 	if (res[5])
 		plane->tex = data->pics[ft_atoi(res[5])];
 	if (res[6])
@@ -120,9 +126,15 @@ void	cone_init(t_data *data, char *line, int i)
 	cone->rgb.g = ft_atol(coords[1]);
 	cone->rgb.b = ft_atol(coords[2]);
 	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
-		cone->checker = ft_atoi(res[4]);
+	{
+		cone->checker = ft_atoi(res[6]);
+		cone->bonus = ft_atoi(res[6]);
+	}
 	else
+	{
 		cone->checker = false;
+		cone->bonus = false;
+	}
 	free_mtx(coords);
 	free_mtx(res);
 }
@@ -152,11 +164,19 @@ void	sphere_init(t_data *data, char *line, int i)
 	sphere->rgb.g = ft_atol(rgb[1]);
 	sphere->rgb.b = ft_atol(rgb[2]);
 	if (res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+	{
 		sphere->checker = ft_atoi(res[4]);
+		sphere->bonus = ft_atoi(res[4]);
+	}
 	else
+	{	
 		sphere->checker = false;
+		sphere->bonus = false;
+	}
 	if (res[5])
 		sphere->tex = data->pics[ft_atoi(res[5])];
+	if (res[6])
+		sphere->tex_normal = data->pics[ft_atoi(res[6])];
 	free_mtx(rgb);
 	free_mtx(coords);
 	free_mtx(res);
@@ -205,11 +225,19 @@ void	cylinder_init(t_data *data, char *line, int i)
 	cylinder->p1 = p1;
 	cylinder->p2 = p2;
 	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+	{
 		cylinder->checker = ft_atoi(res[6]);
+		cylinder->bonus = ft_atoi(res[6]);
+	}
 	else
+	{
 		cylinder->checker = false;
+		cylinder->bonus = false;
+	}
 	if (res[7])
 		cylinder->tex = data->pics[ft_atoi(res[7])];
+	if (res[8])
+		cylinder->tex_normal = data->pics[ft_atoi(res[8])];
 	free_mtx(coords);
 	free_mtx(res);
 }
@@ -267,15 +295,7 @@ void    ambient_init(t_data *data, char *line)
     data = data;
     res = NULL;
     line = line;
-    res = safe_malloc(sizeof(char *) * 3); 
-    // res = ft_split_rt(line, ',');
 	res = ft_split(line, ' ');
-	// printf ("res 1 %s\n", res[0]);
-	// printf ("res 1 %s\n", res[1]);
-	// while (res[j])
-	// 	j++;
-	// if (j != 1)
-	// 	print_error("Wrong parameters for Ambient Light");
 	data->ambient.ratio = ft_atol(res[1]);
 	rgb = safe_malloc(sizeof(int) * 4);
 	rgb = ft_split(line, ',');
@@ -283,8 +303,6 @@ void    ambient_init(t_data *data, char *line)
 	data->ambient.rgb.g = ft_atol(rgb[1]);
 	data->ambient.rgb.b = ft_atol(rgb[2]);
     res = res;
-	// printf("AMBIENT\nRatio: %f\nrgb: %i\n%i\n%i\n\n", data->ambient.ratio, data->ambient.rgb_1, data->ambient.rgb_2, data->ambient.rgb_3);
-
 }
 
 void	camera_init(t_data *data, char *line)
@@ -297,26 +315,20 @@ void	camera_init(t_data *data, char *line)
 	world_up.x = 0;
 	world_up.y = 1;
 	world_up.z = 0;
-	res = safe_malloc(sizeof(float) * 4); // IS this alloc necessary if later we use split???
 	res = ft_split(line, ' ');
 
-	coords = safe_malloc(sizeof(float) * 4);
 	coords = ft_split(res[1], ',');
 	data->camera.pos.x = ft_atol(coords[0]);
 	data->camera.pos.y = ft_atol(coords[1]);
 	data->camera.pos.z = ft_atol(coords[2]);
 
-	vector = safe_malloc(sizeof(float) * 4);
 	vector = ft_split(res[2], ',');
 	data->camera.dir.x = ft_atol(vector[0]);
-	// data->camera.dir.x = (ft_atol(vector[0]));
 	data->camera.dir.y = ft_atol(vector[1]);
 	data->camera.dir.z = ft_atol(vector[2]);
-	// data->camera.vy = ft_atol(vector[1]);
-	// data->camera.vz = ft_atol(vector[2]);
 
 	data->camera.fov = ft_atoi(res[3]);
-	data->camera.forward = normalize(data->camera.dir);// normalize(sub_vect(data->camera.dir, data->camera.pos));
+	data->camera.forward = normalize(data->camera.dir);
 	if (data->camera.dir.x == 0 && data->camera.dir.z == 0)
 	{
 		data->camera.right = create_vector(1.0, 0, 0);
@@ -327,8 +339,6 @@ void	camera_init(t_data *data, char *line)
 		data->camera.right = normalize(cross_product(world_up, data->camera.forward));
 		data->camera.up = cross_product(data->camera.forward, data->camera.right);
 	}
-	// printf ("CAMERA\nx: %f\ny: %f\nz: %f\nvx: %f\nvy: %f\nvz: %f\n\n", 
-	// 	data->camera.x, data->camera.y, data->camera.z, data->camera.vx, data->camera.vy, data->camera.vz);
 }
 
 void	light_init(t_data *data, char *line)
@@ -354,9 +364,6 @@ void	light_init(t_data *data, char *line)
 	data->light.rgb.r = ft_atol(rgb[0]);
 	data->light.rgb.g = ft_atol(rgb[1]);
 	data->light.rgb.b = ft_atol(rgb[2]);
-	// printf("LIGHT\nCoords: %f\n%f\n%f\nBright: %f\nRgb: %i\n%i\n%i\n\n", 
-	// 	data->light.x, data->light.y, data->light.z, data->light.bright,
-	// 		data->light.rgb_1, data->light.rgb_2, data->light.rgb_3);
 }
 
 void light_bonus_init(t_data *data, char *line, int nb_lights)
@@ -388,20 +395,10 @@ void	pic_init(t_data *data, char *line, int nb_pics)
 
 	res = ft_split(line, ' ');
 
-	/* pic = (t_picture *)safe_malloc(sizeof(t_picture)); */
 	part = ft_split(res[1], ':');
 	pic.path = part[1];
+	pic.data = NULL;
 	printf("path: %s\n", pic.path);
-	/* pic.h =900; */
-	/* pic.w =900; */
-	/* part = ft_split(res[2], ':'); */
-	/* pic.w = ft_atoi(part[1]); */
-	/* free_mtx(part); */
-	/* part = ft_split(res[3], ':'); */
-	/* pic.h = ft_atoi(part[1]); */
-	/* free_mtx(part); */
-
-	/* pic.pic = NULL; */
 	pic.pic = mlx_xpm_file_to_image(data->mlx_ptr, pic.path, &pic.w, &pic.h);
 	if (!pic.pic)
 	{
