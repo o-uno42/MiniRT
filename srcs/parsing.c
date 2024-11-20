@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/13 14:59:26 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 19:45:47 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	parsing(int fd, t_data *data)
 	i = 0;
 	nb_objects = 0;
 	nb_pics = 0;
-	nb_lights = 0;
+	data->pic_idx = 0;
 
 	while((line = get_next_line(fd)) !=NULL)
 	{

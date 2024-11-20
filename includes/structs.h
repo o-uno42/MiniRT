@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/13 18:03:17 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/14 20:49:20 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -189,9 +189,11 @@ typedef struct s_plane
 	t_vect		posn;
 	t_vect		vect;
 	t_rgb		rgb;
+	t_rgb		rgb_norm;
 	int			nb;
 	bool		checker;
 	t_picture	tex;
+	t_picture	tex_norm;
 }				t_plane;
 
 typedef struct s_img
