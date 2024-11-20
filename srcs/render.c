@@ -75,6 +75,9 @@ int    render(t_data *data)
 	z = z;
 	int d = 0;
 	// float res = 0;
+
+	// t_ray		*rays = light_rays(data);
+
 	bonus_rays = safe_malloc(data->nb_lights * sizeof(t_ray *));
 	while (d < data->nb_lights)
 	{
@@ -90,6 +93,7 @@ int    render(t_data *data)
 			data->hit = hit;
 			camera_ray = camera_rays(x, y,data);
 			render_objs(data, camera_ray, &data->hit);
+			// t_rgb res = light_intersect(data, rays, camera_ray, &data->hit, x, y);
 			t_rgb res = super_light_bonus_intersect(data, bonus_rays, camera_ray, &data->hit, x, y);
 			// hit.rgb = light_bonus_intersect(data, bonus_rays, camera_ray, &data->hit, d, x, y);
 			my_pixel_put(data, x, y, just_color(res));
