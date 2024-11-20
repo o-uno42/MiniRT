@@ -7,13 +7,8 @@ float	scale(float point, float max_dimension)
 		return (point + (max_dimension / 2));
 	else if (point > max_dimension /2)
 		return (point - (max_dimension / 2));
-	// if (point < 0)
-	// 	return -1;
-	// else if (point > max_dimension)
-	// 	return -1;
 	else
-	 	return (point);;
-	// return (unscaled_num + (old_max / 2));
+	 	return (point);
 }
 
 t_vect camera_to_world(t_vect dir, t_camera camera)
