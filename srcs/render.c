@@ -102,7 +102,10 @@ int    render(t_data *data)
 			camera_ray = camera_rays(x, y,data);
 			render_objs(data, camera_ray, &data->hit);
 			bonus_objects(data, false);
-			t_rgb res = lights_intersect(data, bonus_rays, camera_ray, &data->hit, x, y);
+			
+			// t_rgb res = light_intersect(data, rays, camera_ray, &data->hit, x, y);
+			t_rgb res = lights_intersect(data, camera_ray, &data->hit,  x,  y);
+			
 			// if(light_intersect(data, rays, camera_ray, &data->hit))
 			// {
 			// 	;
@@ -111,7 +114,7 @@ int    render(t_data *data)
 			// }
 			// specular_intersect(data, rays, &data->hit);
 			// my_pixel_put(data, x, y, just_color(data->hit.rgb));//create_color(data->hit.rgb, data->ambient));
-			my_pixel_put(data, x, y, just_color(res));
+			my_pixel_put(data, x, y, create_color(res, data->ambient));
 			// my_pixel_put(data, x, y, create_color(data->hit.rgb, data->ambient));
 			bonus_objects(data, true);
 			x++;

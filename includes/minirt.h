@@ -77,6 +77,7 @@ bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit);
 t_rgb	tex_sphere_color(t_hitinfo *hit, t_picture pic, t_sphere *sphere);
 void	sphere_texture(t_hitinfo *hit, t_sphere *sphere);
 void	sphere_bump(t_hitinfo *hit, t_sphere *sphere);
+void	checker_sphere(t_hitinfo *hit, t_sphere *sphere);
 //PLANE UTILS
 t_rgb	tex_color(t_hitinfo *hit, t_picture pic);
 void plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic);
@@ -89,8 +90,8 @@ t_ray    camera_rays(int x, int y, t_data *data);
 
 t_rgb super_light_bonus_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit, int x, int y);
 
-// t_rgb light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
-t_rgb lights_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
+t_rgb light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
+t_rgb lights_intersect(t_data *data, t_ray camera_ray, t_hitinfo *hit, int x, int y);
 t_ray	*light_rays(t_data *data);
 t_ambient  darker_ambient(t_ambient ambient, float i);
 t_vect reflect(t_vect in, t_vect normal);

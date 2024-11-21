@@ -24,10 +24,10 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
         return (false);
 
 	
-	t = dot_product(plane->vect, sub_vect(plane->pos, camera_ray.pos)) / visibility;
-    // float D = -(dot_product(plane->vect, plane->pos));
+	// t = dot_product(plane->vect, sub_vect(plane->pos, camera_ray.pos)) / visibility;
+    float D = -(dot_product(plane->vect, plane->pos));
 
-    // t = -(D + dot_product(plane->vect, camera_ray.pos)) / visibility;
+    t = -(D + dot_product(plane->vect, camera_ray.pos)) / visibility;
 
 	/* hit->normal = plane->vect; */
 	if( t > 0 && t < hit->t)
@@ -37,7 +37,7 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		hit->normal = plane->vect;
 		hit->is_outside = true;
 		hit->rgb = plane->rgb;
-		/* plane_checker(hit, plane); */
+		plane_checker(hit, plane);
 		plane_texture(hit, plane, plane->tex);
 		plane_bump(hit, plane);
 		/* hit->rgb = plane->rgb; */
