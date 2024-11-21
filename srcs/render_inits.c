@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:32:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/17 15:41:06 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/21 13:20:56 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,29 +341,25 @@ void	camera_init(t_data *data, char *line)
 	}
 }
 
-void	light_init(t_data *data, char *line)
+void lights_init(t_data *data, char *line, int nb_lights)
 {
-	char **res;
-	char **coords;
-	char **rgb;
- 
-	res = safe_malloc(sizeof(float) * 4);
-	res = ft_split(line, ' ');
+    if (nb_lights == 0) {
+        data->lights = safe_malloc(sizeof(t_light) * 10);
+    }
+    char **res = ft_split(line, ' ');
+    char **coords = ft_split(res[1], ',');
+    char **rgb = ft_split(res[3], ',');
 
-	coords = safe_malloc(sizeof(float) * 4);
-	coords = ft_split(res[1], ',');
+    // Set light properties
+    data->lights[nb_lights].pos.x = ft_atol(coords[0]);
+    data->lights[nb_lights].pos.y = ft_atol(coords[1]);
+    data->lights[nb_lights].pos.z = ft_atol(coords[2]);
 
-	data->light.pos.x = ft_atol(coords[0]);
-	data->light.pos.y = ft_atol(coords[1]);
-	data->light.pos.z = ft_atol(coords[2]);
+    data->lights[nb_lights].bright = ft_atol(res[2]);
 
-	data->light.bright = ft_atol(res[2]);
-
-	rgb = safe_malloc(sizeof(int) * 4);
-	rgb = ft_split(res[3], ',');
-	data->light.rgb.r = ft_atol(rgb[0]);
-	data->light.rgb.g = ft_atol(rgb[1]);
-	data->light.rgb.b = ft_atol(rgb[2]);
+    data->lights[nb_lights].rgb.r = ft_atol(rgb[0]);
+    data->lights[nb_lights].rgb.g = ft_atol(rgb[1]);
+    data->lights[nb_lights].rgb.b = ft_atol(rgb[2]);
 }
 
 void	pic_init(t_data *data, char *line, int nb_pics)

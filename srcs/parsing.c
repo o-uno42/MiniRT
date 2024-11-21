@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/14 19:45:47 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/21 13:19:24 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	check_line(char *line)
 	return (0);
 }
 
-void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics)
+void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics, int *nb_lights)
 {
 	int i;
 
@@ -107,7 +107,16 @@ void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics)
 	else if (ft_strncmp("C", line, i) == 0)
 		camera_init(data, line);
 	else if (ft_strncmp("L", line, i) == 0)
-		light_init(data, line);
+	{
+		lights_init(data, line, (*nb_lights));
+		(*nb_lights)++;
+	}
+		// light_init(data, line);
+	else if (ft_strncmp("l", line, i) == 0)
+	{
+		lights_init(data, line, (*nb_lights));
+		(*nb_lights)++;
+	}
 	else if (ft_strncmp("sp", line, i) == 0)
 	{
 		sphere_init(data, line, (*nb_objs));
@@ -146,19 +155,22 @@ void	parsing(int fd, t_data *data)
 	int		i;
 	int		nb_objects;
 	int		nb_pics;
+	int		nb_lights;
 
 	i = 0;
 	nb_objects = 0;
 	nb_pics = 0;
+	nb_lights = 0;
 	data->pic_idx = 0;
 
 	while((line = get_next_line(fd)) !=NULL)
 	{
 		check_line(line);
-		prefix(line, data, &nb_objects, &nb_pics);
+		prefix(line, data, &nb_objects, &nb_pics, &nb_lights);
 		// free(line);
 		i++;
 	}
 	data->obj[nb_objects].type_obj = END;
+	data->nb_lights = nb_lights;
 	print_all_obj(data);
 }

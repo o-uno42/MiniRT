@@ -6,13 +6,14 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/16 20:09:10 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/21 13:22:03 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
 # ifndef MACROS
+# define EPSILON 0.0001
 #  define	BUFFER_SIZE 8
 #  define	PI 3.1415926535
 #  define	POINT t_vect
@@ -242,10 +243,12 @@ typedef struct s_data
 	t_light		light;
 	t_objs		*obj;
 	t_hitinfo	hit;
+	t_light		*lights;
 	// t_sphere	*sphere;
 	// t_plane		*plane;
 	float		img_ratio;
 	int			index_objs;
+	int			nb_lights;
 	// t_obj		index_obj;
 	// void		*ptr;
 	// void		*win;
