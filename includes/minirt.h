@@ -69,6 +69,10 @@ void cap_texture(t_hitinfo *hit, t_cylinder *cyl);
 void	cap_bump(t_hitinfo *hit, t_cylinder *cyl);
 bool	caps(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo *hit);
 void	cap_hit(t_cylinder *cylinder, t_hitinfo *hit, POINT p, float t);
+
+//CONE UTILS
+bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit);
+
 //SPHERE UTILS
 t_rgb	tex_sphere_color(t_hitinfo *hit, t_picture pic, t_sphere *sphere);
 void	sphere_texture(t_hitinfo *hit, t_sphere *sphere);
@@ -85,16 +89,16 @@ t_ray    camera_rays(int x, int y, t_data *data);
 
 t_rgb super_light_bonus_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit, int x, int y);
 
-t_rgb light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
-t_rgb light_bonus_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit, int z,  int x, int y);
+// t_rgb light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
+t_rgb lights_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
 t_ray	*light_rays(t_data *data);
 t_ambient  darker_ambient(t_ambient ambient, float i);
 t_vect reflect(t_vect in, t_vect normal);
 t_ray    *reflection_rays(t_data *data, t_hitinfo *hit);
 bool reflect_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
 bool    specular_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
-void	light_bonus_init(t_data *data, char *line, int nb_lights);
-t_ray    *light_bonus_rays(t_data *data, int j);
+void	lights_init(t_data *data, char *line, int nb_lights);
+t_ray    *get_lights_rays(t_data *data, int j);
 
 // VECTOR UTILS
 t_vect 	sum_vect(t_vect pos_1, t_vect pos_2);

@@ -13,6 +13,7 @@
 # define STRUCTS_H
 
 # ifndef MACROS
+# define EPSILON 0.0001
 #  define	BUFFER_SIZE 8
 #  define	PI 3.1415926535
 #  define	POINT t_vect
@@ -242,10 +243,12 @@ typedef struct s_data
 	t_light		light;
 	t_objs		*obj;
 	t_hitinfo	hit;
+	t_light		*lights;
 	// t_sphere	*sphere;
 	// t_plane		*plane;
 	float		img_ratio;
 	int			index_objs;
+	int			nb_lights;
 	// t_obj		index_obj;
 	// void		*ptr;
 	// void		*win;
