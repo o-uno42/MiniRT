@@ -113,8 +113,8 @@ int    render(t_data *data)
 			// 	// reflect_intersect(data, reflect, &data->hit);
 			// }
 			// specular_intersect(data, rays, &data->hit);
-			// my_pixel_put(data, x, y, just_color(data->hit.rgb));//create_color(data->hit.rgb, data->ambient));
-			my_pixel_put(data, x, y, create_color(res, data->ambient));
+			my_pixel_put(data, x, y, just_color(res));//create_color(data->hit.rgb, data->ambient));
+			// my_pixel_put(data, x, y, create_color(res, data->ambient));
 			// my_pixel_put(data, x, y, create_color(data->hit.rgb, data->ambient));
 			bonus_objects(data, true);
 			x++;
