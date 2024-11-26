@@ -65,6 +65,8 @@ void	cone_bonus_init(t_cone *cone, char **res)
 		cone->checker = false;
 		cone->bonus = false;
 	}
+	// if (res[7])
+	// 	cone->brilliance = ft_atol(res[7]);
 }
 
 void	cone_init(t_data *data, char *line, int i)

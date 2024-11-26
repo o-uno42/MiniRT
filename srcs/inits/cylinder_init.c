@@ -35,6 +35,8 @@ void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res)
 		cylinder->tex = data->pics[ft_atoi(res[7])];
 	if (res[8])
 		cylinder->tex_normal = data->pics[ft_atoi(res[8])];
+	// if (res[9])
+	// 	cylinder->brilliance = ft_atol(res[9]);
 }
 
 void	cylinder_vect_init(t_cylinder *cylinder, char **res, char **coords)

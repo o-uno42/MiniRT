@@ -28,6 +28,8 @@ void	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 		sphere->tex = data->pics[ft_atoi(res[5])];
 	if (res[6])
 		sphere->tex_normal = data->pics[ft_atoi(res[6])];
+	// if (res[7])
+	// 	sphere->brilliance = ft_atol(res[7]);
 }
 
 void	sphere_init(t_data *data, char *line, int i)
