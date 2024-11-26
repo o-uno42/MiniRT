@@ -131,25 +131,25 @@ t_rgb dark_rgb(t_rgb rgb, float darkness)
 }
 
 
-void	calc_hit_sphere_2(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *sphere)
+void	calc_hit_sphere_2(t_hitinfo hit, float intersect, t_ray ray, t_sphere *sphere)
 {
-	if (intersect >= hit->t)
+	if (intersect >= hit.t)
 		return ;
-	hit->t = intersect;
-	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, intersect));
-	hit->normal = normalize(sub_vect(hit->p, sphere->pos));
-	hit->rgb = sphere->rgb;
+	hit.t = intersect;
+	hit.p = sum_vect(ray.pos, scale_vect(ray.dir, intersect));
+	hit.normal = normalize(sub_vect(hit.p, sphere->pos));
+	hit.rgb = sphere->rgb;
 	/* printf("hit in sphere is: %f\n", hit->t); */
-	if (dot_product(ray.dir, hit->normal) < 0)
-		hit->is_outside = true;
+	if (dot_product(ray.dir, hit.normal) < 0)
+		hit.is_outside = true;
 	else
 	{
-		hit->normal = scale_vect(hit->normal, -1);
-		hit->is_outside = false;
+		hit.normal = scale_vect(hit.normal, -1);
+		hit.is_outside = false;
 	}
 }
 
-bool	render_sphere_shadow(t_ray shadow_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit)
+bool	render_sphere_shadow(t_ray shadow_ray, t_data *data, t_sphere *sphere, t_hitinfo hit)
 {
 	data = data;
 	t_vect	offset_vect;
@@ -174,36 +174,54 @@ bool	render_sphere_shadow(t_ray shadow_ray, t_data *data, t_sphere *sphere, t_hi
 	return (false);
 }
 
-bool intersect_plane(t_plane *plane, t_ray *ray, t_hitinfo *hit) 
+bool render_plane_shadow(t_ray camera_ray, t_plane *plane, t_hitinfo hit)
 {
-    float t;
-    float denom;
-    t_vect dist_ray;
+    float visibility;
+	float t;
+	
+	visibility = dot_product(plane->vect, camera_ray.dir);
+	
+	if (visibility == 0)
+        return (false);
 
-    plane->vect = normalize(plane->vect);
-    denom = dot_product(plane->vect, ray->dir);
-    dist_ray = sub_vect(plane->pos, ray->pos);
-    t = dot_product(dist_ray, plane->vect) / denom;
-    if (t < 0)
+	
+	// t = dot_product(plane->vect, sub_vect(plane->pos, camera_ray.pos)) / visibility;
+    float D = -(dot_product(plane->vect, plane->pos));
+
+    t = -(D + dot_product(plane->vect, camera_ray.pos)) / visibility;
+
+	/* hit->normal = plane->vect; */
+    if ( t > 0 && t < hit.t)
+	{
+		hit.t = t;
+		hit.p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, t));
+		hit.normal = plane->vect;
+		hit.is_outside = true;
+		hit.rgb = plane->rgb;
+		// plane_checker(hit, plane);
+		// plane_texture(hit, plane, plane->tex);
+		// plane_bump(hit, plane);
+        return true;
+		/* hit->rgb = plane->rgb; */
+		/* printf("hit->t plane: %f\t t plane: %f\n", hit->t, t); */
+	}
+    else
         return false;
-    hit->t = t;
-    hit->p = sum_vect(ray->pos, scale_vect(ray->dir, t));
-    hit->normal = plane->vect;
-    // if (denom > 0)
-    //     hit->normal = scale_vect(hit->normal, -1);
-    return true;
+
+    // return (t);
 }
 
-int intersect_object(t_data *data, t_objs object, t_ray *ray, t_hitinfo *hit) 
+int intersect_object(t_data *data, t_objs object, t_ray ray, t_hitinfo hit) 
 {
     data = data;
 
     if (object.type_obj == SPHERE)
-        return (render_sphere_shadow(*ray, data, object.object, hit));
+        return (render_sphere_shadow(ray, data, object.object, hit));
     else if (object.type_obj == PLANE)
-        return (intersect_plane(object.object, ray, hit));
-    else if (object.type_obj == CYLINDER)
-        return (render_cylinder(*ray, NULL, object.object, hit));
+        return (render_plane_shadow(ray, object.object, hit));
+        // return (intersect_plane(object.object, ray, hit));
+    // else if (object.type_obj == CYLINDER)
+    //     return (render_cylinder(ray, NULL, object.object, hit));
     return (0);
 }
 
@@ -377,7 +395,7 @@ t_rgb clamp_rgb(t_rgb color)
 }
 
 
-bool check_shadow(t_data *data, t_vect point, t_hitinfo *hit)
+bool check_shadow(t_data *data, t_vect point, t_hitinfo hit)
 {
     bool    in_shadow;
     t_ray shadow_ray;
@@ -393,19 +411,21 @@ bool check_shadow(t_data *data, t_vect point, t_hitinfo *hit)
         // t_vect light_dir = sub_vect(data->lights[i].pos, point);
         // float light_dist = sqrt(dot_product(sub_vect(data->lights[i].pos, point), sub_vect(data->lights[i].pos, point)));
         // light_dir = normalize(sub_vect(data->lights[i].pos, point));
-        shadow_ray.pos = sum_vect(point, scale_vect(hit->normal, 0.0003));
+        shadow_ray.pos = sum_vect(point, scale_vect(hit.normal, 0.0003));
         shadow_ray.dir = normalize(sub_vect(data->lights[i].pos, point));
         in_shadow = false;
         i = 0;
         while (data->obj[i].type_obj != END)
         {
-            if (intersect_object(data, data->obj[i], &shadow_ray, &shadow_hit))
+            // shadow_ray.pos = sum_vect(point, scale_vect(hit->normal, 0.0003));
+            // shadow_ray.dir = normalize(sub_vect(data->lights[i].pos, point));
+            if (intersect_object(data, data->obj[i], shadow_ray, shadow_hit))
             {
-                if (shadow_hit.t > 0.0003 && shadow_hit.t < sqrt(dot_product(sub_vect(data->lights[i].pos, point), sub_vect(data->lights[i].pos, point))))
-                {
-                    in_shadow = true;
-                    break;
-                }
+                // if (shadow_hit.t > 0.0003 && shadow_hit.t < sqrt(dot_product(sub_vect(data->lights[i].pos, point), sub_vect(data->lights[i].pos, point))))
+                // {
+                in_shadow = true;
+                break;
+                // }
             }
             i++;
         }
@@ -474,7 +494,7 @@ t_rgb lights_intersect(t_data *data, t_ray camera_ray, t_hitinfo *hit, int x, in
         float dist_to_light = sqrt(dot_product(light_dir, light_dir));
         light_dir = normalize(light_dir);
     
-        if (check_shadow(data, hit->p, hit))
+        if (check_shadow(data, hit->p, *hit))
         {
             float angle_intensity = max_nb(0.0f, dot_product(hit->normal, light_dir));
             float distance_factor = 1 / (1 + 0.1 * square(dist_to_light));
