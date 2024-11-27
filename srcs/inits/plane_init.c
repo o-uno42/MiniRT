@@ -16,9 +16,9 @@ void	plane_vect_init(char **coords, char **vect, char **rgb, t_plane *plane)
 {
 	plane->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
 			ft_atol(coords[2]));
-	plane->posn.x = plane->pos.x;
-	plane->posn.y = plane->pos.y + 10;
-	plane->posn.z = plane->pos.z;
+	// plane->posn.x = plane->pos.x;
+	// plane->posn.y = plane->pos.y + 10;
+	// plane->posn.z = plane->pos.z;
 	plane->vect = create_vector(ft_atol(vect[0]), ft_atol(vect[1]),
 			ft_atol(vect[2]));
 	plane->vect = normalize(plane->vect);
