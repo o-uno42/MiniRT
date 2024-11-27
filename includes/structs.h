@@ -6,19 +6,22 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/16 20:09:10 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/26 18:17:51 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
 # ifndef MACROS
-# define EPSILON 0.0001
-#  define	BUFFER_SIZE 8
-#  define	PI 3.1415926535
-#  define	POINT t_vect
-#  define	SQUARE 5
-#  define	ANGLE_SIZE 0.5
+#	define	EPSILON		0.0001
+#	define	BUFFER_SIZE 8
+#	define	PI			3.1415926535
+#	define	POINT		t_vect
+#	define	SQUARE		5
+#	define	ANGLE_SIZE	0.5
+#	define	MAX_OBJECTS 128
+#	define	MAX_LIGHTS  128
+#	define	MAX_PICS	128
 # endif
 
 # define BLACK 0x000000
@@ -75,6 +78,7 @@ typedef	struct s_picture
 	int		h;
 	int		index;
 }				t_picture;
+
 
 typedef struct s_rgb
 {
@@ -236,28 +240,18 @@ typedef struct s_data
 	void		*mlx_ptr;
 	void		*mlx_win;
 	t_img		img;
-	t_picture	pics[128];
+	t_picture	pics[MAX_PICS - 1];
 	int			pic_idx;
 	t_ambient	ambient;
 	t_camera	camera;
 	t_light		light;
 	t_objs		*obj;
 	t_hitinfo	hit;
-	t_light		*lights;
-	// t_sphere	*sphere;
-	// t_plane		*plane;
+	t_light		lights[MAX_LIGHTS - 1];
+	int			light_idx;
 	float		img_ratio;
 	int			index_objs;
 	int			nb_lights;
-	// t_obj		index_obj;
-	// void		*ptr;
-	// void		*win;
-	// int			height;
-	// int			width;
-	// t_player	player;
-	// t_ray		ray;
-	// t_map		map;
-	// t_img		img;
 }				t_data;
 
 #endif

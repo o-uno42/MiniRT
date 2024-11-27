@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/13 14:56:44 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/26 18:17:21 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ void	print_error(char *message)
 
 void	img_init(t_img *img)
 {
-	/* img->img_ptr = mlx_init(); */
-	/* if (!img->img_ptr) */
-	/* 	print_error("Img init error"); */
 	img->width = 0;
 	img->height = 0;
 }
@@ -43,8 +40,8 @@ void	*data_init(t_data *data)
 	int i = 0;
 	data->img.width = 900;
 	data->img.height = 900;
-	data->obj = safe_malloc(sizeof(t_objs) * 1024);
-	while (i < 1024)
+	data->obj = safe_malloc(sizeof(t_objs) * MAX_OBJECTS);
+	while (i < MAX_OBJECTS)
 	{
 		data->obj[i].type_obj = NOTHING;
 		i++;
