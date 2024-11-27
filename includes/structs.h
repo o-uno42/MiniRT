@@ -141,6 +141,7 @@ typedef struct s_sphere
 	bool		bonus;
 	t_picture	tex;
 	t_picture	tex_normal;
+	float		brilliance;
 }				t_sphere;
 
 typedef struct	s_cylinder
@@ -157,6 +158,7 @@ typedef struct	s_cylinder
 	bool	bonus;
 	t_picture	tex;
 	t_picture	tex_normal;
+	float		brilliance;
 }				t_cylinder;
 
 typedef struct s_hyperboloid
@@ -190,6 +192,7 @@ typedef struct s_cone
 	bool	bonus;
 	t_picture	tex;
 	t_picture	tex_normal;
+	float		brilliance;
 }				t_cone;
 
 typedef struct s_plane
@@ -204,6 +207,7 @@ typedef struct s_plane
 	bool		bonus;
 	t_picture	tex;
 	t_picture	tex_norm;
+	float		brilliance;
 }				t_plane;
 
 typedef struct s_img

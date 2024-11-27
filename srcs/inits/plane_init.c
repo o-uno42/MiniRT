@@ -42,6 +42,8 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 		plane->tex = data->pics[ft_atoi(res[5])];
 	if (res[6])
 		plane->tex_norm = data->pics[ft_atoi(res[6])];
+	// if (res[7])
+	// 	plane->brilliance = ft_atol(res[7]);
 }
 
 void	plane_init(t_data *data, char *line, int i)
