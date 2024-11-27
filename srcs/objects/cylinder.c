@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:44:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/17 15:30:35 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/27 21:01:28 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res)
 		return (false);
 }
 
-void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
+bool	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
 {
 	float prev_hit;
 	POINT	prev;
@@ -41,19 +41,20 @@ void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder 
 	prev_hit = hit->t;
 	prev = hit->p;
 	if (intersect >= hit->t)
-		return ;
+		return (false);
 	hit->t = intersect;
 	hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
 	if(!cyl_end(hit, camera_ray, cylinder, &res))
 	{
 		hit->t = prev_hit;
 		hit->p = prev;
-		return;
+		return (false);
 	}
 	hit->normal = normalize(sub_vect(hit->p, res));
 	checker_cyl(hit, cylinder);
 	tex_cyl(hit, cylinder);
 	cyl_bump(hit, cylinder);
+	return (true);
 }
 
 bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit)
@@ -80,15 +81,13 @@ bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hit
 	{
 		if (intersect1 > 0)
 		{
-			calc_hit_cyl(hit, intersect1, camera_ray, cylinder);
-			/* return (true); */
+			if(calc_hit_cyl(hit, intersect1, camera_ray, cylinder))
+			return (true);
 		}
 	}
 	if(!caps(camera_ray, cylinder, hit))
 	{
-		/* intersect1 = FLT_MAX; */
-		/* calc_hit_cyl(hit, intersect1, camera_ray, cylinder); */
-		/* return (true); */
+		return (true);
 	}
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/16 20:09:10 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/27 20:11:28 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -17,7 +17,7 @@
 #  define	BUFFER_SIZE 8
 #  define	PI 3.1415926535
 #  define	POINT t_vect
-#  define	SQUARE 5
+#  define	SQUARE 15
 #  define	ANGLE_SIZE 0.5
 # endif
 

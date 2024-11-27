@@ -169,6 +169,8 @@ bool	caps_2(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo hit)
 	}
 	else
 		return (false);
+	if (chosen_t > hit.t)
+		return (false);
 	p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, chosen_t));
 	pdelt = sub_vect(p, pcenter);
 	if (magnitude(pdelt) <= cylinder->radius && chosen_t < hit.t)
@@ -211,7 +213,7 @@ void	calc_hit_cyl_2(t_hitinfo hit, float intersect, t_ray camera_ray, t_cylinder
 	
 	prev_hit = hit.t;
 	prev = hit.p;
-	if (intersect >= hit.t)
+	if (intersect >= hit.t + 0.0003)
 		return ;
 	hit.t = intersect;
 	hit.p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
@@ -223,8 +225,8 @@ void	calc_hit_cyl_2(t_hitinfo hit, float intersect, t_ray camera_ray, t_cylinder
 	}
 	hit.normal = normalize(sub_vect(hit.p, res));
 	// checker_cyl(hit, cylinder);
-	// tex_cyl(hit, cylinder);
-	// cyl_bump(hit, cylinder);
+	tex_cyl(&hit, cylinder);
+	cyl_bump(&hit, cylinder);
 }
 
 bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder, t_hitinfo hit)
@@ -249,15 +251,14 @@ bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder
 	c = dot_product(c1, c1) - cylinder->radius * cylinder->radius;
 	if(solve_quadratic(a, b, c, &intersect1, &intersect2))
 	{
-        if (intersect2 > 0)
-            return (true);
+        if (intersect1 > 0 && intersect1 < hit.t)
+		{
+			if(calc_hit_cyl(&hit, intersect1, shadow_ray, cylinder))
+				return (true);
+		}
 	}
-	if(!caps_2(shadow_ray, cylinder, hit))
-	{
-		/* intersect1 = FLT_MAX; */
-		/* calc_hit_cyl(hit, intersect1, camera_ray, cylinder); */
-		// return (false);
-	}
+	if (caps_2(shadow_ray, cylinder, hit))
+		return (true);
 	return (false);
 }
 
@@ -380,7 +381,7 @@ t_rgb  calculate_specular(t_data *data, t_hitinfo *hit, t_vect light_dir, t_ray 
     // white.b = 0;
     reflect = reflect_vect(hit->normal, light_dir);
     reflect = normalize(reflect);
-    view_dir =sub_vect(camera_ray.pos, hit->p);
+    view_dir = sub_vect(camera_ray.pos, hit->p);
     view_dir = normalize(view_dir);
     float spec = max_nb(0, dot_product(reflect, view_dir));
     spec = pow(spec, shininess);
@@ -426,15 +427,15 @@ bool check_shadow(t_data *data, t_vect point, t_hitinfo hit)
     j = 0;
     i = 0;
 
+	shadow_hit.t = INFINITY;
     while (j < data->nb_lights)
     {
-        shadow_ray.pos = sum_vect(point, scale_vect(hit.normal, 0.0003));
+        shadow_ray.pos = sum_vect(point, scale_vect(hit.normal, 0.0003)); // why is here shadow ray pos not hit.p?
         shadow_ray.dir = normalize(sub_vect(data->lights[j].pos, point));
         in_shadow = false;
         i = 0;
         while (data->obj[i].type_obj != END)
         {
-            shadow_hit.t = INFINITY;
             if (intersect_object(data, data->obj[i], shadow_ray, shadow_hit))
             {
                     in_shadow = true;
@@ -464,7 +465,7 @@ t_rgb lights_intersect(t_data *data, t_ray camera_ray, t_hitinfo *hit, int x, in
     {
         // t_light light = data->lights[i];
         t_vect light_dir = sub_vect(data->lights[i].pos, hit->p);
-        float dist_to_light = sqrt(dot_product(light_dir, light_dir));
+        float dist_to_light = magnitude(light_dir); //sqrt(dot_product(light_dir, light_dir));
         light_dir = normalize(light_dir);
     
         if (check_shadow(data, hit->p, *hit))

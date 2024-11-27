@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/15 17:30:16 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/27 20:01:48 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void cap_texture(t_hitinfo *hit, t_cylinder *cyl);
 void	cap_bump(t_hitinfo *hit, t_cylinder *cyl);
 bool	caps(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo *hit);
 void	cap_hit(t_cylinder *cylinder, t_hitinfo *hit, POINT p, float t);
+bool	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder *cylinder);
 
 //CONE UTILS
 bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit);
