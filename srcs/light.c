@@ -112,11 +112,13 @@ bool render_plane_shadow(t_ray shadow_ray, t_plane *plane, t_hitinfo hit) {
 
     visibility = dot_product(plane->vect, shadow_ray.dir);
 
-    if (visibility < 0.0003)
+    if (visibility > 0.0003)
         return false;
     t_vect adjusted_normal = plane->vect;
     if (visibility > 0)
         adjusted_normal = scale_vect(plane->vect, -1);
+    else
+        adjusted_normal = scale_vect(plane->vect, 1);
     D = -(dot_product(plane->vect, plane->pos));
 
     t = -(D + dot_product(plane->vect, shadow_ray.pos)) / visibility;

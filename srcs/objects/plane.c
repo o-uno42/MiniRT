@@ -59,6 +59,8 @@ bool render_plane(t_ray shadow_ray, t_plane *plane, t_hitinfo *hit) {
     t_vect adjusted_normal = plane->vect;
     if (visibility > 0)
         adjusted_normal = scale_vect(plane->vect, -1);
+    // else
+    //     adjusted_normal = scale_vect(plane->vect, 1);;
     D = -(dot_product(plane->vect, plane->pos));
 
     t = -(D + dot_product(plane->vect, shadow_ray.pos)) / visibility;

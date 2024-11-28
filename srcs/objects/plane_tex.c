@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+#include <stdbool.h>
 
 t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
 {
@@ -29,6 +30,77 @@ t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
 	return (color_v);
 }
 
+t_rgb	tex_color_plane(t_plane *plane, t_hitinfo *hit, t_picture pic)
+{
+    float u;
+    float v;
+
+	// t_rgb error = {150,150,150};
+
+	float dot1;
+	float dot2;
+	float dot3;
+
+	int tex_x;
+	int tex_y;
+
+	bool orientation;
+
+	orientation = false;
+
+	dot1 =dot_product(plane->vect, create_vector(1, 0, 0));
+	dot2 =dot_product(plane->vect, create_vector(0, 1, 0));
+	dot3 =dot_product(plane->vect, create_vector(0, 0, 1));
+
+	if (!((dot1 > dot3) && !(dot1 > dot2)) && (dot2 > dot3))
+	{
+		// res1 = dot_product(plane->vect, create_vector(1, 0, 0));
+		// res2 = dot_product(plane->vect, create_vector(0, 0, 1));
+		// printf("1 ] ");
+		// printf("2 ] %f\n", res2);
+		u = fmod(hit->p.x / SQUARE, 1.0);
+		v = fmod(hit->p.z / SQUARE, 1.0);
+		orientation = true;
+	}
+	else if ((dot1 > dot3) && !(dot1 > dot2)) 
+	{
+		// printf("2 ] ");
+		u = fmod(hit->p.x / SQUARE, 1.0);
+		v = fmod(hit->p.y / SQUARE, 1.0);
+		orientation = true;
+	}
+	else //if (!(dot1 > dot3) && (dot1 > dot2))
+	{
+		// res1 = dot_product(plane->vect, create_vector(1, 0, 0));
+		// res2 = dot_product(plane->vect, create_vector(0, 0, 1));
+		// printf("1 ] %f\n", res1);
+		// printf("2 ] ");
+		u = fmod(hit->p.y / SQUARE, 1.0);
+		v = fmod(hit->p.z / SQUARE, 1.0);
+		orientation = false;
+		// return error;
+	}
+    if (u < 0) u += 1.0;
+    if (v < 0) v += 1.0;
+
+	if (orientation)
+	{
+		tex_x = (int)(u * pic.w);
+		tex_y = (int)(v * pic.h);
+	}
+	else
+	{
+		tex_y = (int)(u * pic.w);
+		tex_x = (int)(v * pic.h);
+	}
+
+
+    int color_offset = tex_y * pic.line_len + tex_x * (pic.bpp / 8);
+    int color = *(int *)(pic.data + color_offset);
+	t_rgb color_v = extract_color_from_int(color);
+	return (color_v);
+}
+
 void plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic)
 {
 
@@ -37,7 +109,7 @@ void plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic)
         hit->rgb = plane->rgb;
         return;
     }
-    hit->rgb = tex_color(hit, pic);
+    hit->rgb = tex_color_plane(plane, hit, pic);
 }
 
 void	plane_checker(t_hitinfo *hit, t_plane *plane)
