@@ -205,7 +205,7 @@ bool cyl_end_2(t_hitinfo hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res
 		return (false);
 }
 
-void	calc_hit_cyl_2(t_hitinfo hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
+bool	calc_hit_cyl_2(t_hitinfo hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
 {
 	float prev_hit;
 	POINT	prev;
@@ -214,19 +214,20 @@ void	calc_hit_cyl_2(t_hitinfo hit, float intersect, t_ray camera_ray, t_cylinder
 	prev_hit = hit.t;
 	prev = hit.p;
 	if (intersect >= hit.t + 0.0003)
-		return ;
+		return false;
 	hit.t = intersect;
 	hit.p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
 	if(!cyl_end_2(hit, camera_ray, cylinder, &res))
 	{
 		hit.t = prev_hit;
 		hit.p = prev;
-		return;
+		return false;
 	}
 	hit.normal = normalize(sub_vect(hit.p, res));
 	// checker_cyl(hit, cylinder);
 	tex_cyl(&hit, cylinder);
 	cyl_bump(&hit, cylinder);
+    return true;
 }
 
 bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder, t_hitinfo hit)
@@ -253,7 +254,7 @@ bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder
 	{
         if (intersect1 > 0 && intersect1 < hit.t)
 		{
-			if(calc_hit_cyl(&hit, intersect1, shadow_ray, cylinder))
+			if(calc_hit_cyl_2(hit, intersect1, shadow_ray, cylinder))
 				return (true);
 		}
 	}
