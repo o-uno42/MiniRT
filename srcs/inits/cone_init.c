@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:32:31 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/26 12:41:28 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 14:11:37 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	cone_vect_init(t_cone *cone, char **res, char **coords)
 	free_mtx(coords);
 }
 
-void	cone_bonus_init(t_cone *cone, char **res)
+void	cone_bonus_init(t_cone *cone, char **res, int count)
 {
-	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+	if (count >= 6 &&res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
 	{
 		cone->checker = ft_atoi(res[6]);
 		cone->bonus = ft_atoi(res[6]);
@@ -74,13 +74,15 @@ void	cone_init(t_data *data, char *line, int i)
 	char	**res;
 	char	**coords;
 	t_cone	*cone;
+	int		count;
 
 	data->obj[i].type_obj = CONE;
 	cone = (t_cone *)safe_malloc(sizeof(t_cone));
 	data->obj[i].object = cone;
 	res = ft_split(line, ' ');
+	count = mtx_count(res);
 	coords = ft_split(res[1], ',');
 	cone_vect_init(cone, res, coords);
-	cone_bonus_init(cone, res);
+	cone_bonus_init(cone, res, count);
 	free_mtx(res);
 }

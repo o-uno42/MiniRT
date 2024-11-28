@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:06:05 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/26 18:07:16 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 17:05:56 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	light_init(t_data *data, char *line)
 	data->light.pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]), ft_atol(coords[2]));
 	data->light.rgb = extract_color(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
 	data->light.bright = ft_atol(res[2]);
-	free(coords);
-	free(rgb);
-	free(res);
+	free_mtx(coords);
+	free_mtx(rgb);
+	free_mtx(res);
 }
 
 void	lights_init(t_data *data, char *line, int nb_lights)
@@ -41,8 +41,7 @@ void	lights_init(t_data *data, char *line, int nb_lights)
 	data->lights[nb_lights].pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]), ft_atol(coords[2]));
 	data->lights[nb_lights].rgb = extract_color(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
 	data->lights[nb_lights].bright = ft_atol(res[2]);
-	data->light_idx = nb_lights;
-	free(coords);
-	free(rgb);
-	free(res);
+	free_mtx(coords);
+	free_mtx(rgb);
+	free_mtx(res);
 }

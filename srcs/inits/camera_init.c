@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:01:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/26 13:05:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 17:08:33 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,7 @@ void	camera_init(t_data *data, char *line)
 	data->camera.fov = ft_atoi(res[3]);
 	data->camera.forward = normalize(data->camera.dir);
 	world_position(data, world_up);
+	free_mtx(coords);
+	free_mtx(vector);
+	free_mtx(res);
 }

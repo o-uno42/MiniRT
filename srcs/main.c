@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/26 18:17:21 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 18:41:09 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	print_error(char *message)
 	exit (EXIT_FAILURE);
 }
 
-void	img_init(t_img *img)
-{
-	img->width = 0;
-	img->height = 0;
-}
+/* void	img_init(t_img *img) */
+/* { */
+/* 	img->width = 0; */
+/* 	img->height = 0; */
+/* } */
 
 t_data	*start_ambient(t_data *data)
 {
@@ -35,7 +35,7 @@ t_data	*start_ambient(t_data *data)
 	return (data);
 }
 
-void	*data_init(t_data *data)
+void	data_init(t_data *data)
 {
 	int i = 0;
 	data->img.width = 900;
@@ -47,11 +47,9 @@ void	*data_init(t_data *data)
 		i++;
 	}
 	data->index_objs = 0;
-	return (data);
 }
-void	inits(t_data *data, t_img *img)
+void	win_inits(t_data *data)
 {
-	img_init(img);
 	data_init(data);
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
@@ -81,21 +79,18 @@ int main(int ac, char **av)
 {
 	int		fd;
 	t_data	data;
-	t_img	img;
 	/* int i = 0; */
 	ac = ac;
 
 	fd = open(av[1], O_RDONLY);
-	if (!fd)
+	if (fd < 0)
 		exit (EXIT_FAILURE);
-	inits(&data, &img);
+	win_inits(&data);
 	parsing(fd, &data);
-	/* while(i++ < 50) */
-	/* 	printf("type main: %i\n", data.obj[i].type_obj); */
 	mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 2, esc_x, &data);
 	render(&data);
-	// mlx_mouse_hook(data.mlx_win, mouse_handler, &data);
 	mlx_loop(data.mlx_ptr);
+	clean(&data);
 	return (0);
 }

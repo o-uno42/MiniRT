@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/11/15 17:30:16 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 16:52:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include "structs.h"
+# include "get_next_line.h"
 
-void	my_pixel_put(t_data *data, int x, int y, int color);
 
 //	PARSING
 void	parsing(int fd, t_data *data);
@@ -45,6 +45,7 @@ void	hyperboloid_init(t_data *data, char *line, int i);
 void	cone_init(t_data *data, char *line, int i);
 float	scale(float point, float max_dimension);
 //	RENDER
+void	my_pixel_put(t_data *data, int x, int y, int color);
 int		render(t_data *data);
 //	BONUS CHEKER
 void	bonus_sphere(t_sphere *sphere, bool light_finished);
@@ -150,11 +151,15 @@ int		keys(int keysym, t_data *map);
 int		esc_x(t_data *data);
 //SPLIT
 char	**ft_split_rt(char const *s, char c);
+int	mtx_count(char **mtx);
 //SAFE FT
 void    *safe_malloc(size_t size);
+char 	*join_wrapper(const char *s1, const char *s2, int free_which);
 //FREE FUNCTIONS
 void	free_mtx(char **mtx);
 //ERRORS
 void	print_error(char *message);
+//CLEAN
+void clean(t_data *data);
 
 #endif

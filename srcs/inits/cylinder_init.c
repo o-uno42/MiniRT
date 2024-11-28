@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:48:18 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/26 13:01:38 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 14:18:23 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	top_bottom_point(POINT *p1, POINT *p2, t_cylinder cylinder)
 				/ 2));
 }
 
-void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res)
+void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res, int count)
 {
-	if (res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+	if (count >= 6 && res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
 	{
 		cylinder->checker = ft_atoi(res[6]);
 		cylinder->bonus = ft_atoi(res[6]);
@@ -31,19 +31,21 @@ void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res)
 		cylinder->checker = false;
 		cylinder->bonus = false;
 	}
-	if (res[7])
+	if (count >= 7 && res[7])
 		cylinder->tex = data->pics[ft_atoi(res[7])];
-	if (res[8])
+	if (count >= 8 && res[8])
 		cylinder->tex_normal = data->pics[ft_atoi(res[8])];
 	// if (res[9])
 	// 	cylinder->brilliance = ft_atol(res[9]);
 }
 
-void	cylinder_vect_init(t_cylinder *cylinder, char **res, char **coords)
+void	cylinder_vect_init(t_cylinder *cylinder, char **res, char **coords, int count)
 {
 	POINT	p1;
 	POINT	p2;
 
+	if (count < 5)
+		return ;
 	cylinder->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
 			ft_atol(coords[2]));
 	free_mtx(coords);
@@ -69,13 +71,15 @@ void	cylinder_init(t_data *data, char *line, int i)
 	char		**res;
 	char		**coords;
 	t_cylinder	*cylinder;
+	int			count;
 
 	data->obj[i].type_obj = CYLINDER;
 	cylinder = (t_cylinder *)safe_malloc(sizeof(t_cylinder));
 	data->obj[i].object = cylinder;
 	res = ft_split(line, ' ');
+	count = mtx_count(res);
 	coords = ft_split(res[1], ',');
-	cylinder_vect_init(cylinder, res, coords);
-	cylinder_bonus_init(data, cylinder, res);
+	cylinder_vect_init(cylinder, res, coords, count);
+	cylinder_bonus_init(data, cylinder, res, count);
 	free_mtx(res);
 }

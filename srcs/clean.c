@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/26 18:26:15 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 18:40:54 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ void	clean_geometry(t_objs *obj)
 	int	i;
 
 	i = 0;
-	while (obj->type_obj != END)
+	while (obj[i].type_obj != END)
 	{
 		free(obj[i++].object);
-		free(obj);
 	}
+
+	free(obj);
 }
 
 void	clean_pics(t_picture pics[], int pic_idx)
@@ -29,18 +30,31 @@ void	clean_pics(t_picture pics[], int pic_idx)
 	int	i;
 
 	i = 0;
-	while(i <= pic_idx && pics[i].data != NULL)
+	while(i < pic_idx && pics[i].data != NULL)
 	{
 		free(pics[i].path);
-		free(pics[i].data);
-		free(pics[i].pic);
+		mlx_destroy_image(pics[i].pic, pics[i].data);
+		i++;
 	}
 }
 
-void clean(t_data *data, int fd)
+void	clean_window(t_data *data)
 {
+	if (data->mlx_win)
+    {
+        mlx_destroy_window(data->mlx_ptr, data->mlx_win);
+    }
+    if (data->img.img_ptr)
+    {
+        mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
+    }
+    mlx_destroy_display(data->mlx_ptr);
+    free(data->mlx_ptr);
+}
 
+void clean(t_data *data)
+{
 	clean_geometry(data->obj);
 	clean_pics(data->pics, data->pic_idx);
-	close(fd);
+	clean_window(data);
 }

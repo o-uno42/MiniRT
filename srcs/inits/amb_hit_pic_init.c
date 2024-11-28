@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:57:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/26 18:08:38 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 17:07:16 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void	ambient_init(t_data *data, char *line)
 	j = j;
 	res = ft_split(line, ' ');
 	data->ambient.ratio = ft_atol(res[1]);
-	rgb = safe_malloc(sizeof(int) * 4);
 	rgb = ft_split(res[2], ',');
 	data->ambient.rgb = extract_color(ft_atol(rgb[0]), ft_atol(rgb[1]),
 			ft_atol(rgb[2]));
+	free_mtx(rgb);
+	free_mtx(res);
 }
 
 void	pic_init(t_data *data, char *line, int nb_pics)

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/26 12:30:01 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 14:13:57 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	plane_vect_init(char **coords, char **vect, char **rgb, t_plane *plane)
 
 void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 {
-	if (res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+	int	count;
+
+	count = mtx_count(res);
+	if (count >= 4 && res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
 	{
 		plane->checker = ft_atoi(res[4]);
 		plane->bonus = ft_atoi(res[4]);
@@ -38,9 +41,9 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 		plane->checker = false;
 		plane->bonus = false;
 	}
-	if (res[5])
+	if (count >= 5 && res[5])
 		plane->tex = data->pics[ft_atoi(res[5])];
-	if (res[6])
+	if (count >= 6 && res[6])
 		plane->tex_norm = data->pics[ft_atoi(res[6])];
 	// if (res[7])
 	// 	plane->brilliance = ft_atol(res[7]);

@@ -1,0 +1,158 @@
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x114731: plane_texture (plane_tex.c:35)
+==2094500==    by 0x1145A1: render_plane (plane.c:41)
+==2094500==    by 0x11128A: render_objs (render.c:41)
+==2094500==    by 0x111693: render (render.c:103)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a stack allocation
+==2094500==    at 0x10F880: main (main.c:79)
+==2094500== 
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1148BF: plane_bump (plane_tex.c:70)
+==2094500==    by 0x1145B8: render_plane (plane.c:42)
+==2094500==    by 0x11128A: render_objs (render.c:41)
+==2094500==    by 0x111693: render (render.c:103)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a heap allocation
+==2094500==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2094500==    by 0x11036A: safe_malloc (safe_ft.c:17)
+==2094500==    by 0x118148: plane_init (plane_init.c:61)
+==2094500==    by 0x10FE23: prefix (parsing.c:121)
+==2094500==    by 0x10FFD3: parsing (parsing.c:163)
+==2094500==    by 0x10F901: main (main.c:89)
+==2094500== 
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1122D0: calc_hit_sphere_2 (light.c:136)
+==2094500==    by 0x112614: render_sphere_shadow (light.c:173)
+==2094500==    by 0x112851: intersect_object (light.c:219)
+==2094500==    by 0x1130AA: check_shadow (light.c:387)
+==2094500==    by 0x1132B2: lights_intersect (light.c:419)
+==2094500==    by 0x1116E1: render (render.c:107)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a stack allocation
+==2094500==    at 0x112EFE: check_shadow (light.c:369)
+==2094500== 
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1122D0: calc_hit_sphere_2 (light.c:136)
+==2094500==    by 0x1125A8: render_sphere_shadow (light.c:168)
+==2094500==    by 0x112851: intersect_object (light.c:219)
+==2094500==    by 0x1130AA: check_shadow (light.c:387)
+==2094500==    by 0x1132B2: lights_intersect (light.c:419)
+==2094500==    by 0x1116E1: render (render.c:107)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a stack allocation
+==2094500==    at 0x112EFE: check_shadow (light.c:369)
+==2094500== 
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1178DE: sphere_bump (sphere_tex.c:62)
+==2094500==    by 0x116887: calc_hit_sphere (sphere.c:31)
+==2094500==    by 0x1169F9: render_sphere (sphere.c:51)
+==2094500==    by 0x111244: render_objs (render.c:37)
+==2094500==    by 0x111693: render (render.c:103)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a heap allocation
+==2094500==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2094500==    by 0x11036A: safe_malloc (safe_ft.c:17)
+==2094500==    by 0x119890: sphere_init (sphere_init.c:46)
+==2094500==    by 0x10FDD9: prefix (parsing.c:116)
+==2094500==    by 0x10FFD3: parsing (parsing.c:163)
+==2094500==    by 0x10F901: main (main.c:89)
+==2094500== 
+Hai chiuso il programma.
+==2094500== 
+==2094500== HEAP SUMMARY:
+==2094500==     in use at exit: 496 bytes in 3 blocks
+==2094500==   total heap usage: 1,013 allocs, 1,010 frees, 157,983 bytes allocated
+==2094500== 
+==2094500== 480 bytes in 2 blocks are indirectly lost in loss record 1 of 2
+==2094500==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2094500==    by 0x11036A: safe_malloc (safe_ft.c:17)
+==2094500==    by 0x11393B: get_lights_rays (light.c:561)
+==2094500==    by 0x1115B7: render (render.c:92)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500== 
+==2094500== 496 (16 direct, 480 indirect) bytes in 1 blocks are definitely lost in loss record 2 of 2
+==2094500==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2094500==    by 0x11036A: safe_malloc (safe_ft.c:17)
+==2094500==    by 0x11157C: render (render.c:89)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500== 
+==2094500== LEAK SUMMARY:
+==2094500==    definitely lost: 16 bytes in 1 blocks
+==2094500==    indirectly lost: 480 bytes in 2 blocks
+==2094500==      possibly lost: 0 bytes in 0 blocks
+==2094500==    still reachable: 0 bytes in 0 blocks
+==2094500==         suppressed: 0 bytes in 0 blocks
+==2094500== 
+==2094500== ERROR SUMMARY: 4872559 errors from 6 contexts (suppressed: 1 from 1)
+==2094500== 
+==2094500== 20050 errors in context 1 of 6:
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1178DE: sphere_bump (sphere_tex.c:62)
+==2094500==    by 0x116887: calc_hit_sphere (sphere.c:31)
+==2094500==    by 0x1169F9: render_sphere (sphere.c:51)
+==2094500==    by 0x111244: render_objs (render.c:37)
+==2094500==    by 0x111693: render (render.c:103)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a heap allocation
+==2094500==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2094500==    by 0x11036A: safe_malloc (safe_ft.c:17)
+==2094500==    by 0x119890: sphere_init (sphere_init.c:46)
+==2094500==    by 0x10FDD9: prefix (parsing.c:116)
+==2094500==    by 0x10FFD3: parsing (parsing.c:163)
+==2094500==    by 0x10F901: main (main.c:89)
+==2094500== 
+==2094500== 
+==2094500== 20188 errors in context 2 of 6:
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1122D0: calc_hit_sphere_2 (light.c:136)
+==2094500==    by 0x1125A8: render_sphere_shadow (light.c:168)
+==2094500==    by 0x112851: intersect_object (light.c:219)
+==2094500==    by 0x1130AA: check_shadow (light.c:387)
+==2094500==    by 0x1132B2: lights_intersect (light.c:419)
+==2094500==    by 0x1116E1: render (render.c:107)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a stack allocation
+==2094500==    at 0x112EFE: check_shadow (light.c:369)
+==2094500== 
+==2094500== 
+==2094500== 790042 errors in context 3 of 6:
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1148BF: plane_bump (plane_tex.c:70)
+==2094500==    by 0x1145B8: render_plane (plane.c:42)
+==2094500==    by 0x11128A: render_objs (render.c:41)
+==2094500==    by 0x111693: render (render.c:103)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a heap allocation
+==2094500==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2094500==    by 0x11036A: safe_malloc (safe_ft.c:17)
+==2094500==    by 0x118148: plane_init (plane_init.c:61)
+==2094500==    by 0x10FE23: prefix (parsing.c:121)
+==2094500==    by 0x10FFD3: parsing (parsing.c:163)
+==2094500==    by 0x10F901: main (main.c:89)
+==2094500== 
+==2094500== 
+==2094500== 790042 errors in context 4 of 6:
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x114731: plane_texture (plane_tex.c:35)
+==2094500==    by 0x1145A1: render_plane (plane.c:41)
+==2094500==    by 0x11128A: render_objs (render.c:41)
+==2094500==    by 0x111693: render (render.c:103)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a stack allocation
+==2094500==    at 0x10F880: main (main.c:79)
+==2094500== 
+==2094500== 
+==2094500== 3252236 errors in context 5 of 6:
+==2094500== Conditional jump or move depends on uninitialised value(s)
+==2094500==    at 0x1122D0: calc_hit_sphere_2 (light.c:136)
+==2094500==    by 0x112614: render_sphere_shadow (light.c:173)
+==2094500==    by 0x112851: intersect_object (light.c:219)
+==2094500==    by 0x1130AA: check_shadow (light.c:387)
+==2094500==    by 0x1132B2: lights_intersect (light.c:419)
+==2094500==    by 0x1116E1: render (render.c:107)
+==2094500==    by 0x10F96A: main (main.c:92)
+==2094500==  Uninitialised value was created by a stack allocation
+==2094500==    at 0x112EFE: check_shadow (light.c:369)
+==2094500== 
+

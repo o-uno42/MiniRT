@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:13 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/10 14:09:28 by thiew            ###   ########.fr       */
+/*   Updated: 2024/11/28 18:24:24 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ int	keys(int keysym, t_data *data)
 	if (keysym == XK_Escape)
 	{
 		write (1, "Hai chiuso il programma.\n", 25);
-		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
-		data->mlx_win = (NULL);
-		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-		exit(0);
+		mlx_loop_end(data->mlx_ptr);
+		/* mlx_destroy_window(data->mlx_ptr, data->mlx_win); */
+		/* clean(data); */
+		/* mlx_destroy_image(data->img.img_ptr, data->img.pix_ptr); */
+		/* mlx_destroy_display(data->mlx_ptr); */
+		/* free(data->mlx_ptr); */
+		/* free(data->mlx_ptr); */
 	}
 	return (0);
 }
@@ -56,9 +58,12 @@ int	keys(int keysym, t_data *data)
 int	esc_x(t_data *data)
 {
 	write (1, "Hai chiuso il programma.\n", 25);
-	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
-	data->mlx_win = (NULL);
-	mlx_destroy_display(data->mlx_ptr);
-	free(data->mlx_ptr);
-	exit (0);
+	mlx_loop_end(data->mlx_ptr);
+	/* clean(data); */
+	/* mlx_destroy_window(data->mlx_ptr, data->mlx_win); */
+	/* mlx_destroy_image(data->img.img_ptr, data->img.pix_ptr); */
+	/* mlx_destroy_display(data->mlx_ptr); */
+	/* free(data->mlx_ptr); */
+	/* free(data->mlx_ptr); */
+	return(0);
 }

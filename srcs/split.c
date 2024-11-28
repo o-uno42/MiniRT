@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:03 by thiew             #+#    #+#             */
-/*   Updated: 2024/10/10 14:09:28 by thiew            ###   ########.fr       */
+/*   Updated: 2024/11/28 14:21:41 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,14 @@ char	**ft_split_rt(char const *s, char c)
 	if (!split)
 		return (NULL);
 	return (split_rt(s, c, split, i));
+}
+
+int	mtx_count(char **mtx)
+{
+	int	i;
+
+	i = 0;
+	while(mtx[i])
+		i++;
+	return (i);
 }

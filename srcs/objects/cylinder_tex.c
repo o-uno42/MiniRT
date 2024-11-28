@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:19:49 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/17 15:29:46 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/28 14:24:56 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	cyl_bump(t_hitinfo *hit, t_cylinder *cyl)
 	t_vect	color_vect;
 	t_vect	delta;
 
-	if (cyl->tex_normal.data == NULL || cyl->checker == false)
+	if (cyl->checker == false || cyl->tex_normal.data == NULL)
     {
         return;
     }

@@ -8,9 +8,11 @@ SRC_DIR = srcs
 OBJ_DIR = objs
 GEO_DIR = $(SRC_DIR)/objects
 INIT_DIR = $(SRC_DIR)/inits
+GNL_DIR = $(SRC_DIR)/get_line
 GEOMETRY = $(wildcard $(GEO_DIR)/*.c)
 INITS = $(wildcard $(INIT_DIR)/*.c)
-FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c \
+GNL = $(wildcard $(GNL_DIR)/*.c)
+FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c $(SRC_DIR)/clean.c \
 			 $(SRC_DIR)/parsing.c $(SRC_DIR)/split.c $(SRC_DIR)/safe_ft.c \
 			 $(SRC_DIR)/color_creation.c $(SRC_DIR)/color.c \
 			 $(SRC_DIR)/vector_utils.c $(SRC_DIR)/math_utils.c \
@@ -18,7 +20,7 @@ FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c \
 			 $(SRC_DIR)/debug_utils.c $(SRC_DIR)/free_functions.c \
 			 $(SRC_DIR)/light.c  $(SRC_DIR)/bonus_checker.c \
 			 $(SRC_DIR)/camera_rays.c $(SRC_DIR)/light_rays.c \
-			 $(GEOMETRY) $(INITS)
+			 $(GEOMETRY) $(INITS) $(GNL)
 
 FILES_OBJS = $(FILES_SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -45,10 +47,11 @@ $(NAME): $(FILES_OBJS)
 		ar rc $(NAME) $(FILES_OBJS)
 		ranlib $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(GEOMETRY) $(HEADER)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(GEOMETRY) $(INITS) $(GNL) $(HEADER)
 		# @mkdir -p $(OBJ_DIR)
 		# @mkdir -p $(GEO_DIR)
 		# @mkdir -p $(INIT_DIR)
+		# @mkdir -p $(GNL_DIR)
 		@mkdir -p $(dir $@)
 		$(CC) $(CFLAGS) -c $< -o $@
 
