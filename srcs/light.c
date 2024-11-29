@@ -156,6 +156,7 @@ bool	render_sphere_shadow(t_ray shadow_ray, t_data *data, t_sphere *sphere, t_hi
 	float	intersect1;
 	float	intersect2;
 
+	hit.t = INFINITY;
 	offset_vect = sub_vect(shadow_ray.pos, sphere->pos);
 
 	float a = dot_product(shadow_ray.dir, shadow_ray.dir);
@@ -375,7 +376,6 @@ bool check_shadow(t_data *data, t_vect point, t_hitinfo hit)
 
     j = 0;
     i = 0;
-
     while (j < data->nb_lights)
     {
         shadow_ray.pos = sum_vect(point, scale_vect(hit.normal, 0.0003));

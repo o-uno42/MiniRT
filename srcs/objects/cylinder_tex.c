@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:19:49 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 14:24:56 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 14:56:23 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void cap_texture(t_hitinfo *hit, t_cylinder *cyl)
 {
-    if (cyl->tex.data == NULL || cyl->checker == false)
+    if (cyl->nb_params < 7 || cyl->checker == false)
     {
         hit->rgb = cyl->rgb;
         return;
@@ -28,7 +28,7 @@ void	cap_bump(t_hitinfo *hit, t_cylinder *cyl)
 	t_vect	color_vect;
 	t_vect	delta;
 
-	if (cyl->tex_normal.data == NULL || cyl->checker == false)
+	if (cyl->nb_params != 8 || cyl->checker == false)
     {
         return;
     }
@@ -107,7 +107,7 @@ t_rgb	tex_cyl_color(t_hitinfo *hit, t_picture pic, t_cylinder *cyl)
 
 void	tex_cyl(t_hitinfo *hit, t_cylinder *cyl)
 {
-	if (cyl->checker == false || cyl->tex.data == NULL)
+	if (cyl->checker == false || cyl->nb_params < 7)
 	{
 		hit->rgb = cyl->rgb;
 		return ;
@@ -122,7 +122,7 @@ void	cyl_bump(t_hitinfo *hit, t_cylinder *cyl)
 	t_vect	color_vect;
 	t_vect	delta;
 
-	if (cyl->checker == false || cyl->tex_normal.data == NULL)
+	if (cyl->checker == false || cyl->nb_params != 8)
     {
         return;
     }

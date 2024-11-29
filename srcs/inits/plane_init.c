@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 14:13:57 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 13:32:01 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 	int	count;
 
 	count = mtx_count(res);
+	plane->tex.data = NULL;
+	plane->tex_norm.data = NULL;
 	if (count >= 4 && res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
 	{
 		plane->checker = ft_atoi(res[4]);
@@ -47,6 +49,8 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 		plane->tex_norm = data->pics[ft_atoi(res[6])];
 	// if (res[7])
 	// 	plane->brilliance = ft_atol(res[7]);
+	plane->nb_params = count;
+	printf("plane->nb params: %d \n",plane->nb_params);
 }
 
 void	plane_init(t_data *data, char *line, int i)

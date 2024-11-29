@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:28:47 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/16 18:55:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 14:53:48 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_rgb	tex_sphere_color(t_hitinfo *hit, t_picture pic, t_sphere *sphere)
 void	sphere_texture(t_hitinfo *hit, t_sphere *sphere)
 {
 
-	if (sphere->checker == false || sphere->tex.data == NULL)
+	if (sphere->nb_params < 5 || sphere->checker == false)
 	{
 		hit->rgb = sphere->rgb;
 		return ;
@@ -59,7 +59,7 @@ void	sphere_bump(t_hitinfo *hit, t_sphere *sphere)
 	t_vect	color_vect;
 	t_vect	delta;
 
-	if (sphere->tex_normal.data == NULL || sphere->checker == false)
+	if (sphere->nb_params != 6 || sphere->checker == false)
     {
         return;
     }

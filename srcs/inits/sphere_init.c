@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:42:03 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 14:15:30 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 13:25:59 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 {
 	int	count;
 
+	sphere->tex.data = NULL;
+	sphere->tex_normal.data = NULL;
 	count = mtx_count(res);
 	if (count >= 4 && res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
 	{
@@ -31,6 +33,7 @@ void	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 		sphere->tex = data->pics[ft_atoi(res[5])];
 	if (count >= 6 && res[6])
 		sphere->tex_normal = data->pics[ft_atoi(res[6])];
+	sphere->nb_params = count;
 	// if (res[7])
 	// 	sphere->brilliance = ft_atol(res[7]);
 }

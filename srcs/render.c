@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:22 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/15 14:12:40 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 15:32:31 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,12 @@ int    render(t_data *data)
 	t_hitinfo hit;
 	// t_ray *rays = light_rays(data);
 	// t_ray *reflect;
-	t_ray	**bonus_rays = NULL;
 
 	data->img_ratio = ratio(data->img.width, data->img.height);
 	print_camera(data->camera);
 	y = 0;
 	int d =0;
 
-	bonus_rays = safe_malloc(data->nb_lights * sizeof(t_ray *));
-	while (d < data->nb_lights)
-	{
-		bonus_rays[d] = get_lights_rays(data, d);
-		d++;
-	}
 	while (y < data->img.height)
 	{
 		x = 0;
@@ -123,5 +116,6 @@ int    render(t_data *data)
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, \
 		data->img.img_ptr, 0, 0);
+	d = d;
 	return (0);
 }

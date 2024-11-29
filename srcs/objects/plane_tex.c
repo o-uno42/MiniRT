@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:31:09 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/15 16:31:32 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 14:52:21 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
 void plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic)
 {
 
-    if (plane->tex.data == NULL || plane->checker == false)
+    if (plane->nb_params < 5 || plane->checker == false)
     {
         hit->rgb = plane->rgb;
         return;
@@ -67,7 +67,7 @@ void	plane_bump(t_hitinfo *hit, t_plane *plane)
 	t_vect	color_vect;
 	t_vect	delta;
 
-	if (plane->tex_norm.data == NULL || plane->checker == false)
+	if (plane->nb_params != 6 || plane->checker == false)
     {
         return;
     }

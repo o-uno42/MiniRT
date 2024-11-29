@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:32:31 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 14:11:37 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 13:26:53 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	cone_vect_init(t_cone *cone, char **res, char **coords)
 
 void	cone_bonus_init(t_cone *cone, char **res, int count)
 {
+	cone->tex.data = NULL;
 	if (count >= 6 &&res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
 	{
 		cone->checker = ft_atoi(res[6]);
@@ -65,6 +66,7 @@ void	cone_bonus_init(t_cone *cone, char **res, int count)
 		cone->checker = false;
 		cone->bonus = false;
 	}
+	cone->nb_params = count;
 	// if (res[7])
 	// 	cone->brilliance = ft_atol(res[7]);
 }

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:48:18 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 14:18:23 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 13:26:22 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	top_bottom_point(POINT *p1, POINT *p2, t_cylinder cylinder)
 
 void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res, int count)
 {
+	cylinder->tex.data = NULL;
+	cylinder->tex_normal.data = NULL;
 	if (count >= 6 && res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
 	{
 		cylinder->checker = ft_atoi(res[6]);
@@ -35,6 +37,7 @@ void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res, int cou
 		cylinder->tex = data->pics[ft_atoi(res[7])];
 	if (count >= 8 && res[8])
 		cylinder->tex_normal = data->pics[ft_atoi(res[8])];
+	cylinder->nb_params = count;
 	// if (res[9])
 	// 	cylinder->brilliance = ft_atol(res[9]);
 }

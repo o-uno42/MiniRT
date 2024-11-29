@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 11:56:59 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/11/29 13:25:07 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -136,7 +136,7 @@ typedef struct s_sphere
 	float		diameter;
 	float		radius;
 	t_rgb		rgb;
-	int			nb;
+	int			nb_params;
 	bool		checker;
 	bool		bonus;
 	t_picture	tex;
@@ -154,6 +154,7 @@ typedef struct	s_cylinder
 	float	radius;
 	float	height;
 	t_rgb	rgb;
+	int		nb_params;
 	bool	checker;
 	bool	bonus;
 	t_picture	tex;
@@ -190,6 +191,7 @@ typedef struct s_cone
 	t_rgb	rgb;
 	bool	checker;
 	bool	bonus;
+	int		nb_params;
 	t_picture	tex;
 	t_picture	tex_normal;
 	float		brilliance;
@@ -202,7 +204,7 @@ typedef struct s_plane
 	t_vect		vect;
 	t_rgb		rgb;
 	t_rgb		rgb_norm;
-	int			nb;
+	int			nb_params;
 	bool		checker;
 	bool		bonus;
 	t_picture	tex;
