@@ -30,6 +30,17 @@ t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
 	return (color_v);
 }
 
+t_vect	positive_vect(t_vect vect)
+{
+	if (vect.x < 0)
+		vect.x = -vect.x;
+	if (vect.y < 0)
+		vect.y = -vect.y;
+	if (vect.z < 0)
+		vect.z = -vect.z;
+	return vect;
+}
+
 t_rgb	tex_color_plane(t_plane *plane, t_hitinfo *hit, t_picture pic)
 {
     float u;
@@ -40,6 +51,8 @@ t_rgb	tex_color_plane(t_plane *plane, t_hitinfo *hit, t_picture pic)
 	float dot1;
 	float dot2;
 	float dot3;
+
+	// t_vect positive_plane = positive_vect(plane->vect);
 
 	int tex_x;
 	int tex_y;

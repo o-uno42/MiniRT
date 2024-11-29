@@ -204,6 +204,7 @@ typedef struct s_plane
 	t_picture	tex;
 	t_picture	tex_norm;
 	float		brilliance;
+	bool		is_visible;
 }				t_plane;
 
 typedef struct s_img
