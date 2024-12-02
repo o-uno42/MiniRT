@@ -6,12 +6,11 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/29 15:26:56 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 14:39:45 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
-
 
 char	*check_line(char *line)
 {
@@ -21,12 +20,22 @@ char	*check_line(char *line)
 	i = 0;
 	while (line[i] && line[i] != '#')
 		i++;
+	if (i == 0)
+	{
+		free(line);
+		return(NULL);
+	}
 	if (line[i] == 0 && i > 0)
 		return (line);
 	res = ft_substr(line, 0, i);
 	free(line);
 	line = ft_strtrim(res, " ");
 	free(res);
+	if (line[0] == 0)
+	{
+		free(line);
+		return (NULL);
+	}
 	return (line);
 }
 
@@ -109,8 +118,10 @@ void	parsing(int fd, t_data *data)
 		line = check_line(line);
 		printf("%d line: %s, len: %ld \n",i, line, ft_strlen(line));
 		if (line && line[0] != 0)
+		{
 			prefix(line, data, &nb_objects, &nb_pics, &nb_lights);
-		free(line);
+			free(line);
+		}
 		i++;
 	}
 	free(line);

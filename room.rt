@@ -4,7 +4,7 @@ L 3,6,0 0.7 0,0,100 #light
 # l -10,3,-7 0.7 0,0,100 #second light
 l -15,10,8 0.1 0,0,100 #second light
 # l 13,8,3 0.9 0,0,100 #second light
-# l -10,9,6 0.7 0,0,100 #second light
+   # l -10,9,6 0.7 0,0,100 #second light
 # sp 0,0,0 100.6 10,255,255 #sphere
 sp 0,0,0 3.6 20,55,99 0 #sphere
 sp 0,0,6 3.6 120,30,99 0 #sphere
