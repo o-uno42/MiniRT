@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:42:03 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/29 13:25:59 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:32:16 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 	if (count >= 4 && res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
 	{
 		sphere->checker = ft_atoi(res[4]);
+		printf("cheker sphere: %s\n", res[4]);
 		sphere->bonus = ft_atoi(res[4]);
 	}
 	else

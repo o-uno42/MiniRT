@@ -6,11 +6,32 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:57:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 17:07:16 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 18:20:42 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+
+t_calc	calc_init()
+{
+	t_calc	calc;
+
+	calc.u = 0;
+	calc.v = 0;
+	calc.tex_x = 0;
+	calc.tex_y = 0;
+	calc.tex_theta = 0;
+	calc.tex_height = 0;
+	calc.theta = 0;
+	calc.phi = 0;
+	calc.square_phi = 0;
+	calc.square_theta = 0;
+	calc.scale_theta = 0;
+	calc.square_height = 0;
+	calc.height = 0;
+	calc.tex_phi = 0;
+	return (calc);
+}
 
 t_hitinfo	init_hit(t_data *data)
 {
@@ -20,6 +41,7 @@ t_hitinfo	init_hit(t_data *data)
 	hit.t = FLT_MAX;
 	hit.normal = create_vector(0, 0, 0);
 	hit.rgb = data->ambient.rgb;
+	hit.calc = calc_init();
 	return (hit);
 }
 
@@ -63,7 +85,6 @@ void	pic_init(t_data *data, char *line, int nb_pics)
 	}
 	pic.data = mlx_get_data_addr(pic.pic, &pic.bpp, &pic.line_len, &pic.endian);
 	pic.index = nb_pics;
-	data->pic_idx = nb_pics;
 	data->pics[nb_pics] = pic;
 	free_mtx(part);
 	free_mtx(res);

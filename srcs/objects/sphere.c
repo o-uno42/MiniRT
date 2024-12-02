@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:48 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/16 18:55:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 16:04:57 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *spher
 		hit->normal = scale_vect(hit->normal, -1);
 		hit->is_outside = false;
 	}
-	// checker_sphere(hit, sphere);
+	checker_sphere(hit, sphere);
 	sphere_texture(hit, sphere);
 	sphere_bump(hit, sphere);
 }

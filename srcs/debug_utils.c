@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:01:30 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/14 19:50:41 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:19:50 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	print_sphere(t_sphere *sphere)
 	print_vect((*sphere).pos);
 	printf("diameter: %f, radius: %f, color: ", (*sphere).diameter, (*sphere).radius);
 	print_rgb((*sphere).rgb);
+	printf("nb_params: %d\n", sphere->nb_params);
 	printf("\n");
 }
 
@@ -70,6 +71,7 @@ void	print_cylinder(t_cylinder *cylinder)
 	print_vect((*cylinder).p2);
 	printf("diameter: %f, radius: %f, height: %f color: ", (*cylinder).diameter, (*cylinder).radius, (*cylinder).height);
 	print_rgb((*cylinder).rgb);
+	printf("nb_params: %d\n", cylinder->nb_params);
 	printf("\n");
 }
 
@@ -85,6 +87,7 @@ void	print_cone(t_cone *cone)
 	printf(" theta radians: %f, theta degrees: %f \n", (*cone).theta_r, (*cone).theta_d);
 	printf("diameter: %f, radius: %f, height: %f color: ", (*cone).diameter, (*cone).radius, (*cone).height);
 	print_rgb((*cone).rgb);
+	printf("nb_params: %d\n", cone->nb_params);
 	printf("\n");
 }
 
@@ -107,6 +110,7 @@ void	print_plane(t_plane *plane)
 	printf("plane.vect: ");
 	print_vect((*plane).vect);
 	print_rgb((*plane).rgb);
+	printf("nb_params: %d\n", plane->nb_params);
 	printf("\n");
 }
 

@@ -6,14 +6,14 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:44:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/17 15:30:35 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 18:06:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
- 
-bool cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res)
+bool	cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder,
+		POINT *res)
 {
 	t_vect	hypotenuse;
 	t_vect	proj;
@@ -32,23 +32,24 @@ bool cyl_end(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res)
 		return (false);
 }
 
-void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
+void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray,
+		t_cylinder *cylinder)
 {
-	float prev_hit;
+	float	prev_hit;
 	POINT	prev;
 	POINT	res;
-	
+
 	prev_hit = hit->t;
 	prev = hit->p;
 	if (intersect >= hit->t)
 		return ;
 	hit->t = intersect;
 	hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
-	if(!cyl_end(hit, camera_ray, cylinder, &res))
+	if (!cyl_end(hit, camera_ray, cylinder, &res))
 	{
 		hit->t = prev_hit;
 		hit->p = prev;
-		return;
+		return ;
 	}
 	hit->normal = normalize(sub_vect(hit->p, res));
 	checker_cyl(hit, cylinder);
@@ -56,40 +57,32 @@ void	calc_hit_cyl(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder 
 	cyl_bump(hit, cylinder);
 }
 
-bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit)
+bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder,
+		t_hitinfo *hit)
 {
-	float	a;
-	float	b;
-	float	c;
 	float	intersect1;
 	float	intersect2;
-	t_vect	comp;
-	t_vect	pdelt;
-	t_vect	b1;
-	t_vect	c1;
+	t_quad	quad;
 
-	data=data;
-	pdelt = sub_vect(camera_ray.pos, cylinder->pos);
-	comp = sub_vect(camera_ray.dir, scale_vect(cylinder->dir, dot_product(camera_ray.dir, cylinder->dir)));
-	a = dot_product(comp, comp);
-	b1 = sub_vect(pdelt, scale_vect(cylinder->dir, dot_product(pdelt, cylinder->dir)));
-	b = 2 * dot_product(comp, b1); 
-	c1 = sub_vect(pdelt, scale_vect(cylinder->dir, dot_product(pdelt, cylinder->dir)));
-	c = dot_product(c1, c1) - cylinder->radius * cylinder->radius;
-	if(solve_quadratic(a, b, c, &intersect1, &intersect2))
+	quad = data->quad;
+	quad.pdelt = sub_vect(camera_ray.pos, cylinder->pos);
+	quad.comp = sub_vect(camera_ray.dir, scale_vect(cylinder->dir,
+				dot_product(camera_ray.dir, cylinder->dir)));
+	quad.a = dot_product(quad.comp, quad.comp);
+	quad.b1 = sub_vect(quad.pdelt, scale_vect(cylinder->dir,
+				dot_product(quad.pdelt, cylinder->dir)));
+	quad.b = 2 * dot_product(quad.comp, quad.b1);
+	quad.c1 = sub_vect(quad.pdelt, scale_vect(cylinder->dir,
+				dot_product(quad.pdelt, cylinder->dir)));
+	quad.c = dot_product(quad.c1, quad.c1) - cylinder->radius
+		* cylinder->radius;
+	if (solve_quadratic(quad.a, quad.b, quad.c, &intersect1, &intersect2))
 	{
 		if (intersect1 > 0)
-		{
 			calc_hit_cyl(hit, intersect1, camera_ray, cylinder);
-			/* return (true); */
-		}
 	}
-	if(!caps(camera_ray, cylinder, hit))
+	if (!caps(camera_ray, cylinder, hit))
 	{
-		/* intersect1 = FLT_MAX; */
-		/* calc_hit_cyl(hit, intersect1, camera_ray, cylinder); */
-		/* return (true); */
 	}
 	return (false);
 }
-
