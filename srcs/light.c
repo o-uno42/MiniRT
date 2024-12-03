@@ -32,24 +32,24 @@ t_rgb dark_rgb(t_rgb rgb, float darkness)
 }
 
 
-void	calc_hit_sphere_2(t_hitinfo hit, float intersect, t_ray ray, t_sphere *sphere)
+void	calc_hit_sphere_2(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *sphere)
 {
-	if (intersect >= hit.t)
+	if (intersect >= hit->t)
 		return ;
-	hit.t = intersect;
-	hit.p = sum_vect(ray.pos, scale_vect(ray.dir, intersect));
-	hit.normal = normalize(sub_vect(hit.p, sphere->pos));
-	hit.rgb = sphere->rgb;
-	if (dot_product(ray.dir, hit.normal) < 0)
-		hit.is_outside = true;
+	hit->t = intersect;
+	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, intersect));
+	hit->normal = normalize(sub_vect(hit->p, sphere->pos));
+	hit->rgb = sphere->rgb;
+	if (dot_product(ray.dir, hit->normal) < 0)
+		hit->is_outside = true;
 	else
 	{
-		hit.normal = scale_vect(hit.normal, -1);
-		hit.is_outside = false;
+		hit->normal = scale_vect(hit->normal, -1);
+		hit->is_outside = false;
 	}
 }
 
-bool	render_sphere_shadow(t_ray shadow_ray, t_data *data, t_sphere *sphere, t_hitinfo hit)
+bool	render_sphere_shadow(t_ray shadow_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit)
 {
 	data = data;
 	t_vect	offset_vect;
@@ -82,7 +82,7 @@ bool is_behind_plane(t_light light, t_plane *plane)
     else
         return false;
 }
-bool render_plane_shadow(t_light light, t_ray shadow_ray, t_plane *plane, t_hitinfo hit)
+bool render_plane_shadow(t_light light, t_ray shadow_ray, t_plane *plane, t_hitinfo *hit)
 {
     bool res;
 
@@ -94,13 +94,13 @@ bool render_plane_shadow(t_light light, t_ray shadow_ray, t_plane *plane, t_hiti
         return false;
     float D = (dot_product(plane->vect, shadow_ray.pos));
     float t = D - dot_product(plane->vect, plane->pos);
-    if (t < 0.0003|| t >= hit.t)
+    if (t < 0.0003|| t >= hit->t)
         res = true;
     return res;
 }
 
 
-bool	caps_2(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo hit)
+bool	caps_2(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo *hit)
 {
 	float	visibility;
 	float	visibility2;
@@ -133,14 +133,14 @@ bool	caps_2(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo hit)
 	}
 	else
 		return (false);
-	if (chosen_t > hit.t)
+	if (chosen_t > hit->t)
 		return (false);
 	p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, chosen_t));
 	pdelt = sub_vect(p, pcenter);
-	if (magnitude(pdelt) <= cylinder->radius && chosen_t < hit.t)
+	if (magnitude(pdelt) <= cylinder->radius && chosen_t < hit->t)
 	{
-		hit.normal = normal;
-		// cap_hit(cylinder, hit, p, chosen_t); 
+		hit->normal = normal;
+		cap_hit(cylinder, hit, p, chosen_t); 
 		// cap_texture(hit, cylinder);
 		// cap_bump(hit, cylinder);
 		return (true);
@@ -150,7 +150,7 @@ bool	caps_2(t_ray camera_ray, t_cylinder *cylinder, t_hitinfo hit)
 }
 
 
-bool cyl_end_2(t_hitinfo hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res)
+bool cyl_end_2(t_hitinfo *hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res)
 {
 	t_vect	hypotenuse;
 	t_vect	proj;
@@ -158,7 +158,7 @@ bool cyl_end_2(t_hitinfo hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res
 	float	proj_len;
 
 	camera_ray = camera_ray;
-	hypotenuse = sub_vect(hit.p, cylinder->pos);
+	hypotenuse = sub_vect(hit->p, cylinder->pos);
 	proj = scale_vect(cylinder->dir, dot_product(hypotenuse, cylinder->dir));
 	*res = sum_vect(cylinder->pos, proj);
 	p_to_res = sub_vect(*res, cylinder->p2);
@@ -169,32 +169,32 @@ bool cyl_end_2(t_hitinfo hit, t_ray camera_ray, t_cylinder *cylinder, POINT *res
 		return (false);
 }
 
-bool	calc_hit_cyl_2(t_hitinfo hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
+bool	calc_hit_cyl_2(t_hitinfo *hit, float intersect, t_ray camera_ray, t_cylinder *cylinder)
 {
 	float prev_hit;
 	POINT	prev;
 	POINT	res;
 	
-	prev_hit = hit.t;
-	prev = hit.p;
-	if (intersect >= hit.t + 0.0003)
+	prev_hit = hit->t;
+	prev = hit->p;
+	if (intersect >= hit->t + 0.0003)
 		return false;
-	hit.t = intersect;
-	hit.p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
+	hit->t = intersect;
+	hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, intersect));
 	if(!cyl_end_2(hit, camera_ray, cylinder, &res))
 	{
-		hit.t = prev_hit;
-		hit.p = prev;
+		hit->t = prev_hit;
+		hit->p = prev;
 		return false;
 	}
-	hit.normal = normalize(sub_vect(hit.p, res));
+	hit->normal = normalize(sub_vect(hit->p, res));
 	// checker_cyl(hit, cylinder);
 	// tex_cyl(&hit, cylinder);
 	// cyl_bump(&hit, cylinder);
     return true;
 }
 
-bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder, t_hitinfo hit)
+bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit)
 {
 	float	a;
 	float	b;
@@ -216,7 +216,7 @@ bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder
 	c = dot_product(c1, c1) - cylinder->radius * cylinder->radius;
 	if(solve_quadratic(a, b, c, &intersect1, &intersect2))
 	{
-        if (intersect1 > 0.0001 && intersect1 < hit.t)
+        if (intersect1 > 0.0001 && intersect1 < hit->t)
 		{
 			if(calc_hit_cyl_2(hit, intersect1, shadow_ray, cylinder))
 			return (true);
@@ -224,13 +224,12 @@ bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder
 	}
     // printf("1] %f\n", intersect1);
     // printf("2] %f\n", intersect2);
-    if (hit.t > intersect1 && intersect2 > intersect1)
-	{if (caps_2(shadow_ray, cylinder, hit))
-		return (true);}
+    if (caps_2(shadow_ray, cylinder, hit))
+		return (true);
 	return (false);
 }
 
-int intersect_object(t_data *data, t_objs object, t_ray ray, t_hitinfo hit, int i) 
+int intersect_object(t_data *data, t_objs object, t_ray ray, t_hitinfo *hit, int i) 
 {
     data = data;
 
@@ -363,20 +362,26 @@ bool check_shadow(t_data *data, t_vect point, t_hitinfo hit)
 	shadow_hit.t = INFINITY;
     while (j < data->nb_lights)
     {
+        t_vect light_dir = sub_vect(data->lights[j].pos, hit.p);
+        float dist_to_light = sqrt(dot_product(light_dir, light_dir));
+        // light_dir = normalize(light_dir);
         shadow_ray.pos = sum_vect(point, scale_vect(hit.normal, 0.0003)); // why is here shadow ray pos not hit.p?
         shadow_ray.dir = normalize(sub_vect(data->lights[j].pos, point));
         in_shadow = false;
         i = 0;
         while (data->obj[i].type_obj != END)
         {
-            if (intersect_object(data, data->obj[i], shadow_ray, shadow_hit, j))
+            if (intersect_object(data, data->obj[i], shadow_ray, &shadow_hit, j))
             {
+                if (shadow_hit.t < dist_to_light)
+                {
                     in_shadow = true;
                     break;
+                }
             }
             i++;
         }
-        if (!in_shadow)
+        if (in_shadow)
             break;
         j++;
     }
