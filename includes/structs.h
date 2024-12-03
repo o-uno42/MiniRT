@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/29 13:25:07 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 18:20:08 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -87,6 +87,36 @@ typedef struct s_rgb
 	int			b;
 }				t_rgb;
 
+typedef	struct	s_calc
+{
+	int			tex_theta;
+	int			tex_height;
+	int			tex_phi;
+	int			tex_x;
+	int			tex_y;
+	float		theta;
+	float		phi;
+	float		square_theta;
+	float		square_phi;
+	float		scale_theta;
+	float		square_height;
+	float		u;
+	float		v;
+	float		height;
+	
+}				t_calc;
+
+typedef struct	s_quad
+{
+	float		a;
+	float		b;
+	float		c;
+	t_vect		comp;
+	t_vect		pdelt;
+	t_vect		b1;
+	t_vect		c1;
+}				t_quad;
+
 typedef struct s_hitinfo
 {
 	POINT		p;
@@ -94,6 +124,7 @@ typedef struct s_hitinfo
 	float		t;
 	bool		is_outside;
 	t_rgb		rgb;
+	t_calc		calc;
 }				t_hitinfo;
 
 typedef struct s_intersections
@@ -241,6 +272,7 @@ typedef struct s_objs
 	t_type_obj	type_obj;
 }				t_objs;
 
+
 typedef struct s_data
 {
 	void		*mlx_ptr;
@@ -254,6 +286,7 @@ typedef struct s_data
 	t_objs		*obj;
 	t_hitinfo	hit;
 	t_light		lights[MAX_LIGHTS - 1];
+	t_quad		quad;
 	int			nb_lights;
 	float		img_ratio;
 	int			index_objs;

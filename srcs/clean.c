@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:25:06 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 18:40:54 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/02 17:28:36 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ void	clean_geometry(t_objs *obj)
 	free(obj);
 }
 
-void	clean_pics(t_picture pics[], int pic_idx)
+void	clean_pics(t_picture pics[], int pic_idx, t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while(i < pic_idx && pics[i].data != NULL)
+	if (pic_idx < 0)
+		return ;
+	while(i <= pic_idx && pics[i].data != NULL)
 	{
+		mlx_destroy_image(data->mlx_ptr, pics[i].pic);
 		free(pics[i].path);
-		mlx_destroy_image(pics[i].pic, pics[i].data);
 		i++;
 	}
 }
@@ -55,6 +57,6 @@ void	clean_window(t_data *data)
 void clean(t_data *data)
 {
 	clean_geometry(data->obj);
-	clean_pics(data->pics, data->pic_idx);
+	clean_pics(data->pics, data->pic_idx, data);
 	clean_window(data);
 }
