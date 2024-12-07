@@ -35,6 +35,7 @@ t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
 	return (color_v);
 }
 
+
 t_rgb	tex_color_plane(t_plane *plane, t_hitinfo *hit, t_picture pic)
 {
     float u;

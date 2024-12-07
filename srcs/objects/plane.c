@@ -30,7 +30,7 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
     t = -(D + dot_product(plane->vect, camera_ray.pos)) / visibility;
 
 	/* hit->normal = plane->vect; */
-	if( t > 0 && t < hit->t)
+	if(t > 0 && t < hit->t)
 	{
 		hit->t = t;
 		hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, t));
@@ -43,6 +43,9 @@ bool render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		/* hit->rgb = plane->rgb; */
 		/* printf("hit->t plane: %f\t t plane: %f\n", hit->t, t); */
 	}
-
+	else
+	{
+		hit->normal = scale_vect(hit->normal, -1);
+	}
     return (t);
 }

@@ -31,7 +31,6 @@ t_rgb dark_rgb(t_rgb rgb, float darkness)
     return light_rgb;
 }
 
-
 void	calc_hit_sphere_2(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *sphere)
 {
 	if (intersect >= hit->t)
@@ -86,16 +85,17 @@ bool render_plane_shadow(t_light light, t_ray shadow_ray, t_plane *plane, t_hiti
 {
     bool res;
 
+    light = light;
     res = true;
     float visibility = dot_product(plane->vect, shadow_ray.dir);
-    if (visibility < 0.0003)
+    if (visibility < 0 )//0.0003)
         return false;
-    if (!is_behind_plane(light, plane))
-        return false;
+    // if (!is_behind_plane(light, plane))
+    //     return false;
     float D = (dot_product(plane->vect, shadow_ray.pos));
     float t = D - dot_product(plane->vect, plane->pos);
     if (t < 0.0003|| t >= hit->t)
-        res = true;
+        res = false;
     return res;
 }
 
@@ -231,12 +231,13 @@ bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder
 
 int intersect_object(t_data *data, t_objs object, t_ray ray, t_hitinfo *hit, int i) 
 {
-    data = data;
+    data = data; i = i;
 
     if (object.type_obj == SPHERE)
-        return (render_sphere_shadow(ray, data, object.object, hit));
+        return (render_sphere(ray, data, object.object, hit));
     else if (object.type_obj == PLANE)
-        return (render_plane_shadow(data->lights[i], ray, object.object, hit));
+        return (render_plane( ray, object.object, hit));
+        // return (render_plane_shadow(data->lights[i], ray, object.object, hit));
         // return (intersect_plane(object.object, ray, hit));
     else if (object.type_obj == CYLINDER)
         return (render_cylinder_shadow(ray, NULL, object.object, hit));
