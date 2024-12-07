@@ -6,13 +6,13 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:57:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/02 18:20:42 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 17:40:07 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-t_calc	calc_init()
+t_calc	calc_init(void)
 {
 	t_calc	calc;
 
@@ -57,6 +57,8 @@ void	ambient_init(t_data *data, char *line)
 	j = 0;
 	j = j;
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 2, data))
+		return ;
 	data->ambient.ratio = ft_atol(res[1]);
 	rgb = ft_split(res[2], ',');
 	data->ambient.rgb = extract_color(ft_atol(rgb[0]), ft_atol(rgb[1]),
@@ -65,13 +67,18 @@ void	ambient_init(t_data *data, char *line)
 	free_mtx(res);
 }
 
-void	pic_init(t_data *data, char *line, int nb_pics)
+void	pic_init(t_data *data, char *line, int *nb_pics)
 {
 	char		**res;
 	char		**part;
 	t_picture	pic;
 
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 1, data))
+	{
+		(*nb_pics)--;
+		return ;
+	}
 	part = ft_split(res[1], ':');
 	pic.path = ft_strdup(part[1]);
 	pic.data = NULL;
@@ -84,8 +91,8 @@ void	pic_init(t_data *data, char *line, int nb_pics)
 		return ;
 	}
 	pic.data = mlx_get_data_addr(pic.pic, &pic.bpp, &pic.line_len, &pic.endian);
-	pic.index = nb_pics;
-	data->pics[nb_pics] = pic;
+	pic.index = *nb_pics;
+	data->pics[*nb_pics] = pic;
 	free_mtx(part);
 	free_mtx(res);
 }

@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/12/07 14:42:41 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 17:30:21 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	parsing(int fd, t_data *data);
 void    movement(t_data *data);
 
 // RENDER INITS
-void	pic_init(t_data *data, char *line, int nb_pics);
+void	pic_init(t_data *data, char *line, int *nb_pics);
 t_hitinfo	init_hit(t_data *data);
 void    ambient_init(t_data *data, char *line);
 void	camera_init(t_data *data, char *line);
@@ -157,6 +157,7 @@ int	mtx_count(char **mtx);
 void    *safe_malloc(size_t size);
 char 	*join_wrapper(const char *s1, const char *s2, int free_which);
 bool	check_extension( char *file_name);
+bool 	invalid_params(char **params, int	valid_params, t_data *data);
 //FREE FUNCTIONS
 void	free_mtx(char **mtx);
 //ERRORS

@@ -6,13 +6,13 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:42:03 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/02 15:32:16 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:28:21 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-void	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
+int	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 {
 	int	count;
 
@@ -35,8 +35,7 @@ void	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 	if (count >= 6 && res[6])
 		sphere->tex_normal = data->pics[ft_atoi(res[6])];
 	sphere->nb_params = count;
-	// if (res[7])
-	// 	sphere->brilliance = ft_atol(res[7]);
+	return(count);
 }
 
 void	sphere_init(t_data *data, char *line, int i)
@@ -50,6 +49,8 @@ void	sphere_init(t_data *data, char *line, int i)
 	sphere = (t_sphere *)safe_malloc(sizeof(t_sphere));
 	data->obj[i].object = sphere;
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 3, data))
+			return ;
 	coords = ft_split(res[1], ',');
 	rgb = ft_split(res[3], ',');
 	sphere->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),

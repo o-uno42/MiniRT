@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/07 14:45:48 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:17:33 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_data	*start_ambient(t_data *data)
 void	data_init(t_data *data)
 {
 	int i = 0;
+	data->invalid = false;
 	data->img.width = 900;
 	data->img.height = 900;
 	data->obj = safe_malloc(sizeof(t_objs) * MAX_OBJECTS);

@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/07 15:26:20 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 17:29:58 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics, int *nb_lights
 	else if (ft_strncmp("pic", line ,i) == 0)
 	{
 		(*nb_pics)++;
-		pic_init(data, line, *nb_pics);
+		pic_init(data, line, nb_pics);
 	}
 }
 
@@ -129,7 +129,11 @@ void	parsing(int fd, t_data *data)
 	data->obj[nb_objects].type_obj = END;
 	data->nb_lights = nb_lights;
 	data->pic_idx = nb_pics;
-	/* printf("pic_idx: %d\n", data->pic_idx); */
-	/* print_all_obj(data); */
 	close(fd);
+	if (data->invalid == true)
+	{
+		mlx_loop_end(data->mlx_ptr);
+		clean(data);
+		exit(1);
+	}
 }

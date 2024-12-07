@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:54:51 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/17 16:47:58 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 17:52:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,10 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 		if (t1 > 0 && t1 < hit->t)
 		{
 			hit_cone(hit, t1, ray, cone);
-			/* return (true); */
 		}
 	}
 	if(!caps_cone(ray, cone, hit))
 	{
-		/* t1 = FLT_MAX; */
-		/* /1* hit_cone(hit, t1, ray, cone); *1/ */
-		/* return (true); */
 	}
 
 	return (false);
