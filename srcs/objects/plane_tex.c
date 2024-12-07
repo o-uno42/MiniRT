@@ -52,9 +52,9 @@ t_rgb	tex_color_plane(t_plane *plane, t_hitinfo *hit, t_picture pic)
 
 	orientation = false;
 
-	dot1 =dot_product(plane->vect, create_vector(1, 0, 0));
-	dot2 =dot_product(plane->vect, create_vector(0, 1, 0));
-	dot3 =dot_product(plane->vect, create_vector(0, 0, 1));
+	dot1 = fabs(dot_product(plane->vect, create_vector(1, 0, 0)));
+	dot2 = fabs(dot_product(plane->vect, create_vector(0, 1, 0)));
+	dot3 = fabs(dot_product(plane->vect, create_vector(0, 0, 1)));
 
 	if (!((dot1 > dot3) && !(dot1 > dot2)) && (dot2 > dot3))
 	{
