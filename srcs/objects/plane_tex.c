@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+#include <stdbool.h>
 
 t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
 {
@@ -34,13 +35,74 @@ t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
 	return (color_v);
 }
 
-void	plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic)
+t_rgb	tex_color_plane(t_plane *plane, t_hitinfo *hit, t_picture pic)
 {
-	if (plane->nb_params < 5 || plane->checker == false)
+    float u;
+    float v;
+
+	float dot1;
+	float dot2;
+	float dot3;
+
+	int tex_x;
+	int tex_y;
+
+	bool orientation;
+
+	orientation = false;
+
+	dot1 =dot_product(plane->vect, create_vector(1, 0, 0));
+	dot2 =dot_product(plane->vect, create_vector(0, 1, 0));
+	dot3 =dot_product(plane->vect, create_vector(0, 0, 1));
+
+	if (!((dot1 > dot3) && !(dot1 > dot2)) && (dot2 > dot3))
 	{
-		return ;
+		u = fmod(hit->p.x / SQUARE, 1.0);
+		v = fmod(hit->p.z / SQUARE, 1.0);
+		orientation = true;
 	}
-	hit->rgb = tex_color(hit, pic);
+	else if ((dot1 > dot3) && !(dot1 > dot2)) 
+	{
+		u = fmod(hit->p.z / SQUARE, 1.0);
+		v = fmod(hit->p.x / SQUARE, 1.0);
+		orientation = true;
+	}
+	else if (!((dot1 > dot3) && !(dot1 > dot2)) && (dot2 < dot3)) 
+	{
+		u = fmod(hit->p.y / SQUARE, 1.0);
+		v = fmod(hit->p.x / SQUARE, 1.0);
+		orientation = false;
+	}
+	else
+	{
+		u = fmod(hit->p.y / SQUARE, 1.0);
+		v = fmod(hit->p.z / SQUARE, 1.0);
+		orientation = false;
+	}
+    if (u < 0) u += 1.0;
+    if (v < 0) v += 1.0;
+
+	if (orientation)
+	{
+		tex_x = (int)(u * pic.w);
+		tex_y = (int)(v * pic.h);
+	}
+	else
+	{
+		tex_y = (int)(u * pic.w);
+		tex_x = (int)(v * pic.h);
+	}
+    int color_offset = tex_y * pic.line_len + tex_x * (pic.bpp / 8);
+    int color = *(int *)(pic.data + color_offset);
+	t_rgb color_v = extract_color_from_int(color);
+	return (color_v);
+}
+
+void plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic)
+{
+    if (plane->nb_params < 5 || plane->checker == false)
+        return;
+    hit->rgb = tex_color_plane(plane, hit, pic);
 }
 
 void	plane_checker(t_hitinfo *hit, t_plane *plane)
@@ -73,9 +135,38 @@ void	plane_bump(t_hitinfo *hit, t_plane *plane)
 	{
 		return ;
 	}
-	normal_color = tex_color(hit, plane->tex_norm);
+	normal_color = tex_color_plane(plane, hit, plane->tex_norm);
 	color_vect = rgb_to_vect(normal_color);
 	delta = sub_vect(scale_down(color_vect, 127.5f), create_vector(1.0, 1.0,
 				1.0));
 	hit->normal = normalize(delta);
+}
+
+
+// t_rgb	tex_color(t_hitinfo *hit, t_picture pic)
+// {
+//     float u = fmod(hit->p.x / SQUARE, 1.0);
+//     float v = fmod(hit->p.z / SQUARE, 1.0);
+
+//     if (u < 0) u += 1.0;
+//     if (v < 0) v += 1.0;
+
+//     int tex_x = (int)(u * pic.w);
+//     int tex_y = (int)(v * pic.h);
+
+//     int color_offset = tex_y * pic.line_len + tex_x * (pic.bpp / 8);
+//     int color = *(int *)(pic.data + color_offset);
+// 	t_rgb color_v = extract_color_from_int(color);
+// 	return (color_v);
+// }
+
+t_vect	positive_vect(t_vect vect)
+{
+	if (vect.x < 0)
+		vect.x = -vect.x;
+	if (vect.y < 0)
+		vect.y = -vect.y;
+	if (vect.z < 0)
+		vect.z = -vect.z;
+	return vect;
 }
