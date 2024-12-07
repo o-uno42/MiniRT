@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/29 14:47:13 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 14:45:48 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	print_error(char *message)
 {
-	printf ("%s\n", message);
+	perror (message);
 	exit (EXIT_FAILURE);
 }
 
@@ -82,9 +82,13 @@ int main(int ac, char **av)
 	/* int i = 0; */
 	ac = ac;
 
+	if (ac != 2)
+		print_error(" Do your job correctly and pass ONE fucking config file!!!");
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
-		exit (EXIT_FAILURE);
+		print_error("invalid config file passed as ARG\n");
+	if (!check_extension(av[1]))
+			print_error("invalid extension");
 	win_inits(&data);
 	parsing(fd, &data);
 	mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);

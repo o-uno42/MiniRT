@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/12/02 17:41:29 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 14:42:41 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ int	mtx_count(char **mtx);
 //SAFE FT
 void    *safe_malloc(size_t size);
 char 	*join_wrapper(const char *s1, const char *s2, int free_which);
+bool	check_extension( char *file_name);
 //FREE FUNCTIONS
 void	free_mtx(char **mtx);
 //ERRORS

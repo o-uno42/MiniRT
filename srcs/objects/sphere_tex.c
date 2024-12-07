@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:28:47 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/02 18:21:36 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 15:41:41 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	checker_sphere(t_hitinfo *hit, t_sphere *sphere)
 	int		square_theta;
 	int		square_phi;
 
-	if (sphere->checker == false && sphere->nb_params > 4)
+	if (sphere->checker == false)
 	{
 		hit->rgb = sphere->rgb;
 		return ;

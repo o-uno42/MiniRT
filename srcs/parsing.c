@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/02 17:04:03 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 15:26:20 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	parsing(int fd, t_data *data)
 	nb_lights = 0;
 	data->pic_idx = 0;
 
+	//TODO if some parameter is wrong exit
 	printf("LINES\n");
 	while((line = get_next_line(fd)) !=NULL)
 	{
@@ -128,7 +129,7 @@ void	parsing(int fd, t_data *data)
 	data->obj[nb_objects].type_obj = END;
 	data->nb_lights = nb_lights;
 	data->pic_idx = nb_pics;
-	printf("pic_idx: %d\n", data->pic_idx);
-	print_all_obj(data);
+	/* printf("pic_idx: %d\n", data->pic_idx); */
+	/* print_all_obj(data); */
 	close(fd);
 }

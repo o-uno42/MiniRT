@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:27 by thiew             #+#    #+#             */
-/*   Updated: 2024/11/28 14:39:32 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 14:49:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,23 @@ char	*join_wrapper(const char *s1, const char *s2, int free_which)
 		free((char *)s2);
 	}
 	return (result);
+}
+
+bool	check_extension( char *file_name)
+{
+	char 	**check;
+	bool	is_extension;
+	int		i;
+
+	i = 0;
+	is_extension = false;
+	check = ft_split(file_name, '.');
+	while (check[i])
+		i++;
+	if (i != 2)
+		is_extension = false;
+	else if (ft_strncmp(check[1], "rt", 3) == 0)
+			is_extension = true;
+	free_mtx(check);
+	return (is_extension);
 }

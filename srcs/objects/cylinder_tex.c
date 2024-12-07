@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:19:49 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/07 13:25:49 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 15:32:38 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
 	if (cyl->checker == false && cyl->nb_params < 7)
 	{
 		hit->rgb = cyl->rgb;
-		printf("xxx");
 		return ;
 	}
 	if (fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) >= fabs(dot_product(cyl->dir,
 			create_vector(0, 0, 1))) && fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) <= fabs(dot_product(cyl->dir,
 			create_vector(0, 1, 0))))
 	{
-		printf("!ui");
 		hit->calc.theta = atan2(hit->p.z, hit->p.x);//atan(hit->p.x) * atan(hit->p.z);//atan2(hit->p.z, hit->p.x);
 		hit->calc.height = hit->p.y - cyl->p2.y;
 	}
@@ -42,7 +40,6 @@ void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
 	}
 	else
 	{
-		printf("!ui");
 		hit->calc.theta = atan2(hit->p.x, hit->p.y);
 		hit->calc.height = hit->p.z - cyl->p2.z;
 	}

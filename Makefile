@@ -25,7 +25,7 @@ FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c $(SRC_DIR)/clean.c \
 FILES_OBJS = $(FILES_SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 
-EXECUTABLE = minirt
+EXECUTABLE = miniRT
 
 MLX_PATH	= minilibx-linux/
 MLX_NAME	= libmlx.a
