@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:19:49 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/02 17:56:40 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 13:25:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
 	if (cyl->checker == false && cyl->nb_params < 7)
 	{
 		hit->rgb = cyl->rgb;
+		printf("xxx");
 		return ;
 	}
-	if (dot_product(cyl->dir, create_vector(1, 0, 0)) >= dot_product(cyl->dir,
-			create_vector(0, 0, 1)))
+	if (fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) >= fabs(dot_product(cyl->dir,
+			create_vector(0, 0, 1))))
 	{
 		hit->calc.theta = atan2(hit->p.z, hit->p.x);
 		hit->calc.height = hit->p.y - cyl->p2.y;
@@ -47,8 +48,8 @@ t_rgb	tex_cyl_color(t_hitinfo *hit, t_picture pic, t_cylinder *cyl)
 	int		color_offset;
 	int		color;
 
-	if (dot_product(cyl->dir, create_vector(1, 0, 0)) >= dot_product(cyl->dir,
-			create_vector(0, 0, 1)))
+	if (fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) >= fabs(dot_product(cyl->dir,
+			create_vector(0, 0, 1))))
 	{
 		hit->calc.theta = atan2(hit->p.z, hit->p.x);
 		hit->calc.height = hit->p.y - cyl->p2.y;
@@ -70,7 +71,6 @@ void	tex_cyl(t_hitinfo *hit, t_cylinder *cyl)
 {
 	if (cyl->checker == false || cyl->nb_params < 7)
 	{
-		hit->rgb = cyl->rgb;
 		return ;
 	}
 	hit->rgb = tex_cyl_color(hit, cyl->tex, cyl);
