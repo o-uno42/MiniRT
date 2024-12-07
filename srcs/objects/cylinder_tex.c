@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+#include <math.h>
 
 void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
 {
@@ -24,13 +25,24 @@ void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
 		return ;
 	}
 	if (fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) >= fabs(dot_product(cyl->dir,
-			create_vector(0, 0, 1))))
+			create_vector(0, 0, 1))) && fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) <= fabs(dot_product(cyl->dir,
+			create_vector(0, 1, 0))))
 	{
-		hit->calc.theta = atan2(hit->p.z, hit->p.x);
+		printf("!ui");
+		hit->calc.theta = atan2(hit->p.z, hit->p.x);//atan(hit->p.x) * atan(hit->p.z);//atan2(hit->p.z, hit->p.x);
 		hit->calc.height = hit->p.y - cyl->p2.y;
+	}
+	else if (fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) >= fabs(dot_product(cyl->dir,
+			create_vector(0, 0, 1))) && fabs(dot_product(cyl->dir, create_vector(1, 0, 0))) >= fabs(dot_product(cyl->dir,
+			create_vector(0, 1, 0))))
+	{
+		// printf ("qui");
+		hit->calc.theta = atan2(hit->p.z, hit->p.y);
+		hit->calc.height = hit->p.x - cyl->p2.x;
 	}
 	else
 	{
+		printf("!ui");
 		hit->calc.theta = atan2(hit->p.x, hit->p.y);
 		hit->calc.height = hit->p.z - cyl->p2.z;
 	}
