@@ -9,7 +9,7 @@ static int	inters_obj(t_data *data, t_objs obj, t_ray ray, t_hitinfo *hit)
 	else if (obj.type_obj == CONE)
 		return (render_cone_shadow(ray, data, obj.object, hit));
 	else if (obj.type_obj == CYLINDER)
-		return (render_cylinder_shadow(ray, obj.object, hit));
+		return (render_cylinder_shadow(ray, data, obj.object, hit));
 	return (0);
 }
 
@@ -46,7 +46,7 @@ bool	check_shadow(t_data *data, t_vect point, t_hitinfo hit)
 		data->dist_to_light = sqrt(dot_product(data->light_dir, \
 			data->light_dir));
 		shadow_ray.pos = sum_vect(point, scale_vect(hit.normal, 0.0003));
-		shadow_ray.dir = normalize(sub_vect(data->lights[j].pos, point));
+		shadow_ray.dir = normalize(sub_vect(data->lights[j].pos, shadow_ray.pos));
 		in_shadow = false;
 		in_shadow = shadow_obj(data, shadow_ray, shadow_hit, \
 			data->dist_to_light);

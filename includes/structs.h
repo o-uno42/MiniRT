@@ -293,6 +293,15 @@ typedef struct s_data
 	int			index_objs;
 	t_vect		light_dir;
 	float		dist_to_light;
+	float		a;
+	float		b;
+	float		c;
+	float		t1;
+	float		t2;
+	float		vis1;
+	float		vis2;
+	POINT		pcenter;
+	float		chosen_t;
 }				t_data;
 
 #endif

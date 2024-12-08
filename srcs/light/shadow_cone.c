@@ -69,6 +69,32 @@ static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 	return false;
 }
 
+static bool	hit_cone_shadow_reverse(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
+{
+
+	float prev_hit;
+	POINT	prev;
+	POINT	res;
+	
+	prev_hit = hit->t;
+	prev = hit->p;
+	if (t >= hit->t)
+		return false;
+	hit->t = t;
+	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, t));
+	if(!cone_end_shadow(hit, ray, cone, &res))
+	{
+		hit->t = prev_hit;
+		hit->p = prev;
+		return true;
+	}
+	hit->rgb = cone->rgb;
+	hit->normal = normalize(cone->pos);
+	// hit->normal = cone_normal_shadow(hit, cone);
+	hit->normal = scale_vect(cone_normal_shadow(hit, cone), -1);
+	return false;
+}
+
 bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 {
 	float	t1;
@@ -108,17 +134,17 @@ bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 	C = cos_square * Ccomp - Ccomp2;
 	if (solve_quadratic(A, B, C, &t1, &t2))
 	{
-		if (t1 > 0.003 && t1 < hit->t)
+		if (t1 > 0.0003 && t1 < hit->t)
 		{
 			side = true;
 			hit_cone_shadow(hit, t1, ray, cone);
 			return (true);
 		}
-		else if (t2 > 0.003 && t2 < hit->t)
+		else if (t2 > 0.0003 && t2 < hit->t)
 		{
 			// printf("l");
 			side = true;
-			hit_cone_shadow(hit, t2, ray, cone);
+			hit_cone_shadow_reverse(hit, t2, ray, cone);
 			return (true);
 		}
 	}
@@ -126,6 +152,8 @@ bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 	{
 		t1 = FLT_MAX;
 		hit_cone_shadow(hit, t1, ray, cone);
+		t2 = FLT_MAX;
+		hit_cone_shadow(hit, t2, ray, cone);
 		return (true);
 	}
 	side = side;

@@ -125,7 +125,7 @@ t_rgb  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_ray camera_ray, fl
 bool check_shadow(t_data *data, t_vect point, t_hitinfo hit);
 
 //SHADOW CYLINDER
-bool	render_cylinder_shadow(t_ray shadow_ray, t_cylinder *cylinder, t_hitinfo *hit);
+bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, t_cylinder *cylinder, t_hitinfo *hit);
 
 //SHADOW CONE
 bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
