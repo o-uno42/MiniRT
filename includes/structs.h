@@ -290,6 +290,8 @@ typedef struct s_data
 	int			nb_lights;
 	float		img_ratio;
 	int			index_objs;
+	t_vect		light_dir;
+	float		dist_to_light;
 }				t_data;
 
 #endif

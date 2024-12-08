@@ -88,12 +88,15 @@ void	plane_bump(t_hitinfo *hit, t_plane *plane);
 
 // RAYS
 t_ray    camera_rays(int x, int y, t_data *data);
-//LIGHT
 
+
+//                          LIGHT
+
+//LIGHT
 t_rgb super_light_bonus_intersect(t_data *data, t_ray **light, t_ray camera_ray, t_hitinfo *hit, int x, int y);
 
 t_rgb light_intersect(t_data *data, t_ray *light, t_ray camera_ray, t_hitinfo *hit,  int x, int y);
-t_rgb lights_intersect(t_data *data, t_ray camera_ray, t_hitinfo *hit, int x, int y);
+t_rgb lights_intersect(t_data *data, t_ray camera_ray, t_hitinfo *hit);
 t_ray	*light_rays(t_data *data);
 t_ambient  darker_ambient(t_ambient ambient, float i);
 t_vect reflect(t_vect in, t_vect normal);
@@ -102,6 +105,30 @@ bool reflect_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
 bool    specular_intersect(t_data *data, t_ray *light, t_hitinfo *hit);
 void	lights_init(t_data *data, char *line, int nb_lights);
 t_ray    *get_lights_rays(t_data *data, int j);
+
+//COLOR
+t_rgb	initialize_rgb(t_rgb rgb);
+t_rgb clamp_rgb(t_rgb color);
+t_rgb add_rgb(t_rgb color1, t_rgb color2);
+t_rgb bri(t_rgb rgb, float bright);
+t_rgb dark_rgb(t_rgb rgb, float darkness);
+
+//BRIGHTNESS
+float luminance(t_rgb color);
+t_rgb mix(t_rgb color1, t_rgb color2);
+bool tonality_is_relevant(t_rgb color1);
+
+//SPECULAR
+t_rgb  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_ray camera_ray, float shininess);
+
+//SHADOWS
+bool check_shadow(t_data *data, t_vect point, t_hitinfo hit);
+
+//SHADOW CYLINDER
+bool	render_cylinder_shadow(t_ray shadow_ray, t_cylinder *cylinder, t_hitinfo *hit);
+
+//SHADOW CONE
+bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 
 // VECTOR UTILS
 t_vect 	sum_vect(t_vect pos_1, t_vect pos_2);

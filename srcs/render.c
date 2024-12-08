@@ -97,7 +97,7 @@ int    render(t_data *data)
 			bonus_objects(data, false);
 			
 			// t_rgb res = light_intersect(data, rays, camera_ray, &data->hit, x, y);
-			t_rgb res = lights_intersect(data, camera_ray, &data->hit,  x,  y);
+			t_rgb res = lights_intersect(data, camera_ray, &data->hit);
 			
 			// if(light_intersect(data, rays, camera_ray, &data->hit))
 			// {
