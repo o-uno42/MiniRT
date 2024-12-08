@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:06:05 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 17:05:56 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 17:44:37 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	light_init(t_data *data, char *line)
 	char	**rgb;
 
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 3, data))
+		return ;
 	coords = ft_split(res[1], ',');
 	rgb = ft_split(res[3], ',');
 	data->light.pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]), ft_atol(coords[2]));
@@ -36,6 +38,8 @@ void	lights_init(t_data *data, char *line, int nb_lights)
 	char	**rgb;
 
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 3, data))
+		return ;
 	coords = ft_split(res[1], ',');
 	rgb = ft_split(res[3], ',');
 	data->lights[nb_lights].pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]), ft_atol(coords[2]));

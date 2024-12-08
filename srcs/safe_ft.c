@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:27 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/07 14:49:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:34:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,25 @@ bool	check_extension( char *file_name)
 	free_mtx(check);
 	return (is_extension);
 }
+
+bool 	invalid_params(char **params, int	valid_params, t_data *data)
+{
+	int	i;
+
+	i = mtx_count(params);
+	printf("count params is: %d, at %s\n", i, params[0]);
+	if (i < valid_params)
+	{
+		write(2, "invalid params at <", 19);
+		write(2, params[0], ft_strlen(params[0]));
+		write(2, ">\n", 2);
+		free_mtx(params);
+		data->invalid = true;
+		return (true);
+	}
+	return (false);
+}
+
+
+
+

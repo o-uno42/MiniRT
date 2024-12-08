@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:48:18 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/29 13:26:22 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:36:43 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	cylinder_init(t_data *data, char *line, int i)
 	cylinder = (t_cylinder *)safe_malloc(sizeof(t_cylinder));
 	data->obj[i].object = cylinder;
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 5, data))
+			return ;
 	count = mtx_count(res);
 	coords = ft_split(res[1], ',');
 	cylinder_vect_init(cylinder, res, coords, count);

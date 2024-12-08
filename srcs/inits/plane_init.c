@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/03 18:18:24 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:36:17 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	plane_init(t_data *data, char *line, int i)
 	plane = (t_plane *)safe_malloc(sizeof(t_plane));
 	data->obj[i].object = plane;
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 3, data))
+			return ;
 	coords = ft_split(res[1], ',');
 	vect = ft_split(res[2], ',');
 	rgb = ft_split(res[3], ',');

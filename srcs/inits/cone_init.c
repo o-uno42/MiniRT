@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:32:31 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/29 13:26:53 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:37:17 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	cone_init(t_data *data, char *line, int i)
 	cone = (t_cone *)safe_malloc(sizeof(t_cone));
 	data->obj[i].object = cone;
 	res = ft_split(line, ' ');
+	if (invalid_params(res, 5, data))
+			return ;
 	count = mtx_count(res);
 	coords = ft_split(res[1], ',');
 	cone_vect_init(cone, res, coords);

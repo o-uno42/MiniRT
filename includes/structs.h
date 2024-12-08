@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/07 13:16:18 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/07 16:15:31 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -275,6 +275,7 @@ typedef struct s_objs
 
 typedef struct s_data
 {
+	bool		invalid;
 	void		*mlx_ptr;
 	void		*mlx_win;
 	t_img		img;
