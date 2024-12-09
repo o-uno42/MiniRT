@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:32:31 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/07 16:37:17 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 18:15:35 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	cone_vect_init(t_cone *cone, char **res, char **coords)
 void	cone_bonus_init(t_cone *cone, char **res, int count)
 {
 	cone->tex.data = NULL;
-	if (count >= 6 &&res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+	if (count >= 6 && res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
 	{
 		cone->checker = ft_atoi(res[6]);
 		cone->bonus = ft_atoi(res[6]);
@@ -67,8 +67,6 @@ void	cone_bonus_init(t_cone *cone, char **res, int count)
 		cone->bonus = false;
 	}
 	cone->nb_params = count;
-	// if (res[7])
-	// 	cone->brilliance = ft_atol(res[7]);
 }
 
 void	cone_init(t_data *data, char *line, int i)
@@ -83,7 +81,7 @@ void	cone_init(t_data *data, char *line, int i)
 	data->obj[i].object = cone;
 	res = ft_split(line, ' ');
 	if (invalid_params(res, 5, data))
-			return ;
+		return ;
 	count = mtx_count(res);
 	coords = ft_split(res[1], ',');
 	cone_vect_init(cone, res, coords);

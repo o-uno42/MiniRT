@@ -6,22 +6,21 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 14:14:20 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 18:41:40 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
 # ifndef MACROS
-#	define	EPSILON		0.0001
-#	define	BUFFER_SIZE 8
-#	define	PI			3.1415926535
-#	define	POINT		t_vect
-#	define	SQUARE		20
-#	define	ANGLE_SIZE	0.1
-#	define	MAX_OBJECTS 128
-#	define	MAX_LIGHTS  128
-#	define	MAX_PICS	128
+#  define EPSILON 0.0001
+#  define PI 3.1415926535
+#  define POINT t_vect
+#  define SQUARE 20
+#  define ANGLE_SIZE 0.1
+#  define MAX_OBJECTS 128
+#  define MAX_LIGHTS 128
+#  define MAX_PICS 128
 # endif
 
 # define BLACK 0x000000
@@ -46,6 +45,8 @@
 # define TEAL 0x008080
 # define AQUA 0x00FFFF
 
+#include <stdbool.h>
+
 typedef struct s_vect
 {
 	float		x;
@@ -66,19 +67,18 @@ typedef struct s_ray
 // 	float		z;
 // }				t_pos;
 
-typedef	struct s_picture
+typedef struct s_picture
 {
-	void	*pic;
-	char	*path;
-	char	*data;
-	int		bpp;
-	int		endian;
-	int		line_len;
-	int		w;
-	int		h;
-	int		index;
+	void		*pic;
+	char		*path;
+	char		*data;
+	int			bpp;
+	int			endian;
+	int			line_len;
+	int			w;
+	int			h;
+	int			index;
 }				t_picture;
-
 
 typedef struct s_rgb
 {
@@ -87,7 +87,7 @@ typedef struct s_rgb
 	int			b;
 }				t_rgb;
 
-typedef	struct	s_calc
+typedef struct s_calc
 {
 	int			tex_theta;
 	int			tex_height;
@@ -103,10 +103,10 @@ typedef	struct	s_calc
 	float		u;
 	float		v;
 	float		height;
-	
+
 }				t_calc;
 
-typedef struct	s_quad
+typedef struct s_quad
 {
 	float		a;
 	float		b;
@@ -116,6 +116,34 @@ typedef struct	s_quad
 	t_vect		b1;
 	t_vect		c1;
 }				t_quad;
+
+typedef struct s_caps
+{
+	float		visibility;
+	float		visibility2;
+	float		chosen_t;
+	POINT		p;
+	POINT		pcenter;
+	t_vect		pdelt;
+	t_vect		normal;
+	float		t;
+	float		t2;
+}				t_caps;
+
+typedef struct s_pltex
+{
+	float		u;
+	float		v;
+	float		dot1;
+	float		dot2;
+	float		dot3;
+	int			tex_x;
+	int			tex_y;
+	bool		orientation;
+	int			color_offset;
+	int			color;
+	t_rgb		color_v;
+}				t_pltex;
 
 typedef struct s_hitinfo
 {
@@ -175,19 +203,19 @@ typedef struct s_sphere
 	float		brilliance;
 }				t_sphere;
 
-typedef struct	s_cylinder
+typedef struct s_cylinder
 {
-	POINT	pos;
-	POINT	p1;
-	POINT	p2;
-	t_vect	dir;
-	float	diameter;
-	float	radius;
-	float	height;
-	t_rgb	rgb;
-	int		nb_params;
-	bool	checker;
-	bool	bonus;
+	POINT		pos;
+	POINT		p1;
+	POINT		p2;
+	t_vect		dir;
+	float		diameter;
+	float		radius;
+	float		height;
+	t_rgb		rgb;
+	int			nb_params;
+	bool		checker;
+	bool		bonus;
 	t_picture	tex;
 	t_picture	tex_normal;
 	float		brilliance;
@@ -195,34 +223,34 @@ typedef struct	s_cylinder
 
 typedef struct s_hyperboloid
 {
-	POINT	pos;
-	POINT	p1;
-	POINT	p2;
-	t_vect	dir;
-	float	a;
-	float	b;
-	float	c;
-	float	height;
-	float	diameter;
-	float	radius;
-	t_rgb	rgb;
+	POINT		pos;
+	POINT		p1;
+	POINT		p2;
+	t_vect		dir;
+	float		a;
+	float		b;
+	float		c;
+	float		height;
+	float		diameter;
+	float		radius;
+	t_rgb		rgb;
 }				t_hyperboloid;
 
 typedef struct s_cone
 {
-	POINT	pos;
-	POINT	p1;
-	POINT	p2;
-	t_vect	dir;
-	float	diameter;
-	float	radius;
-	float	height;
-	float	theta_r;
-	float	theta_d;
-	t_rgb	rgb;
-	bool	checker;
-	bool	bonus;
-	int		nb_params;
+	POINT		pos;
+	POINT		p1;
+	POINT		p2;
+	t_vect		dir;
+	float		diameter;
+	float		radius;
+	float		height;
+	float		theta_r;
+	float		theta_d;
+	t_rgb		rgb;
+	bool		checker;
+	bool		bonus;
+	int			nb_params;
 	t_picture	tex;
 	t_picture	tex_normal;
 	float		brilliance;
@@ -254,7 +282,6 @@ typedef struct s_img
 	float		height;
 }				t_img;
 
-
 typedef enum s_type_obj
 {
 	NOTHING,
@@ -271,7 +298,6 @@ typedef struct s_objs
 	void		*object;
 	t_type_obj	type_obj;
 }				t_objs;
-
 
 typedef struct s_data
 {

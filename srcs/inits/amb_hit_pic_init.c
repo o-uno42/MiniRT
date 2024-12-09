@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:57:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 16:24:04 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 18:13:07 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,14 @@ void	pic_init(t_data *data, char *line, int *nb_pics)
 	pic.path = ft_strdup(part[1]);
 	pic.data = NULL;
 	pic.pic = mlx_xpm_file_to_image(data->mlx_ptr, pic.path, &pic.w, &pic.h);
-	if (!pic.pic)
+	if (pic.pic)
 	{
-		fprintf(stderr, "Error: Failed to load image from path %s\n", pic.path);
-		free_mtx(res);
-		free_mtx(res);
-		return ;
+		pic.data = mlx_get_data_addr(pic.pic, &pic.bpp, &pic.line_len,
+				&pic.endian);
+		pic.index = *nb_pics;
+		data->pics[*nb_pics] = pic;
 	}
-	pic.data = mlx_get_data_addr(pic.pic, &pic.bpp, &pic.line_len, &pic.endian);
-	pic.index = *nb_pics;
-	data->pics[*nb_pics] = pic;
-	free_mtx(part);
 	free_mtx(res);
+	free_mtx(part);
+	return ;
 }

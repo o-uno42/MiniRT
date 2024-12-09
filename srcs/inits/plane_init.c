@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/07 16:36:17 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 18:16:46 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 		plane->tex = data->pics[ft_atoi(res[5])];
 	if (count >= 6 && res[6])
 		plane->tex_norm = data->pics[ft_atoi(res[6])];
-	// if (res[7])
-	// 	plane->brilliance = ft_atol(res[7]);
 	plane->nb_params = count;
-	printf("plane->nb params: %d \n",plane->nb_params);
+	printf("plane->nb params: %d \n", plane->nb_params);
 }
 
 void	plane_init(t_data *data, char *line, int i)
@@ -66,7 +64,7 @@ void	plane_init(t_data *data, char *line, int i)
 	data->obj[i].object = plane;
 	res = ft_split(line, ' ');
 	if (invalid_params(res, 3, data))
-			return ;
+		return ;
 	coords = ft_split(res[1], ',');
 	vect = ft_split(res[2], ',');
 	rgb = ft_split(res[3], ',');

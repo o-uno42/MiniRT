@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:48:18 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/07 16:36:43 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 18:16:03 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	top_bottom_point(POINT *p1, POINT *p2, t_cylinder cylinder)
 				/ 2));
 }
 
-void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res, int count)
+void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res,
+		int count)
 {
 	cylinder->tex.data = NULL;
 	cylinder->tex_normal.data = NULL;
@@ -38,11 +39,10 @@ void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res, int cou
 	if (count >= 8 && res[8])
 		cylinder->tex_normal = data->pics[ft_atoi(res[8])];
 	cylinder->nb_params = count;
-	// if (res[9])
-	// 	cylinder->brilliance = ft_atol(res[9]);
 }
 
-void	cylinder_vect_init(t_cylinder *cylinder, char **res, char **coords, int count)
+void	cylinder_vect_init(t_cylinder *cylinder, char **res, char **coords,
+		int count)
 {
 	POINT	p1;
 	POINT	p2;
@@ -81,7 +81,7 @@ void	cylinder_init(t_data *data, char *line, int i)
 	data->obj[i].object = cylinder;
 	res = ft_split(line, ' ');
 	if (invalid_params(res, 5, data))
-			return ;
+		return ;
 	count = mtx_count(res);
 	coords = ft_split(res[1], ',');
 	cylinder_vect_init(cylinder, res, coords, count);
