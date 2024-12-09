@@ -41,8 +41,8 @@ void	cap_bump(t_hitinfo *hit, t_cylinder *cyl)
 
 void	tex_cyl_color_2(t_hitinfo *hit, t_picture pic, t_cylinder *cyl)
 {
-	hit->calc.square_theta = fmod(hit->calc.theta / ANGLE_SIZE, 1.0);
-	hit->calc.square_height = fmod(hit->calc.height * cyl->height * 2 / SQUARE,
+	hit->calc.square_theta = fmod(hit->calc.theta / ANGLE_SIZE  * 0.1, 1.0);
+	hit->calc.square_height = fmod(hit->calc.height * cyl->height * 0.1 / SQUARE,
 			1.0);
 	if (hit->calc.square_theta < 0)
 		hit->calc.square_theta += 1.0;

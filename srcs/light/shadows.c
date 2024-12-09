@@ -46,11 +46,11 @@ bool	check_shadow(t_data *data, t_vect point, t_hitinfo hit)
 		data->dist_to_light = sqrt(dot_product(data->light_dir, \
 			data->light_dir));
 		shadow_ray.pos = sum_vect(point, scale_vect(hit.normal, 0.0003));
-		shadow_ray.dir = normalize(sub_vect(data->lights[j].pos, shadow_ray.pos));
+		shadow_ray.dir = normalize(sub_vect(data->lights[j].pos, point));
 		in_shadow = false;
 		in_shadow = shadow_obj(data, shadow_ray, shadow_hit, \
 			data->dist_to_light);
-		if (in_shadow)
+		if (!in_shadow)
 			break ;
 		j++;
 	}

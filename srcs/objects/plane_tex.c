@@ -112,7 +112,7 @@ void	plane_checker(t_hitinfo *hit, t_plane *plane)
 	int	square_y;
 	int	square_z;
 
-	if (plane->checker == false && plane->nb_params > 4)
+	if (plane->checker == false && plane->nb_params > 3)
 	{
 		hit->rgb = plane->rgb;
 		return ;
