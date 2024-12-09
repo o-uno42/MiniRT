@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:48 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/02 16:04:57 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:38 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,16 @@ void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_ray ray, t_sphere *spher
 
 bool	render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere, t_hitinfo *hit)
 {
-	data = data;
 	t_vect	offset_vect;
 	float	intersect1;
 	float	intersect2;
 
 	offset_vect = sub_vect(camera_ray.pos, sphere->pos);
 
-	float a = dot_product(camera_ray.dir, camera_ray.dir);
-	float b = 2.0 * dot_product(camera_ray.dir, offset_vect);
-	float c = dot_product(offset_vect, offset_vect) - square((*sphere).radius);
-	if (solve_quadratic(a, b, c, &intersect1, &intersect2))
+	data->a = dot_product(camera_ray.dir, camera_ray.dir);
+	data->b = 2.0 * dot_product(camera_ray.dir, offset_vect);
+	data->c = dot_product(offset_vect, offset_vect) - square((*sphere).radius);
+	if (solve_quadratic(data, &intersect1, &intersect2))
 	{
 		if (intersect1 > 0)
 		{

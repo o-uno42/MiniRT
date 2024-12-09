@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/07 17:29:58 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 13:04:40 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ char	*check_line(char *line)
 	return (line);
 }
 
-void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics, int *nb_lights)
+int prefix(char *line, t_data *data, int *nb_objs, int *nb_pics, int *nb_lights)
 {
 	int i;
+	static int	args;
 
 	i = 0;
 	data = data;
+
+	printf("args: %d\n", args);
 	while (line[i])
 	{
 		if (line[i] == ' ')
@@ -59,12 +62,13 @@ void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics, int *nb_lights
 	{
 		lights_init(data, line, (*nb_lights));
 		(*nb_lights)++;
+		args++;
 	}
-		// light_init(data, line);
 	else if (ft_strncmp("l", line, i) == 0)
 	{
 		lights_init(data, line, (*nb_lights));
 		(*nb_lights)++;
+		args++;
 	}
 	else if (ft_strncmp("sp", line, i) == 0)
 	{
@@ -96,6 +100,7 @@ void	prefix(char *line, t_data *data, int *nb_objs, int *nb_pics, int *nb_lights
 		(*nb_pics)++;
 		pic_init(data, line, nb_pics);
 	}
+	return (args);
 }
 
 void	parsing(int fd, t_data *data)
@@ -112,25 +117,21 @@ void	parsing(int fd, t_data *data)
 	nb_lights = 0;
 	data->pic_idx = 0;
 
-	//TODO if some parameter is wrong exit
-	// printf("LINES\n");
 	while((line = get_next_line(fd)) !=NULL)
 	{
 		line = check_line(line);
-		// printf("%d line: %s, len: %ld \n",i, line, ft_strlen(line));
 		if (line && line[0] != 0)
 		{
-			prefix(line, data, &nb_objects, &nb_pics, &nb_lights);
+			i = prefix(line, data, &nb_objects, &nb_pics, &nb_lights);
 			free(line);
 		}
-		i++;
 	}
 	free(line);
 	data->obj[nb_objects].type_obj = END;
 	data->nb_lights = nb_lights;
 	data->pic_idx = nb_pics;
 	close(fd);
-	if (data->invalid == true)
+	if (data->invalid == true || i == 0)
 	{
 		mlx_loop_end(data->mlx_ptr);
 		clean(data);

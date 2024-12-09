@@ -1,0 +1,3 @@
+pic in parsing if not # at the end behaves strangely
+
+if light is not included it breaks

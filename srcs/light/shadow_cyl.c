@@ -115,7 +115,7 @@ bool	render_cylinder_shadow(t_ray shadow_ray, t_data *data, \
 	c1 = sub_vect(pdelt, scale_vect(cylinder->dir, \
 		dot_product(pdelt, cylinder->dir)));
 	data->c = dot_product(c1, c1) - cylinder->radius * cylinder->radius;
-	if (solve_quadratic(data->a, data->b, data->c, &data->t1, &data->t2) && \
+	if (solve_quadratic(data, &data->t1, &data->t2) && \
 		(data->t1 > 0.0001 && data->t1 < hit->t))
 	{
 		if (calc_hit_cyl_2(hit, data->t1, shadow_ray, cylinder))

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:54:51 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/17 16:47:58 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 13:54:09 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,6 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 {
 	float	t1;
 	float	t2;
-	float	A;
-	float	B;
-	float	C;
 	t_vect	oc;
 	t_vect	Acomp;
 	float	Acomp2;
@@ -101,23 +98,21 @@ bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 
 
 	
-	data = data;
 	oc = sub_vect(ray.pos, cone->pos);
 	cos_square = cos(cone->theta_r) * cos(cone->theta_r);
 	sin_square = sin(cone->theta_r) * sin(cone->theta_r);
 	
 	Acomp = sub_vect(ray.dir, scale_vect(cone->dir, dot_product(ray.dir, cone->dir)));
 	Acomp2 = sin_square * dot_product(ray.dir, cone->dir) * dot_product(ray.dir, cone->dir);
-	A = cos_square * dot_product(Acomp, Acomp) - Acomp2;
-
+	data->a = cos_square * dot_product(Acomp, Acomp) - Acomp2;
 	Bcomp = dot_product(sub_vect(ray.dir, scale_vect(cone->dir, dot_product(ray.dir, cone->dir))), sub_vect(oc, scale_vect(cone->dir, dot_product(oc, cone->dir))));
 	Bcomp2 = dot_product(ray.dir, cone->dir) * dot_product(oc, cone->dir);
-	B = (2 * cos_square * Bcomp) - (2 * sin_square * Bcomp2);
+	data->b = (2 * cos_square * Bcomp) - (2 * sin_square * Bcomp2);
 
 	Ccomp = dot_product(sub_vect(oc, scale_vect(cone->dir, dot_product(oc, cone->dir))), sub_vect(oc, scale_vect(cone->dir, dot_product(oc, cone->dir))));
 	Ccomp2 = sin_square * dot_product(oc, cone->dir) * dot_product(oc, cone->dir);
-	C = cos_square * Ccomp - Ccomp2;
-	if (solve_quadratic(A, B, C, &t1, &t2))
+	data->c = cos_square * Ccomp - Ccomp2;
+	if (solve_quadratic(data, &t1, &t2))
 	{
 		if (t1 > 0.0001 && t1 < hit->t)
 		{

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:44:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/02 18:06:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 13:51:17 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ bool	render_cylinder(t_ray camera_ray, t_data *data, t_cylinder *cylinder,
 	quad.pdelt = sub_vect(camera_ray.pos, cylinder->pos);
 	quad.comp = sub_vect(camera_ray.dir, scale_vect(cylinder->dir,
 				dot_product(camera_ray.dir, cylinder->dir)));
-	quad.a = dot_product(quad.comp, quad.comp);
+	data->a = dot_product(quad.comp, quad.comp);
 	quad.b1 = sub_vect(quad.pdelt, scale_vect(cylinder->dir,
 				dot_product(quad.pdelt, cylinder->dir)));
-	quad.b = 2 * dot_product(quad.comp, quad.b1);
+	data->b = 2 * dot_product(quad.comp, quad.b1);
 	quad.c1 = sub_vect(quad.pdelt, scale_vect(cylinder->dir,
 				dot_product(quad.pdelt, cylinder->dir)));
-	quad.c = dot_product(quad.c1, quad.c1) - cylinder->radius
+	data->c = dot_product(quad.c1, quad.c1) - cylinder->radius
 		* cylinder->radius;
-	if (solve_quadratic(quad.a, quad.b, quad.c, &intersect1, &intersect2))
+	if (solve_quadratic(data, &intersect1, &intersect2))
 	{
 		if (intersect1 > 0)
 			calc_hit_cyl(hit, intersect1, camera_ray, cylinder);
