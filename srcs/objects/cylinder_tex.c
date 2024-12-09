@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:19:49 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 17:21:12 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 19:11:16 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	checker_cyl(t_hitinfo *hit, t_cylinder *cyl)
 	int	square_theta;
 	int	square_height;
 
-	if (cyl->checker == false && cyl->nb_params < 7)
+	if (cyl->checker == false)
 	{
 		hit->rgb = cyl->rgb;
 		return ;

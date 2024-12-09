@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/09 16:44:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 19:25:14 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,5 @@ void	parsing(int fd, t_data *data)
 		clean(data);
 		exit(1);
 	}
+	print_all_obj(data);
 }
