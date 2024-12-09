@@ -16,10 +16,14 @@ GNL = $(wildcard $(GNL_DIR)/*.c)
 LIGHT = $(wildcard $(LIGHT_DIR)/*.c)
 FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c $(SRC_DIR)/clean.c \
 			 $(SRC_DIR)/parsing.c $(SRC_DIR)/split.c $(SRC_DIR)/safe_ft.c \
+			 $(SRC_DIR)/parsing_utils.c \
 			 $(SRC_DIR)/color_creation.c $(SRC_DIR)/color.c \
+			 $(SRC_DIR)/color_utils.c \
 			 $(SRC_DIR)/vector_utils.c $(SRC_DIR)/math_utils.c \
+			 $(SRC_DIR)/math_utils2.c $(SRC_DIR)/vector_utils2.c \
 			 $(SRC_DIR)/render.c \
 			 $(SRC_DIR)/debug_utils.c $(SRC_DIR)/free_functions.c \
+			 $(SRC_DIR)/debug_utils2.c $(SRC_DIR)/debug_utils3.c \
 			 $(SRC_DIR)/bonus_checker.c \
 			 $(SRC_DIR)/camera_rays.c \
 			 $(GEOMETRY) $(INITS) $(GNL) $(LIGHT)

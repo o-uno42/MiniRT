@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/07 16:15:31 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 14:14:20 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -289,6 +289,8 @@ typedef struct s_data
 	t_light		lights[MAX_LIGHTS - 1];
 	t_quad		quad;
 	int			nb_lights;
+	int			nb_pics;
+	int			nb_objs;
 	float		img_ratio;
 	int			index_objs;
 	t_vect		light_dir;

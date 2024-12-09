@@ -1,69 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/09 16:50:20 by tjuvan            #+#    #+#             */
+/*   Updated: 2024/12/09 16:52:18 by tjuvan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
-
-
-t_rgb     create_color_rgb(t_rgb rgb, t_ambient ambient)
+int	just_color(t_rgb rgb)
 {
-    t_rgb res;
+	int	r;
+	int	g;
+	int	b;
 
-    res.r = (rgb.r + ambient.rgb.r) * ambient.ratio;
-    res.g = (rgb.g + ambient.rgb.g) * ambient.ratio;
-    res.b = (rgb.b + ambient.rgb.b) * ambient.ratio;
-    return (res);
-}
-
-
-int     create_color_int(t_rgb rgb)
-{
-    int r;
-    int g;
-    int b;
-
-    r = (rgb.r);
-    g = (rgb.g);
-    b = (rgb.b);
-    return ((r << 16) | (g << 8) | b);
-}
-
-t_ambient   darker_ambient(t_ambient ambient, float i)
-{
-    t_ambient res;
-
-    res.rgb.r = ambient.rgb.r / i;
-    res.rgb.g = ambient.rgb.g / i;
-    res.rgb.b = ambient.rgb.b / i;
-
-    if (res.rgb.r < 0)
-        res.rgb.r = 0;
-    if (res.rgb.g < 0)
-        res.rgb.g = 0;
-    if (res.rgb.b < 0)
-        res.rgb.b = 0;
-    return (res);
-}
-
-int     create_color(t_rgb rgb, t_ambient ambient)
-{
-    int r;
-    int g;
-    int b;
-
-    r = (rgb.r + ambient.rgb.r) * ambient.ratio;
-    g = (rgb.g + ambient.rgb.g) * ambient.ratio;
-    b = (rgb.b + ambient.rgb.b) * ambient.ratio;
-    return ((r << 16) | (g << 8) | b);
-}
-
-int just_color(t_rgb rgb)
-{
-    int r;
-    int g;
-    int b;
-
-    r = rgb.r;
-    g = rgb.g;
-    b = rgb.b;
-    return ((r << 16) | (g << 8) | b);
+	r = rgb.r;
+	g = rgb.g;
+	b = rgb.b;
+	return ((r << 16) | (g << 8) | b);
 }
 
 t_rgb	extract_color(int r, int g, int b)
@@ -79,7 +37,7 @@ t_rgb	extract_color(int r, int g, int b)
 t_rgb	extract_color_from_int(int color)
 {
 	t_rgb	rgb;
-	
+
 	rgb.r = get_r(color);
 	rgb.g = get_g(color);
 	rgb.b = get_b(color);

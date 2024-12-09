@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:38:36 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/08 15:31:47 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 17:00:40 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,39 +64,5 @@ double	ft_atol(const char *nptr)
 		i++;
 	}
 	res = ft_atol_sign(nptr, i, s);
-	return(res);
+	return (res);
 }
-
-inline float	max_nb(float nb1, float nb2)
-{
-	if (nb1 >= nb2) 
-		return (nb1);
-	return (nb2);
-}
-
-inline float	min_nb(float nb1, float nb2)
-{
-	if (nb1 <= nb2) 
-		return (nb1);
-	return (nb2);
-}
-
-
-inline float	ratio(float nb1, float nb2)
-{
-	if (nb1 >= nb2) 
-		return (nb1 / nb2);
-	return (nb2 / nb1);
-}
-
-inline	void	swap(float *a, float *b)
-{
-	float c;
-	
-	c = *a;
-	*a = *b;
-	*b = c;
-}
-
-
-

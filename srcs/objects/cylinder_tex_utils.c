@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:34:44 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/02 17:57:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 17:22:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	cap_bump(t_hitinfo *hit, t_cylinder *cyl)
 
 void	tex_cyl_color_2(t_hitinfo *hit, t_picture pic, t_cylinder *cyl)
 {
-	hit->calc.square_theta = fmod(hit->calc.theta / ANGLE_SIZE  * 0.1, 1.0);
-	hit->calc.square_height = fmod(hit->calc.height * cyl->height * 0.1 / SQUARE,
-			1.0);
+	hit->calc.square_theta = fmod(hit->calc.theta / ANGLE_SIZE * 0.1, 1.0);
+	hit->calc.square_height = fmod(hit->calc.height * cyl->height * 0.1
+			/ SQUARE, 1.0);
 	if (hit->calc.square_theta < 0)
 		hit->calc.square_theta += 1.0;
 	if (hit->calc.square_height < 0)

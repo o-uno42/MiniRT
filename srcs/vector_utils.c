@@ -6,20 +6,20 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:25:00 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/14 16:33:54 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 17:15:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-t_vect sum_vect(t_vect pos_1, t_vect pos_2)
+t_vect	sum_vect(t_vect pos_1, t_vect pos_2)
 {
-    t_vect res;
-    res.x = pos_1.x + pos_2.x;
-    res.y = pos_1.y + pos_2.y;
-    res.z = pos_1.z + pos_2.z;
+	t_vect	res;
 
-    return (res);
+	res.x = pos_1.x + pos_2.x;
+	res.y = pos_1.y + pos_2.y;
+	res.z = pos_1.z + pos_2.z;
+	return (res);
 }
 
 t_vect	sub_vect(t_vect pos_1, t_vect pos_2)
@@ -32,13 +32,13 @@ t_vect	sub_vect(t_vect pos_1, t_vect pos_2)
 	return (res);
 }
 
-
 t_vect	normalize(t_vect v_orig)
 {
 	float	length;
 	t_vect	res;
 
-	length = sqrt(v_orig.x * v_orig.x + v_orig.y * v_orig.y + v_orig.z * v_orig.z);
+	length = sqrt(v_orig.x * v_orig.x + v_orig.y * v_orig.y + v_orig.z
+			* v_orig.z);
 	res.x = v_orig.x / length;
 	res.y = v_orig.y / length;
 	res.z = v_orig.z / length;
@@ -58,49 +58,4 @@ t_vect	cross_product(t_vect a, t_vect b)
 	result.y = a.z * b.x - a.x * b.z;
 	result.z = a.x * b.y - a.y * b.x;
 	return (result);
-}
-
-inline float	magnitude(t_vect v)
-{
-	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
-}
-
-t_vect	scale_vect(t_vect v, float scalar)
-{
-	t_vect	scaled;
-
-	scaled.x = v.x * scalar;
-	scaled.y = v.y * scalar;
-	scaled.z = v.z * scalar;
-	return (scaled);
-}
-
-t_vect	scale_down(t_vect v, float scalar)
-{
-	t_vect	scaled;
-
-	scaled.x = v.x / scalar;
-	scaled.y = v.y / scalar;
-	scaled.z = v.z / scalar;
-	return (scaled);
-}
-
-inline	t_vect	create_vector(float x, float y, float z)
-{
-	t_vect res;
-
-	res.x = x;
-	res.y = y;
-	res.z = z;
-	return (res);
-}
-
-t_vect reflect(t_vect in, t_vect normal) 
-{
-    float dot = dot_product(in, normal);
-    t_vect result;
-    result.x = in.x - 2.0f * dot * normal.x;
-    result.y = in.y - 2.0f * dot * normal.y;
-    result.z = in.z - 2.0f * dot * normal.z;
-    return result;
 }

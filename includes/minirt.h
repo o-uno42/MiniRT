@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/12/07 17:30:21 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 16:57:55 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 //	PARSING
 void	parsing(int fd, t_data *data);
 void    movement(t_data *data);
+// PARSING UTILS
+char	*check_line(char *line);
 
 // RENDER INITS
 void	pic_init(t_data *data, char *line, int *nb_pics);
@@ -60,7 +62,7 @@ bool	render_hyperboloid(t_ray camera_ray, t_data *data, t_hyperboloid *hyperbolo
 bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 //OBJECT_UTILS
 void 	swap_objs(t_objs *a, t_objs *b);
-bool 	solve_quadratic(const float a, const float b, const float c, float *x0, float *x1);
+bool 	solve_quadratic(t_data *data, float *x0, float *x1);
 void 	plane_texture(t_hitinfo *hit, t_plane *plane, t_picture pic);
 //CYLINDER UTILS
 void	tex_cyl(t_hitinfo *hit, t_cylinder *cyl);
@@ -152,6 +154,8 @@ void 	print_all_obj(t_data *data);
 void	print_object(t_objs *object, t_type_obj type);
 void	print_sphere(t_sphere *sphere);
 void	print_plane(t_plane *plane);
+void	print_cylinder(t_cylinder *cylinder);
+void	print_cone(t_cone *cone);
 void	print_camera(t_camera camera);
 void	print_ray(t_ray ray);
 void	print_rgb(t_rgb color);

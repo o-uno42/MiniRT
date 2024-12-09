@@ -6,25 +6,20 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/07 16:17:33 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 16:48:14 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 #include <stdlib.h>
+
 // #include <cstdlib>
 
 void	print_error(char *message)
 {
-	perror (message);
-	exit (EXIT_FAILURE);
+	perror(message);
+	exit(EXIT_FAILURE);
 }
-
-/* void	img_init(t_img *img) */
-/* { */
-/* 	img->width = 0; */
-/* 	img->height = 0; */
-/* } */
 
 t_data	*start_ambient(t_data *data)
 {
@@ -37,7 +32,9 @@ t_data	*start_ambient(t_data *data)
 
 void	data_init(t_data *data)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	data->invalid = false;
 	data->img.width = 900;
 	data->img.height = 900;
@@ -49,22 +46,23 @@ void	data_init(t_data *data)
 	}
 	data->index_objs = 0;
 }
+
 void	win_inits(t_data *data)
 {
 	data_init(data);
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		print_error("Init error");
-	data->mlx_win = mlx_new_window(data->mlx_ptr, \
-		data->img.width, data->img.height, "miniRT");
+	data->mlx_win = mlx_new_window(data->mlx_ptr, data->img.width,
+			data->img.height, "miniRT");
 	if (!data->mlx_win)
 	{
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
 		print_error("Init error");
 	}
-	data->img.img_ptr = mlx_new_image(data->mlx_ptr, \
-		data->img.width, data->img.height);
+	data->img.img_ptr = mlx_new_image(data->mlx_ptr, data->img.width,
+			data->img.height);
 	if (!data->img.img_ptr)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
@@ -72,24 +70,24 @@ void	win_inits(t_data *data)
 		free(data->mlx_ptr);
 		print_error("Init error");
 	}
-	data->img.pix_ptr = mlx_get_data_addr(data->img.img_ptr, \
-		&data->img.bpp, &data->img.line_len, &data->img.endian);
+	data->img.pix_ptr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
+			&data->img.line_len, &data->img.endian);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	int		fd;
 	t_data	data;
-	/* int i = 0; */
-	ac = ac;
 
+	ac = ac;
 	if (ac != 2)
-		print_error(" Do your job correctly and pass ONE fucking config file!!!");
+		print_error(" Do your job correctly and"
+			" pass ONE fucking config file!!!");
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		print_error("invalid config file passed as ARG\n");
 	if (!check_extension(av[1]))
-			print_error("invalid extension");
+		print_error("invalid extension");
 	win_inits(&data);
 	parsing(fd, &data);
 	mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);

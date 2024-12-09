@@ -6,19 +6,21 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:27 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/07 16:34:55 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/09 17:14:25 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-void    *safe_malloc(size_t size)
+void	*safe_malloc(size_t size)
 {
-	void *ptr = malloc(size);
+	void	*ptr;
+
+	ptr = malloc(size);
 	if (!ptr)
 	{
 		perror("Malloc failed");
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	return (ptr);
 }
@@ -28,7 +30,6 @@ char	*join_wrapper(const char *s1, const char *s2, int free_which)
 	char	*result;
 
 	result = ft_strjoin(s1, s2);
-
 	if (free_which == 1)
 		free((char *)s1);
 	else if (free_which == 2)
@@ -41,9 +42,9 @@ char	*join_wrapper(const char *s1, const char *s2, int free_which)
 	return (result);
 }
 
-bool	check_extension( char *file_name)
+bool	check_extension(char *file_name)
 {
-	char 	**check;
+	char	**check;
 	bool	is_extension;
 	int		i;
 
@@ -55,12 +56,12 @@ bool	check_extension( char *file_name)
 	if (i != 2)
 		is_extension = false;
 	else if (ft_strncmp(check[1], "rt", 3) == 0)
-			is_extension = true;
+		is_extension = true;
 	free_mtx(check);
 	return (is_extension);
 }
 
-bool 	invalid_params(char **params, int	valid_params, t_data *data)
+bool	invalid_params(char **params, int valid_params, t_data *data)
 {
 	int	i;
 
@@ -77,7 +78,3 @@ bool 	invalid_params(char **params, int	valid_params, t_data *data)
 	}
 	return (false);
 }
-
-
-
-
