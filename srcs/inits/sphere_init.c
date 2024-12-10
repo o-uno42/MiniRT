@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:42:03 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 18:17:03 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:37:21 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ int	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 	return (count);
 }
 
+void	sphere_info(t_sphere *sphere, char **res, char **coords, char **rgb)
+{
+	sphere->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
+			ft_atol(coords[2]));
+	sphere->diameter = ft_atol(res[2]);
+	sphere->radius = sphere->diameter / 2;
+	sphere->rgb = extract_color(ft_atol(rgb[0]), ft_atol(rgb[1]),
+			ft_atol(rgb[2]));
+}
+
 void	sphere_init(t_data *data, char *line, int i)
 {
 	char		**res;
@@ -45,22 +55,21 @@ void	sphere_init(t_data *data, char *line, int i)
 	char		**rgb;
 	t_sphere	*sphere;
 
+	rgb = NULL;
+	coords = NULL;
 	data->obj[i].type_obj = SPHERE;
 	sphere = (t_sphere *)safe_malloc(sizeof(t_sphere));
 	data->obj[i].object = sphere;
 	res = ft_split(line, ' ');
 	if (invalid_params(res, 3, data))
 		return ;
-	coords = ft_split(res[1], ',');
-	rgb = ft_split(res[3], ',');
-	sphere->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
-			ft_atol(coords[2]));
-	sphere->diameter = ft_atol(res[2]);
-	sphere->radius = sphere->diameter / 2;
-	sphere->rgb = extract_color(ft_atol(rgb[0]), ft_atol(rgb[1]),
-			ft_atol(rgb[2]));
+	if (invalid_parts(&coords, 2, data, res[1]) || invalid_parts(&rgb, 2, data,
+			res[3]))
+	{
+		free_all_mtx(res, coords, rgb, NULL);
+		return ;
+	}
+	sphere_info(sphere, res, coords, rgb);
 	sphere_bonus_init(data, sphere, res);
-	free_mtx(rgb);
-	free_mtx(coords);
-	free_mtx(res);
+	free_all_mtx(res, coords, rgb, NULL);
 }

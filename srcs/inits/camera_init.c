@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:01:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/28 17:08:33 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:37:32 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,12 @@ void	camera_init(t_data *data, char *line)
 	world_up.y = 1;
 	world_up.z = 0;
 	res = ft_split(line, ' ');
-	coords = ft_split(res[1], ',');
-	vector = ft_split(res[2], ',');
+	if (invalid_parts(&coords, 2, data, res[1]) || invalid_parts(&vector, 2,
+			data, res[2]))
+	{
+		free_all_mtx(res, coords, vector, NULL);
+		return ;
+	}
 	data->camera.pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
 			ft_atol(coords[2]));
 	data->camera.dir = create_vector(ft_atol(vector[0]), ft_atol(vector[1]),
@@ -48,7 +52,5 @@ void	camera_init(t_data *data, char *line)
 	data->camera.fov = ft_atoi(res[3]);
 	data->camera.forward = normalize(data->camera.dir);
 	world_position(data, world_up);
-	free_mtx(coords);
-	free_mtx(vector);
-	free_mtx(res);
+	free_all_mtx(res, coords, vector, NULL);
 }
