@@ -6,12 +6,12 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/12/10 18:57:38 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:35:41 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef minirt_H
-# define minirt_H
+#ifndef MINIRT_H
+# define MINIRT_H
 
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
@@ -19,6 +19,7 @@
 # include "structs.h"
 # include <X11/keysym.h>
 # include <fcntl.h>
+/* https://github.com/42School/norminette/issues/470 */
 # include <float.h>
 # include <limits.h>
 # include <math.h>
@@ -99,11 +100,11 @@ t_ray		camera_rays(int x, int y, t_data *data);
 //                          LIGHT
 
 // LIGHT
-t_rgb		super_light_bonus_intersect(t_data *data, t_ray **light,
-				t_ray camera_ray, t_hitinfo *hit, int x, int y);
+/* t_rgb		super_light_bonus_intersect(t_data *data, t_ray **light, */
+				/* t_ray camera_ray, t_hitinfo *hit, int x, int y); */
 
-t_rgb		light_intersect(t_data *data, t_ray *light, t_ray camera_ray,
-				t_hitinfo *hit, int x, int y);
+/* t_rgb		light_intersect(t_data *data, t_ray *light, t_ray camera_ray, */
+				/* t_hitinfo *hit, int x, int y); */
 t_rgb		lights_intersect(t_data *data, t_ray camera_ray, t_hitinfo *hit);
 t_ray		*light_rays(t_data *data);
 t_ambient	darker_ambient(t_ambient ambient, float i);
@@ -134,13 +135,14 @@ t_rgb		calculate_specular(t_hitinfo *hit, t_vect light_dir,
 bool		check_shadow(t_data *data, t_vect point, t_hitinfo hit);
 
 // PLANE SHADOW
-bool render_plane_shadow(t_ray camera_ray, t_plane *plane, t_hitinfo *hit);
+bool		render_plane_shadow(t_ray camera_ray, t_plane *plane,
+				t_hitinfo *hit);
 
 // SPHERE SHADOW
-bool	render_sphere_shadow(t_ray camera_ray, t_data *data, t_sphere *sphere,
-		t_hitinfo *hit);
-void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_ray ray,
-		t_sphere *sphere);
+bool		render_sphere_shadow(t_ray camera_ray, t_data *data,
+				t_sphere *sphere, t_hitinfo *hit);
+void		calc_hit_sphere(t_hitinfo *hit, float intersect, t_ray ray,
+				t_sphere *sphere);
 
 // SHADOW CYLINDER
 bool		render_cylinder_shadow(t_ray shadow_ray, t_data *data,
@@ -149,7 +151,8 @@ bool		render_cylinder_shadow(t_ray shadow_ray, t_data *data,
 // SHADOW CONE
 bool		render_cone_shadow(t_ray ray, t_data *data, t_cone *cone,
 				t_hitinfo *hit);
-bool		cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res);
+bool		cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone,
+				POINT *res);
 t_vect		cone_normal_shadow(t_hitinfo *hit, t_cone *cone);
 
 // VECTOR UTILS
@@ -210,11 +213,13 @@ void		*safe_malloc(size_t size);
 char		*join_wrapper(const char *s1, const char *s2, int free_which);
 bool		check_extension(char *file_name);
 bool		invalid_params(char **params, int valid_params, t_data *data);
-bool		invalid_parts(char ***parts, int valid_parts, t_data *data, char *parent);
+bool		invalid_parts(char ***parts, int valid_parts, t_data *data,
+				char *parent);
 // FREE FUNCTIONS
 void		free_mtx(char **mtx);
-/* void		free_all_mtx(char ***mtx1, char ***mtx2, char ***mtx3, char ***mtx4); */
-void 		free_all_mtx(char **mtx1, char **mtx2, char **mtx3, char **mtx4);
+/* void		free_all_mtx(char ***mtx1, char ***mtx2, char ***mtx3,
+			char ***mtx4); */
+void		free_all_mtx(char **mtx1, char **mtx2, char **mtx3, char **mtx4);
 // ERRORS
 void		print_error(char *message);
 // CLEAN
