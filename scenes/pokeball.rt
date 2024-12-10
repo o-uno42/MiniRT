@@ -1,5 +1,5 @@
 A 0.5   0,0,0
-C 0,1,15,   0,-0.1,-1   80
+C 0,1,15   0,-0.1,-1   80
 L 2,2,4   0.5   255,255,255
 pic PATH:textures/fake_grass.xpm #
 pic PATH:textures/fake_grass_normal.xpm #

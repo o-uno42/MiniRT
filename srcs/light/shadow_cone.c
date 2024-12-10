@@ -1,16 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   shadow_cone.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 18:36:04 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 18:58:46 by tjuvan           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../includes/minirt.h"
+
+static bool	cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
+{
+	t_vect	hypotenuse;
+	t_vect	proj;
+	t_vect	p_to_res;
+	float	proj_len;
+
+	ray = ray;
+	hypotenuse = sub_vect(hit->p, cone->pos);
+	proj = scale_vect(cone->dir, dot_product(hypotenuse, cone->dir));
+	*res = sum_vect(cone->pos, proj);
+	p_to_res = sub_vect(*res, cone->p2);
+	proj_len = dot_product(p_to_res, cone->dir);
+	if (proj_len >= 0 && proj_len <= cone->height)
+		return (true);
+	else
+		return (false);
+}
 
 static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 {
@@ -32,33 +39,9 @@ static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 	}
 	hit->rgb = cone->rgb;
 	hit->normal = normalize(cone->pos);
-	hit->normal = cone_normal_shadow(hit, cone);
-	return (false);
-}
-
-static bool	hit_cone_shadow_reverse(t_hitinfo *hit, float t, t_ray ray,
-		t_cone *cone)
-{
-	float	prev_hit;
-	POINT	prev;
-	POINT	res;
-
-	prev_hit = hit->t;
-	prev = hit->p;
-	if (t >= hit->t)
-		return (false);
-	hit->t = t;
-	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, t));
-	if (!cone_end_shadow(hit, ray, cone, &res))
-	{
-		hit->t = prev_hit;
-		hit->p = prev;
-		return (true);
-	}
-	hit->rgb = cone->rgb;
-	hit->normal = normalize(cone->pos);
-	hit->normal = scale_vect(cone_normal_shadow(hit, cone), -1);
-	return (false);
+	// hit->normal = cone_normal_shadow(hit, cone);
+	// hit->normal = scale_vect(cone_normal_shadow(hit, cone), -1);
+	return false;
 }
 
 void	cone_comps_shadow(t_ray ray, t_data *data, t_cone *cone, t_quad *g)
@@ -107,16 +90,10 @@ bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone,
 	cone_comps_shadow(ray, data, cone, &g);
 	if (solve_quadratic(data, &t1, &t2))
 	{
-		if (t1 > 0.0003 && t1 < hit->t)
-		{
-			hit_cone_shadow(hit, t1, ray, cone);
+		if (t1 > 0.0003 && t1 < hit->t && (!hit_cone_shadow(hit, t1, ray, cone)))
 			return (true);
-		}
-		else if (t2 > 0.0003 && t2 < hit->t)
-		{
-			hit_cone_shadow_reverse(hit, t2, ray, cone);
+		else if (t2 > 0.0003 && t2 < hit->t && (!hit_cone_shadow(hit, t2, ray, cone)))
 			return (true);
-		}
 	}
 	if (check_caps_shad(hit, cone, ray, t1))
 		return (true);

@@ -19,7 +19,9 @@ FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c $(SRC_DIR)/clean.c \
 			 $(SRC_DIR)/parsing_utils.c \
 			 $(SRC_DIR)/color_creation.c $(SRC_DIR)/color.c \
 			 $(SRC_DIR)/color_utils.c \
-			 $(SRC_DIR)/vector_utils.c $(SRC_DIR)/math_utils.c \
+			 $(SRC_DIR)/vector_utils.c \
+			 $(SRC_DIR)/vector_utils3.c \
+			 $(SRC_DIR)/math_utils.c \
 			 $(SRC_DIR)/math_utils2.c $(SRC_DIR)/vector_utils2.c \
 			 $(SRC_DIR)/render.c \
 			 $(SRC_DIR)/debug_utils.c $(SRC_DIR)/free_functions.c \

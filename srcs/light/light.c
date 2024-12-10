@@ -21,8 +21,8 @@ static float	shadow(t_hitinfo hit, t_vect dir, float dist, float bright)
 	float	darkness;
 
 	angle_intensity = max_nb(0, dot_product(hit.normal, dir));
-	distance_factor = 2 / (1 + 0.1 * square(dist));
-	shadow_intensity = (1.0 + angle_intensity) * distance_factor * bright;
+	distance_factor = 1 / (1 + 0.1 * square(dist));
+	shadow_intensity = (5.0 + angle_intensity) * distance_factor * bright;
 	shadow_distance_factor = (50 * dist);
 	darkness = shadow_intensity * (1 + shadow_distance_factor) * 0.2;
 	return (darkness);
@@ -52,7 +52,7 @@ static t_rgb	is_light(t_hitinfo *hit, t_data *data, int i, t_ray camera_ray)
 		diffuse = bri(hit->rgb, lum(data->lights[i], hit, \
 			data->light_dir, data->dist_to_light) * 500 * 0.5);
 	final_color = add_rgb(add_rgb(diffuse, calculate_specular(hit, \
-		data->light_dir, camera_ray, 10)), final_color);
+		data->light_dir, camera_ray, 80)), final_color);
 	return (final_color);
 }
 
