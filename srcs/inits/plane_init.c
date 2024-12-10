@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 14:37:49 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:57:07 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	plane_vect_init(char **coords, char **vect, char **rgb, t_plane *plane)
 	plane->posn.x = plane->pos.x;
 	plane->posn.y = plane->pos.y + 10;
 	plane->posn.z = plane->pos.z;
-	plane->vect = create_vector(ft_atol(vect[0]), ft_atol(vect[1]),
-			ft_atol(vect[2]));
+	plane->vect = create_vector(fabs(ft_atol(vect[0])), fabs(ft_atol(vect[1])),
+			fabs(ft_atol(vect[2])));
 	plane->vect = normalize(plane->vect);
 	plane->rgb = extract_color(ft_atol(rgb[0]), ft_atol(rgb[1]),
 			ft_atol(rgb[2]));
