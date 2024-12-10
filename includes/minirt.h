@@ -160,6 +160,7 @@ float		magnitude(t_vect v);
 t_vect		create_vector(float x, float y, float z);
 t_vect		scale_vect(t_vect v, float scalar);
 t_vect		scale_down(t_vect v, float scalar);
+t_vect		abs_vect(t_vect vect);
 // MATH UTILS
 int			square(float i);
 double		ft_atol(const char *nptr);

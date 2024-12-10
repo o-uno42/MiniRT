@@ -22,9 +22,8 @@ bool	render_plane_shadow(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 	if (visibility == 0)
 		return (false);
 	d = -(dot_product(plane->vect, plane->pos));
-
 	t = -(d + dot_product(plane->vect, camera_ray.pos)) / visibility;
-	if (t > 0 && t < hit->t)
+	if (t > 0.0003 && t < hit->t)
 	{
 		hit->t = t;
 		hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, t));
@@ -35,9 +34,7 @@ bool	render_plane_shadow(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		plane_texture(hit, plane, plane->tex);
 		plane_bump(hit, plane);
 	}
-	else
-	{
+	if (visibility > 0)
 		hit->normal = scale_vect(plane->vect, -1);
-	}
-	return (true);
+	return (t);
 }
