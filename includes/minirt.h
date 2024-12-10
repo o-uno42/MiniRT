@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/12/10 16:12:28 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 18:57:38 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ bool		render_cylinder_shadow(t_ray shadow_ray, t_data *data,
 // SHADOW CONE
 bool		render_cone_shadow(t_ray ray, t_data *data, t_cone *cone,
 				t_hitinfo *hit);
+bool		cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res);
+t_vect		cone_normal_shadow(t_hitinfo *hit, t_cone *cone);
 
 // VECTOR UTILS
 t_vect		sum_vect(t_vect pos_1, t_vect pos_2);

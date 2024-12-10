@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:54:51 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 13:54:09 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 18:16:12 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	cone_end(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
 {
-
 	t_vect	hypotenuse;
 	t_vect	proj;
 	t_vect	p_to_res;
@@ -57,75 +56,69 @@ t_vect	cone_normal(t_hitinfo *hit, t_cone *cone)
 
 void	hit_cone(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 {
-
-	float prev_hit;
+	float	prev_hit;
 	POINT	prev;
 	POINT	res;
-	
+
 	prev_hit = hit->t;
 	prev = hit->p;
 	if (t >= hit->t)
 		return ;
 	hit->t = t;
 	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, t));
-	if(!cone_end(hit, ray, cone, &res))
+	if (!cone_end(hit, ray, cone, &res))
 	{
 		hit->t = prev_hit;
 		hit->p = prev;
-		return;
+		return ;
 	}
 	hit->rgb = cone->rgb;
 	hit->normal = normalize(cone->pos);
 	hit->normal = cone_normal(hit, cone);
-	/* checker_cone(hit, cone); */
-	/* hit->normal = scale_vect(cone_normal(hit, cone), -1); */
 }
 
+void	cone_comps(t_ray ray, t_data *data, t_cone *cone, t_quad *g)
+{
+	g->pdelt = sub_vect(ray.pos, cone->pos);
+	g->cos_square = cos(cone->theta_r) * cos(cone->theta_r);
+	g->sin_square = sin(cone->theta_r) * sin(cone->theta_r);
+	g->acomp = sub_vect(ray.dir, scale_vect(cone->dir, dot_product(ray.dir,
+					cone->dir)));
+	g->acomp2 = g->sin_square * dot_product(ray.dir, cone->dir)
+		* dot_product(ray.dir, cone->dir);
+	data->a = g->cos_square * dot_product(g->acomp, g->acomp) - g->acomp2;
+	g->bcomp = dot_product(sub_vect(ray.dir, scale_vect(cone->dir,
+					dot_product(ray.dir, cone->dir))), sub_vect(g->pdelt,
+				scale_vect(cone->dir, dot_product(g->pdelt, cone->dir))));
+	g->bcomp2 = dot_product(ray.dir, cone->dir) * dot_product(g->pdelt,
+			cone->dir);
+	data->b = (2 * g->cos_square * g->bcomp) - (2 * g->sin_square * g->bcomp2);
+	g->ccomp = dot_product(sub_vect(g->pdelt, scale_vect(cone->dir,
+					dot_product(g->pdelt, cone->dir))), sub_vect(g->pdelt,
+				scale_vect(cone->dir, dot_product(g->pdelt, cone->dir))));
+	g->ccomp2 = g->sin_square * dot_product(g->pdelt, cone->dir)
+		* dot_product(g->pdelt, cone->dir);
+	data->c = g->cos_square * g->ccomp - g->ccomp2;
+}
 
 bool	render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 {
 	float	t1;
 	float	t2;
-	t_vect	oc;
-	t_vect	Acomp;
-	float	Acomp2;
-	float	Bcomp;
-	float	Bcomp2;
-	float	Ccomp;
-	float	Ccomp2;
-	float	cos_square;
-	float	sin_square;
+	t_quad	g;
 
-
-	
-	oc = sub_vect(ray.pos, cone->pos);
-	cos_square = cos(cone->theta_r) * cos(cone->theta_r);
-	sin_square = sin(cone->theta_r) * sin(cone->theta_r);
-	
-	Acomp = sub_vect(ray.dir, scale_vect(cone->dir, dot_product(ray.dir, cone->dir)));
-	Acomp2 = sin_square * dot_product(ray.dir, cone->dir) * dot_product(ray.dir, cone->dir);
-	data->a = cos_square * dot_product(Acomp, Acomp) - Acomp2;
-	Bcomp = dot_product(sub_vect(ray.dir, scale_vect(cone->dir, dot_product(ray.dir, cone->dir))), sub_vect(oc, scale_vect(cone->dir, dot_product(oc, cone->dir))));
-	Bcomp2 = dot_product(ray.dir, cone->dir) * dot_product(oc, cone->dir);
-	data->b = (2 * cos_square * Bcomp) - (2 * sin_square * Bcomp2);
-
-	Ccomp = dot_product(sub_vect(oc, scale_vect(cone->dir, dot_product(oc, cone->dir))), sub_vect(oc, scale_vect(cone->dir, dot_product(oc, cone->dir))));
-	Ccomp2 = sin_square * dot_product(oc, cone->dir) * dot_product(oc, cone->dir);
-	data->c = cos_square * Ccomp - Ccomp2;
+	cone_comps(ray, data, cone, &g);
 	if (solve_quadratic(data, &t1, &t2))
 	{
 		if (t1 > 0.0001 && t1 < hit->t)
 		{
 			hit_cone(hit, t1, ray, cone);
-			// return (true);
 		}
 	}
-	if(!caps_cone(ray, cone, hit))
+	if (!caps_cone(ray, cone, hit))
 	{
 		t1 = FLT_MAX;
 		hit_cone(hit, t1, ray, cone);
-		// return (true);
 	}
-
 	return (false);
 }

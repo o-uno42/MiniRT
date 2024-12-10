@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 18:41:40 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 18:08:58 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -111,6 +111,14 @@ typedef struct s_quad
 	float		a;
 	float		b;
 	float		c;
+	t_vect		acomp;
+	float		acomp2;
+	float		bcomp;
+	float		bcomp2;
+	float		ccomp;
+	float		ccomp2;
+	float		cos_square;
+	float		sin_square;
 	t_vect		comp;
 	t_vect		pdelt;
 	t_vect		b1;
