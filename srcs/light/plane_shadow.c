@@ -12,7 +12,7 @@
 
 #include "../../includes/minirt.h"
 
-bool	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
+bool	render_plane_shadow(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 {
 	float	visibility;
 	float	t;
@@ -39,5 +39,5 @@ bool	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 	{
 		hit->normal = scale_vect(plane->vect, -1);
 	}
-	return (t);
+	return (true);
 }

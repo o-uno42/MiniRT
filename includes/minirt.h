@@ -131,6 +131,15 @@ t_rgb		calculate_specular(t_hitinfo *hit, t_vect light_dir,
 // SHADOWS
 bool		check_shadow(t_data *data, t_vect point, t_hitinfo hit);
 
+// PLANE SHADOW
+bool render_plane_shadow(t_ray camera_ray, t_plane *plane, t_hitinfo *hit);
+
+// SPHERE SHADOW
+bool	render_sphere_shadow(t_ray camera_ray, t_data *data, t_sphere *sphere,
+		t_hitinfo *hit);
+void	calc_hit_sphere(t_hitinfo *hit, float intersect, t_ray ray,
+		t_sphere *sphere);
+
 // SHADOW CYLINDER
 bool		render_cylinder_shadow(t_ray shadow_ray, t_data *data,
 				t_cylinder *cylinder, t_hitinfo *hit);

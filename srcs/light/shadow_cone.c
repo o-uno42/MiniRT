@@ -1,5 +1,4 @@
 #include "../../includes/minirt.h"
-#include <stdbool.h>
 
 static bool	cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
 {
@@ -19,29 +18,6 @@ static bool	cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
 	else
 		return (false);
 }
-
-// static t_vect	cone_normal_shadow(t_hitinfo *hit, t_cone *cone)
-// {
-// 	t_vect	normal;
-// 	t_vect	pdelta;
-// 	POINT	axisp;
-// 	float	adjacent;
-// 	float	scalar;
-
-// 	pdelta = sub_vect(cone->pos, hit->p);
-// 	adjacent = magnitude(pdelta);
-// 	scalar = adjacent / cos(cone->theta_r);
-// 	if (dot_product(cone->dir, pdelta) >= 0)
-// 		pdelta = scale_vect(cone->dir, scalar);
-// 	else
-// 	{
-// 		pdelta = scale_vect(cone->dir, scalar);
-// 		pdelta = scale_vect(pdelta, -1);
-// 	}
-// 	axisp = sum_vect(cone->pos, pdelta);
-// 	normal = normalize(sub_vect(hit->p, axisp));
-// 	return (normal);
-// }
 
 static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 {
@@ -68,32 +44,6 @@ static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 	// hit->normal = scale_vect(cone_normal_shadow(hit, cone), -1);
 	return false;
 }
-
-// static bool	hit_cone_shadow_reverse(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
-// {
-
-// 	float prev_hit;
-// 	POINT	prev;
-// 	POINT	res;
-	
-// 	prev_hit = hit->t;
-// 	prev = hit->p;
-// 	if (t >= hit->t)
-// 		return false;
-// 	hit->t = t;
-// 	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, t));
-// 	if(!cone_end_shadow(hit, ray, cone, &res))
-// 	{
-// 		hit->t = prev_hit;
-// 		hit->p = prev;
-// 		return true;
-// 	}
-// 	hit->rgb = cone->rgb;
-// 	hit->normal = normalize(cone->pos);
-// 	// hit->normal = cone_normal_shadow(hit, cone);
-// 	hit->normal = scale_vect(normalize(cone->pos), -1);
-// 	return false;
-// }
 
 bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 {
