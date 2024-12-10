@@ -19,7 +19,7 @@ t_rgb  calculate_specular(t_hitinfo *hit, t_vect light_dir, t_ray camera_ray, fl
 
     reflect = reflect_vect(hit->normal, light_dir);
     reflect = normalize(reflect);
-    view_dir = sub_vect(camera_ray.pos, hit->p);
+    view_dir = sub_vect(camera_ray.pos, scale_vect(hit->p, 0.0003));
     view_dir = normalize(view_dir);
     spec = max_nb(0, dot_product(reflect, view_dir));
     spec = pow(spec, shininess);

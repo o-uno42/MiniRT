@@ -38,5 +38,5 @@ bool	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		hit->normal = scale_vect(plane->vect, -1);
 		plane_bump(hit, plane);
 	}
-	return (t);
+	return (true);
 }

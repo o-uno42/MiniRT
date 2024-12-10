@@ -5,7 +5,7 @@ static int	inters_obj(t_data *data, t_objs obj, t_ray ray, t_hitinfo *hit)
 	if (obj.type_obj == SPHERE)
 		return (render_sphere(ray, data, obj.object, hit));
 	else if (obj.type_obj == PLANE)
-		return (render_plane_shadow(ray, obj.object, hit));
+		return (render_plane(ray, obj.object, hit));
 	else if (obj.type_obj == CONE)
 		return (render_cone_shadow(ray, data, obj.object, hit));
 	else if (obj.type_obj == CYLINDER)

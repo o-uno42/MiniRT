@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
+#include <stdbool.h>
 
 bool	render_plane_shadow(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 {
