@@ -6,12 +6,11 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:31:07 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/11/17 16:43:37 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 18:31:36 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
-
 
 void	caps_hit(t_cone *cone, t_hitinfo *hit, POINT p, float t)
 {
@@ -20,45 +19,45 @@ void	caps_hit(t_cone *cone, t_hitinfo *hit, POINT p, float t)
 	hit->rgb = cone->rgb;
 }
 
-bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit)
+bool	caps_choose_cone(t_cone *cone, t_caps *c)
 {
-	float	visibility;
-	float	visibility2;
-	float	chosen_t;
-	POINT	p;
-	POINT	pcenter;
-	t_vect	pdelt;
-	t_vect	normal;
-
-	visibility = dot_product(cone->dir, ray.dir);
-	visibility2 = dot_product(scale_vect(cone->dir, -1), ray.dir);
-	if (visibility <= 0 && visibility2 <= 0)
-		return (false);
-	float t = dot_product(cone->dir, sub_vect(cone->p1, ray.pos)) / visibility;
-	float t2 = dot_product(scale_vect(cone->dir, -1), sub_vect(cone->p2, ray.pos)) / visibility2;
-
-	if (t2 > 0 && (t <= 0 || t > t2))
+	if (c->t2 > 0 && (c->t <= 0 || c->t > c->t2))
 	{
-		chosen_t = t2;
-		normal = scale_vect(cone->dir, -1);
-		pcenter = cone->p2;
+		c->chosen_t = c->t2;
+		c->normal = scale_vect(cone->dir, -1);
+		c->pcenter = cone->p2;
 	}
-	else if (t > 0 && (t2 <= 0 || t2 > t))
+	else if (c->t > 0 && (c->t2 <= 0 || c->t2 > c->t))
 	{
-		chosen_t = t;
-		pcenter = cone->p1;
-		normal = cone->dir;
-
+		c->chosen_t = c->t;
+		c->pcenter = cone->p1;
+		c->normal = cone->dir;
 	}
 	else
 		return (false);
-	p = sum_vect(ray.pos, scale_vect(ray.dir, chosen_t));
-	pdelt = sub_vect(p, pcenter);
-	if (magnitude(pdelt) <= cone->radius && chosen_t < hit->t)
+	return (true);
+}
+
+bool	caps_cone(t_ray ray, t_cone *cone, t_hitinfo *hit)
+{
+	t_caps	c;
+
+	c.visibility = dot_product(cone->dir, ray.dir);
+	c.visibility2 = dot_product(scale_vect(cone->dir, -1), ray.dir);
+	if (c.visibility <= 0 && c.visibility2 <= 0)
+		return (false);
+	c.t = dot_product(cone->dir, sub_vect(cone->p1, ray.pos)) / c.visibility;
+	c.t2 = dot_product(scale_vect(cone->dir, -1), sub_vect(cone->p2, ray.pos))
+		/ c.visibility2;
+	if (!caps_choose_cone(cone, &c))
+		return (false);
+	c.p = sum_vect(ray.pos, scale_vect(ray.dir, c.chosen_t));
+	c.pdelt = sub_vect(c.p, c.pcenter);
+	if (magnitude(c.pdelt) <= cone->radius && c.chosen_t < hit->t)
 	{
-		hit->normal = normal;
-		caps_hit(cone, hit, p, chosen_t); 
+		hit->normal = c.normal;
+		caps_hit(cone, hit, c.p, c.chosen_t);
 		return (true);
-	}	
+	}
 	return (false);
 }
