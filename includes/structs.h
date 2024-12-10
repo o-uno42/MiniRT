@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 18:08:58 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:23:56 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -45,7 +45,7 @@
 # define TEAL 0x008080
 # define AQUA 0x00FFFF
 
-#include <stdbool.h>
+# include <stdbool.h>
 
 typedef struct s_vect
 {
