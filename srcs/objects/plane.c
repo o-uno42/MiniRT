@@ -14,15 +14,14 @@
 
 bool	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 {
-	float	visibility;
 	float	t;
 	float	d;
 
-	visibility = dot_product(plane->vect, camera_ray.dir);
-	if (visibility == 0)
+	if ((dot_product(plane->vect, camera_ray.dir)) == 0)
 		return (false);
 	d = -(dot_product(plane->vect, plane->pos));
-	t = -(d + dot_product(plane->vect, camera_ray.pos)) / visibility;
+	t = -(d + dot_product(plane->vect, camera_ray.pos)) / \
+		(dot_product(plane->vect, camera_ray.dir));
 	if (t > 0 && t < hit->t)
 	{
 		hit->t = t;
@@ -34,7 +33,10 @@ bool	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		plane_texture(hit, plane, plane->tex);
 		plane_bump(hit, plane);
 	}
-	if (visibility > 0)
+	if ((dot_product(plane->vect, camera_ray.dir)) > 0)
+	{
 		hit->normal = scale_vect(plane->vect, -1);
+		plane_bump(hit, plane);
+	}
 	return (t);
 }
