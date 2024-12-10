@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:04:12 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 19:04:13 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:07:35 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 	}
 	hit->rgb = cone->rgb;
 	hit->normal = normalize(cone->pos);
-	// hit->normal = cone_normal_shadow(hit, cone);
-	// hit->normal = scale_vect(cone_normal_shadow(hit, cone), -1);
-	return false;
+	return (false);
 }
 
 void	cone_comps_shadow(t_ray ray, t_data *data, t_cone *cone, t_quad *g)
@@ -83,9 +81,11 @@ bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone,
 	cone_comps_shadow(ray, data, cone, &g);
 	if (solve_quadratic(data, &t1, &t2))
 	{
-		if (t1 > 0.0003 && t1 < hit->t && (!hit_cone_shadow(hit, t1, ray, cone)))
+		if (t1 > 0.0003 && t1 < hit->t && (!hit_cone_shadow(hit, t1, ray,
+					cone)))
 			return (true);
-		else if (t2 > 0.0003 && t2 < hit->t && (!hit_cone_shadow(hit, t2, ray, cone)))
+		else if (t2 > 0.0003 && t2 < hit->t && (!hit_cone_shadow(hit, t2, ray,
+					cone)))
 			return (true);
 	}
 	if (check_caps_shad(hit, cone, ray, t1))
