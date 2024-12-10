@@ -1,23 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shadow_cone.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 19:04:12 by tjuvan            #+#    #+#             */
+/*   Updated: 2024/12/10 19:04:13 by tjuvan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minirt.h"
-
-static bool	cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
-{
-	t_vect	hypotenuse;
-	t_vect	proj;
-	t_vect	p_to_res;
-	float	proj_len;
-
-	ray = ray;
-	hypotenuse = sub_vect(hit->p, cone->pos);
-	proj = scale_vect(cone->dir, dot_product(hypotenuse, cone->dir));
-	*res = sum_vect(cone->pos, proj);
-	p_to_res = sub_vect(*res, cone->p2);
-	proj_len = dot_product(p_to_res, cone->dir);
-	if (proj_len >= 0 && proj_len <= cone->height)
-		return (true);
-	else
-		return (false);
-}
 
 static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 {
