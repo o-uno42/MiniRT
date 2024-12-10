@@ -1,8 +1,8 @@
 #include "../../includes/minirt.h"
+#include <stdbool.h>
 
 static bool	cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
 {
-
 	t_vect	hypotenuse;
 	t_vect	proj;
 	t_vect	p_to_res;
@@ -20,28 +20,28 @@ static bool	cone_end_shadow(t_hitinfo *hit, t_ray ray, t_cone *cone, POINT *res)
 		return (false);
 }
 
-static t_vect	cone_normal_shadow(t_hitinfo *hit, t_cone *cone)
-{
-	t_vect	normal;
-	t_vect	pdelta;
-	POINT	axisp;
-	float	adjacent;
-	float	scalar;
+// static t_vect	cone_normal_shadow(t_hitinfo *hit, t_cone *cone)
+// {
+// 	t_vect	normal;
+// 	t_vect	pdelta;
+// 	POINT	axisp;
+// 	float	adjacent;
+// 	float	scalar;
 
-	pdelta = sub_vect(cone->pos, hit->p);
-	adjacent = magnitude(pdelta);
-	scalar = adjacent / cos(cone->theta_r);
-	if (dot_product(cone->dir, pdelta) >= 0)
-		pdelta = scale_vect(cone->dir, scalar);
-	else
-	{
-		pdelta = scale_vect(cone->dir, scalar);
-		pdelta = scale_vect(pdelta, -1);
-	}
-	axisp = sum_vect(cone->pos, pdelta);
-	normal = normalize(sub_vect(hit->p, axisp));
-	return (normal);
-}
+// 	pdelta = sub_vect(cone->pos, hit->p);
+// 	adjacent = magnitude(pdelta);
+// 	scalar = adjacent / cos(cone->theta_r);
+// 	if (dot_product(cone->dir, pdelta) >= 0)
+// 		pdelta = scale_vect(cone->dir, scalar);
+// 	else
+// 	{
+// 		pdelta = scale_vect(cone->dir, scalar);
+// 		pdelta = scale_vect(pdelta, -1);
+// 	}
+// 	axisp = sum_vect(cone->pos, pdelta);
+// 	normal = normalize(sub_vect(hit->p, axisp));
+// 	return (normal);
+// }
 
 static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 {
@@ -64,36 +64,36 @@ static bool	hit_cone_shadow(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
 	}
 	hit->rgb = cone->rgb;
 	hit->normal = normalize(cone->pos);
-	hit->normal = cone_normal_shadow(hit, cone);
+	// hit->normal = cone_normal_shadow(hit, cone);
 	// hit->normal = scale_vect(cone_normal_shadow(hit, cone), -1);
 	return false;
 }
 
-static bool	hit_cone_shadow_reverse(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
-{
+// static bool	hit_cone_shadow_reverse(t_hitinfo *hit, float t, t_ray ray, t_cone *cone)
+// {
 
-	float prev_hit;
-	POINT	prev;
-	POINT	res;
+// 	float prev_hit;
+// 	POINT	prev;
+// 	POINT	res;
 	
-	prev_hit = hit->t;
-	prev = hit->p;
-	if (t >= hit->t)
-		return false;
-	hit->t = t;
-	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, t));
-	if(!cone_end_shadow(hit, ray, cone, &res))
-	{
-		hit->t = prev_hit;
-		hit->p = prev;
-		return true;
-	}
-	hit->rgb = cone->rgb;
-	hit->normal = normalize(cone->pos);
-	// hit->normal = cone_normal_shadow(hit, cone);
-	hit->normal = scale_vect(cone_normal_shadow(hit, cone), -1);
-	return false;
-}
+// 	prev_hit = hit->t;
+// 	prev = hit->p;
+// 	if (t >= hit->t)
+// 		return false;
+// 	hit->t = t;
+// 	hit->p = sum_vect(ray.pos, scale_vect(ray.dir, t));
+// 	if(!cone_end_shadow(hit, ray, cone, &res))
+// 	{
+// 		hit->t = prev_hit;
+// 		hit->p = prev;
+// 		return true;
+// 	}
+// 	hit->rgb = cone->rgb;
+// 	hit->normal = normalize(cone->pos);
+// 	// hit->normal = cone_normal_shadow(hit, cone);
+// 	hit->normal = scale_vect(normalize(cone->pos), -1);
+// 	return false;
+// }
 
 bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 {
@@ -131,28 +131,13 @@ bool	render_cone_shadow(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit)
 	data->c = cos_square * Ccomp - Ccomp2;
 	if (solve_quadratic(data, &t1, &t2))
 	{
-		if (t1 > 0.0003 && t1 < hit->t)
-		{
-			side = true;
-			hit_cone_shadow(hit, t1, ray, cone);
+		if (t1 > 0.0003 && t1 < hit->t && (!hit_cone_shadow(hit, t1, ray, cone)))
 			return (true);
-		}
-		else if (t2 > 0.0003 && t2 < hit->t)
-		{
-			// printf("l");
-			side = true;
-			hit_cone_shadow_reverse(hit, t2, ray, cone);
+		else if (t2 > 0.0003 && t2 < hit->t && (!hit_cone_shadow(hit, t2, ray, cone)))
 			return (true);
-		}
 	}
-	if(caps_cone(ray, cone, hit))
-	{
-		t1 = FLT_MAX;
-		hit_cone_shadow(hit, t1, ray, cone);
-		t2 = FLT_MAX;
-		hit_cone_shadow(hit, t2, ray, cone);
+	if (caps_cone(ray, cone, hit))
 		return (true);
-	}
 	side = side;
 
 	return (false);
