@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:48:18 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 18:16:03 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 15:50:33 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,51 @@ void	cylinder_bonus_init(t_data *data, t_cylinder *cylinder, char **res,
 	cylinder->nb_params = count;
 }
 
-void	cylinder_vect_init(t_cylinder *cylinder, char **res, char **coords,
-		int count)
+bool	cyl_vect_2(t_cylinder *cylinder, char **res, char **coords, int count)
 {
 	POINT	p1;
 	POINT	p2;
 
-	if (count < 5)
-		return ;
-	cylinder->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
-			ft_atol(coords[2]));
-	free_mtx(coords);
-	coords = ft_split(res[2], ',');
-	cylinder->dir = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
-			ft_atol(coords[2]));
-	cylinder->dir = normalize(cylinder->dir);
-	free_mtx(coords);
+	count = count;
 	cylinder->diameter = ft_atol(res[3]);
 	cylinder->radius = cylinder->diameter / 2;
 	cylinder->height = ft_atol(res[4]);
 	coords = ft_split(res[5], ',');
+	if (mtx_count(coords) != 2)
+	{
+		free(coords);
+		return (false);
+	}
 	cylinder->rgb = extract_color(ft_atol(coords[0]), ft_atol(coords[1]),
 			ft_atol(coords[2]));
 	top_bottom_point(&p1, &p2, *cylinder);
 	cylinder->p1 = p1;
 	cylinder->p2 = p2;
 	free_mtx(coords);
+	return (true);
+}
+
+bool	cylinder_vect_init(t_cylinder *cylinder, char **res, char **coords,
+		int count)
+{
+	if (count < 5)
+		return (false);
+	cylinder->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
+			ft_atol(coords[2]));
+	free_mtx(coords);
+	coords = ft_split(res[2], ',');
+	if (mtx_count(coords) != 2)
+	{
+		free(coords);
+		return (false);
+	}
+	cylinder->dir = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
+			ft_atol(coords[2]));
+	cylinder->dir = normalize(cylinder->dir);
+	free_mtx(coords);
+	if (!cyl_vect_2(cylinder, res, coords, count))
+		return (false);
+	return (true);
 }
 
 void	cylinder_init(t_data *data, char *line, int i)
@@ -83,8 +102,13 @@ void	cylinder_init(t_data *data, char *line, int i)
 	if (invalid_params(res, 5, data))
 		return ;
 	count = mtx_count(res);
-	coords = ft_split(res[1], ',');
-	cylinder_vect_init(cylinder, res, coords, count);
+	if (invalid_parts(&coords, 2, data, res[1]))
+	{
+		free_all_mtx(res, coords, NULL, NULL);
+		return ;
+	}
+	if (!cylinder_vect_init(cylinder, res, coords, count))
+		data->invalid = true;
 	cylinder_bonus_init(data, cylinder, res, count);
 	free_mtx(res);
 }

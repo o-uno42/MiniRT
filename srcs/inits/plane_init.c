@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 18:16:46 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:57:07 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	plane_vect_init(char **coords, char **vect, char **rgb, t_plane *plane)
 	plane->posn.x = plane->pos.x;
 	plane->posn.y = plane->pos.y + 10;
 	plane->posn.z = plane->pos.z;
-	plane->vect = create_vector(ft_atol(vect[0]), ft_atol(vect[1]),
-			ft_atol(vect[2]));
+	plane->vect = create_vector(fabs(ft_atol(vect[0])), fabs(ft_atol(vect[1])),
+			fabs(ft_atol(vect[2])));
 	plane->vect = normalize(plane->vect);
 	plane->rgb = extract_color(ft_atol(rgb[0]), ft_atol(rgb[1]),
 			ft_atol(rgb[2]));
@@ -59,19 +59,23 @@ void	plane_init(t_data *data, char *line, int i)
 	char	**rgb;
 	t_plane	*plane;
 
+	res = NULL;
+	coords = NULL;
+	vect = NULL;
+	rgb = NULL;
 	data->obj[i].type_obj = PLANE;
 	plane = (t_plane *)safe_malloc(sizeof(t_plane));
 	data->obj[i].object = plane;
 	res = ft_split(line, ' ');
 	if (invalid_params(res, 3, data))
 		return ;
-	coords = ft_split(res[1], ',');
-	vect = ft_split(res[2], ',');
-	rgb = ft_split(res[3], ',');
+	if (invalid_parts(&coords, 2, data, res[1]) || invalid_parts(&vect, 2, data,
+			res[2]) || invalid_parts(&rgb, 2, data, res[3]))
+	{
+		free_all_mtx(res, coords, vect, rgb);
+		return ;
+	}
 	plane_vect_init(coords, vect, rgb, plane);
 	plane_bonus_init(res, plane, data);
-	free_mtx(rgb);
-	free_mtx(vect);
-	free_mtx(coords);
-	free_mtx(res);
+	free_all_mtx(res, coords, vect, rgb);
 }
