@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:57:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 15:38:18 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/11 14:49:27 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	pic_init(t_data *data, char *line, int *nb_pics)
 	t_picture	pic;
 
 	res = ft_split(line, ' ');
+	pic.data = NULL;
 	if (invalid_params(res, 1, data))
 	{
 		(*nb_pics)--;
@@ -85,7 +86,6 @@ void	pic_init(t_data *data, char *line, int *nb_pics)
 	}
 	part = ft_split(res[1], ':');
 	pic.path = ft_strdup(part[1]);
-	pic.data = NULL;
 	pic.pic = mlx_xpm_file_to_image(data->mlx_ptr, pic.path, &pic.w, &pic.h);
 	if (pic.pic)
 	{
@@ -94,6 +94,7 @@ void	pic_init(t_data *data, char *line, int *nb_pics)
 		pic.index = *nb_pics;
 		data->pics[*nb_pics] = pic;
 	}
+	data->pic_idx = *nb_pics;
 	free_mtx(res);
 	free_mtx(part);
 	return ;
