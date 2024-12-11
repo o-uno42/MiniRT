@@ -39,7 +39,7 @@ t_rgb	calculate_specular(t_hitinfo *hit, t_vect light_dir, t_ray camera_ray,
 	specular_color.g = 255 * spec;
 	specular_color.b = 255 * spec;
 	if (just_color(specular_color) > just_color(hit->rgb))
-		return (specular_color);
+		return (clamp_rgb(specular_color));
 	else
 		return (hit->rgb);
 }
