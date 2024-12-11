@@ -43,9 +43,9 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 		plane->checker = false;
 		plane->bonus = false;
 	}
-	if (count >= 5 && res[5] && ft_atoi(res[5]) < data->pic_idx)
+	if (count >= 5 && res[5] && ft_atoi(res[5]) <= data->pic_idx)
 		plane->tex = data->pics[ft_atoi(res[5])];
-	if (count >= 6 && res[6] && ft_atoi(res[6]) < data->pic_idx)
+	if (count >= 6 && res[6] && ft_atoi(res[6]) <= data->pic_idx)
 		plane->tex_norm = data->pics[ft_atoi(res[6])];
 	plane->nb_params = count;
 	printf("plane->nb params: %d \n", plane->nb_params);

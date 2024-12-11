@@ -48,7 +48,6 @@ void	plane_checker(t_hitinfo *hit, t_plane *plane)
 	int	square_y;
 	int	square_z;
 
-	// printf("odddiooooooooooooooo    - %i\n", plane->checker);
 	if (plane->checker == false)
 	{
 		hit->rgb = plane->rgb;
@@ -69,7 +68,8 @@ void	plane_bump(t_hitinfo *hit, t_plane *plane)
 	t_vect	color_vect;
 	t_vect	delta;
 
-	if (plane->nb_params != 6 || plane->checker == false || !plane->tex_norm.data)
+	if (plane->nb_params != 6 || plane->checker == false || \
+		!plane->tex_norm.data)
 	{
 		return ;
 	}
