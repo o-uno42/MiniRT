@@ -48,7 +48,8 @@ void	plane_checker(t_hitinfo *hit, t_plane *plane)
 	int	square_y;
 	int	square_z;
 
-	if (plane->checker == false && plane->nb_params > 3)
+	// printf("odddiooooooooooooooo    - %i\n", plane->checker);
+	if (plane->checker == false)
 	{
 		hit->rgb = plane->rgb;
 		return ;
