@@ -229,21 +229,6 @@ typedef struct s_cylinder
 	float		brilliance;
 }				t_cylinder;
 
-typedef struct s_hyperboloid
-{
-	POINT		pos;
-	POINT		p1;
-	POINT		p2;
-	t_vect		dir;
-	float		a;
-	float		b;
-	float		c;
-	float		height;
-	float		diameter;
-	float		radius;
-	t_rgb		rgb;
-}				t_hyperboloid;
-
 typedef struct s_cone
 {
 	POINT		pos;
@@ -325,6 +310,7 @@ typedef struct s_data
 	int			nb_lights;
 	int			nb_pics;
 	int			nb_objs;
+	int			nb_main;
 	float		img_ratio;
 	int			index_objs;
 	t_vect		light_dir;

@@ -62,8 +62,6 @@ bool		render_sphere(t_ray camera_ray, t_data *data, t_sphere *sphere,
 bool		render_cylinder(t_ray camera_ray, t_data *data,
 				t_cylinder *cylinder, t_hitinfo *hit);
 bool		render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit);
-bool		render_hyperboloid(t_ray camera_ray, t_data *data,
-				t_hyperboloid *hyperboloid, t_hitinfo *hit);
 bool		render_cone(t_ray ray, t_data *data, t_cone *cone, t_hitinfo *hit);
 // OBJECT_UTILS
 void		swap_objs(t_objs *a, t_objs *b);

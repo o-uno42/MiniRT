@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
-#include <math.h>
 
 float	scale(float point, float max_dimension)
 {

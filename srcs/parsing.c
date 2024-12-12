@@ -44,9 +44,15 @@ void	obj_pars(char *line, t_data *data, int i, int *nb_pics)
 void	amb_camera(char *line, t_data *data, int i)
 {
 	if (ft_strncmp("A", line, i) == 0)
+	{
+		data->nb_main++;
 		ambient_init(data, line);
+	}
 	else if (ft_strncmp("C", line, i) == 0)
+	{
+		data->nb_main++;
 		camera_init(data, line);
+	}
 }
 
 int	prefix(char *line, t_data *data, int *nb_pics)
@@ -66,6 +72,7 @@ int	prefix(char *line, t_data *data, int *nb_pics)
 	{
 		lights_init(data, line, data->nb_lights);
 		data->nb_lights++;
+		data->nb_main++;
 		args++;
 	}
 	else if (ft_strncmp("l", line, i) == 0)
@@ -114,6 +121,7 @@ void	parsing(int fd, t_data *data)
 	data->nb_objs = 0;
 	data->nb_lights = 0;
 	data->pic_idx = 0;
+	data->nb_main = 0;
 	i = line_parsing(fd, data, &nb_pics);
 	data->obj[data->nb_objs].type_obj = END;
 	data->pic_idx = nb_pics;
