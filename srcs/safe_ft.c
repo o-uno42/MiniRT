@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <stdbool.h>
 
 void	*safe_malloc(size_t size)
 {
@@ -79,11 +80,41 @@ bool	invalid_params(char **params, int valid_params, t_data *data)
 	return (false);
 }
 
+bool	check_ends_comma(t_data *data, char *part)
+{
+	int	i;
+
+	i = 0;
+	if (!part)
+		return (false);
+	while(part[i])
+		i++;
+	if (i > 0)
+		if (part[i - 1] == ',')
+		{
+			write(2, "invalid comma\n", 15);
+			// free_mtx(part);
+			// *parts = NULL;
+			data->invalid = true;
+			return (true);
+		}
+	return (false);
+}
+
 bool	invalid_parts(char ***parts, int valid_parts, t_data *data,
 		char *parent)
 {
 	int	i;
 
+	printf("Parent : %s\n", parent);
+	if (parent && check_ends_comma(data, parent))
+	{
+		write(2, "Invalid comma\n", 15);
+		data->wrong_comma = true;
+		// clean(data);
+		// mlx_destroy_display(mlx)
+		return (true);
+	}
 	*parts = ft_split(parent, ',');
 	i = mtx_count(*parts);
 	if (i != valid_parts)

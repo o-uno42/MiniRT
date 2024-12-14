@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -91,7 +92,7 @@ int	main(int ac, char **av)
 		print_error("invalid extension");
 	win_inits(&data);
 	parsing(fd, &data);
-	if (data.nb_main > 0)
+	if (data.nb_main > 0 && data.invalid == false)
 	{
 		mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);
 		mlx_hook(data.mlx_win, 17, 1L << 2, esc_x, &data);
