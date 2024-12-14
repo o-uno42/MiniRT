@@ -80,7 +80,7 @@ bool	invalid_params(char **params, int valid_params, t_data *data)
 	return (false);
 }
 
-bool	check_ends_comma(t_data *data, char *part)
+bool	check_ends_comma(char *part)
 {
 	int	i;
 
@@ -91,13 +91,7 @@ bool	check_ends_comma(t_data *data, char *part)
 		i++;
 	if (i > 0)
 		if (part[i - 1] == ',')
-		{
-			write(2, "invalid comma\n", 15);
-			// free_mtx(part);
-			// *parts = NULL;
-			data->invalid = true;
 			return (true);
-		}
 	return (false);
 }
 
@@ -119,7 +113,7 @@ bool	invalid_parts(char ***parts, int valid_parts, t_data *data,
 		data->invalid = true;
 		return (true);
 	}
-	if (parent && check_ends_comma(data, parent))
+	if (parent && check_ends_comma(parent))
 	{
 		write(2, "Invalid comma\n", 15);
 		free_mtx(*parts);
