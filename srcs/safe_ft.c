@@ -122,6 +122,8 @@ bool	invalid_parts(char ***parts, int valid_parts, t_data *data,
 	if (parent && check_ends_comma(data, parent))
 	{
 		write(2, "Invalid comma\n", 15);
+		free_mtx(*parts);
+		*parts = NULL;
 		data->invalid = true;
 		return (true);
 	}
