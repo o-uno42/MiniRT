@@ -49,7 +49,7 @@ void	camera_init(t_data *data, char *line)
 			ft_atol(coords[2]));
 	data->camera.dir = create_vector(ft_atol(vector[0]), ft_atol(vector[1]),
 			ft_atol(vector[2]));
-	data->camera.fov = ft_atoi(res[3]);
+	data->camera.fov = nb_atoi(data, res[3]);
 	data->camera.forward = normalize(data->camera.dir);
 	world_position(data, world_up);
 	free_all_mtx(res, coords, vector, NULL);

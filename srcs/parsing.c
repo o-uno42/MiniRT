@@ -126,7 +126,7 @@ void	parsing(int fd, t_data *data)
 	data->obj[data->nb_objs].type_obj = END;
 	data->pic_idx = nb_pics;
 	close(fd);
-	if (data->invalid == true || i == 0)
+	if (data->invalid == true || data->not_number == true || i == 0)
 	{
 		mlx_loop_end(data->mlx_ptr);
 		clean(data);

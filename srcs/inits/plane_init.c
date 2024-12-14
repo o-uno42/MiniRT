@@ -33,20 +33,20 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 	count = mtx_count(res);
 	plane->tex.data = NULL;
 	plane->tex_norm.data = NULL;
-	if (count >= 4 && res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+	if (count >= 4 && res[4] && (nb_atoi(data, res[4]) == 0 || nb_atoi(data, res[4]) == 1))
 	{
-		plane->checker = ft_atoi(res[4]);
-		plane->bonus = ft_atoi(res[4]);
+		plane->checker = nb_atoi(data, res[4]);
+		plane->bonus = nb_atoi(data, res[4]);
 	}
 	else
 	{
 		plane->checker = false;
 		plane->bonus = false;
 	}
-	if (count >= 5 && res[5] && ft_atoi(res[5]) <= data->pic_idx)
-		plane->tex = data->pics[ft_atoi(res[5])];
-	if (count >= 6 && res[6] && ft_atoi(res[6]) <= data->pic_idx)
-		plane->tex_norm = data->pics[ft_atoi(res[6])];
+	if (count >= 5 && res[5] && nb_atoi(data, res[5]) <= data->pic_idx)
+		plane->tex = data->pics[nb_atoi(data, res[5])];
+	if (count >= 6 && res[6] && nb_atoi(data, res[6]) <= data->pic_idx)
+		plane->tex_norm = data->pics[nb_atoi(data, res[6])];
 	plane->nb_params = count;
 	printf("plane->nb params: %d \n", plane->nb_params);
 }

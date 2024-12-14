@@ -19,11 +19,11 @@ int	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 	sphere->tex.data = NULL;
 	sphere->tex_normal.data = NULL;
 	count = mtx_count(res);
-	if (count >= 4 && res[4] && (ft_atoi(res[4]) == 0 || ft_atoi(res[4]) == 1))
+	if (count >= 4 && res[4] && (nb_atoi(data, res[4]) == 0 || nb_atoi(data, res[4]) == 1))
 	{
-		sphere->checker = ft_atoi(res[4]);
+		sphere->checker = nb_atoi(data, res[4]);
 		printf("cheker sphere: %s\n", res[4]);
-		sphere->bonus = ft_atoi(res[4]);
+		sphere->bonus = nb_atoi(data, res[4]);
 	}
 	else
 	{
@@ -31,9 +31,9 @@ int	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 		sphere->bonus = false;
 	}
 	if (count >= 5 && res[5])
-		sphere->tex = data->pics[ft_atoi(res[5])];
+		sphere->tex = data->pics[nb_atoi(data, res[5])];
 	if (count >= 6 && res[6])
-		sphere->tex_normal = data->pics[ft_atoi(res[6])];
+		sphere->tex_normal = data->pics[nb_atoi(data, res[6])];
 	sphere->nb_params = count;
 	return (count);
 }

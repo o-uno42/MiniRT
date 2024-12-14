@@ -56,13 +56,13 @@ bool	cone_vect_init(t_cone *cone, char **res, char **coords)
 	return (true);
 }
 
-void	cone_bonus_init(t_cone *cone, char **res, int count)
+void	cone_bonus_init(t_data *data, t_cone *cone, char **res, int count)
 {
 	cone->tex.data = NULL;
-	if (count >= 6 && res[6] && (ft_atoi(res[6]) == 0 || ft_atoi(res[6]) == 1))
+	if (count >= 6 && res[6] && (nb_atoi(data, res[6]) == 0 || nb_atoi(data, res[6]) == 1))
 	{
-		cone->checker = ft_atoi(res[6]);
-		cone->bonus = ft_atoi(res[6]);
+		cone->checker = nb_atoi(data, res[6]);
+		cone->bonus = nb_atoi(data, res[6]);
 	}
 	else
 	{
@@ -92,6 +92,6 @@ void	cone_init(t_data *data, char *line, int i)
 		return ;
 	}
 	cone_vect_init(cone, res, coords);
-	cone_bonus_init(cone, res, count);
+	cone_bonus_init(data, cone, res, count);
 	free_mtx(res);
 }

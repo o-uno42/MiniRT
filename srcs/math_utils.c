@@ -13,6 +13,35 @@
 #include "../includes/minirt.h"
 #include <math.h>
 
+int	nb_atoi(t_data *data, const char *nptr)
+{
+	int	i;
+	int	s;
+	int	num;
+
+	i = 0;
+	s = 1;
+	num = 0;
+
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			s *= -1;
+		i++;
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		if (!(nptr[i] >= '0' && nptr[i] <= '9'))
+			data->not_number = true;
+		num *= 10;
+		num += (nptr[i] - 48);
+		i++;
+	}
+	return (num * s);
+}
+
 inline int	square(float i)
 {
 	return (i * i);

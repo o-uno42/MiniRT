@@ -165,6 +165,7 @@ t_vect		scale_vect(t_vect v, float scalar);
 t_vect		scale_down(t_vect v, float scalar);
 t_vect		abs_vect(t_vect vect);
 // MATH UTILS
+int	nb_atoi(t_data *data, const char *nptr);
 int			square(float i);
 double		ft_atol(const char *nptr);
 float		max_nb(float nb1, float nb2);

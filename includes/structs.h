@@ -295,7 +295,7 @@ typedef struct s_objs
 typedef struct s_data
 {
 	bool		invalid;
-	bool		wrong_comma;
+	bool		not_number;
 	void		*mlx_ptr;
 	void		*mlx_win;
 	t_img		img;

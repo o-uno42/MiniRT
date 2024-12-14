@@ -38,6 +38,7 @@ void	data_init(t_data *data)
 
 	i = 0;
 	data->invalid = false;
+	data->not_number = false;
 	data->img.width = 900;
 	data->img.height = 900;
 	data->obj = safe_malloc(sizeof(t_objs) * MAX_OBJECTS);
