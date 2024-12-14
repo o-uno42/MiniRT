@@ -107,14 +107,6 @@ bool	invalid_parts(char ***parts, int valid_parts, t_data *data,
 	int	i;
 
 	printf("Parent : %s\n", parent);
-	if (parent && check_ends_comma(data, parent))
-	{
-		write(2, "Invalid comma\n", 15);
-		data->wrong_comma = true;
-		// clean(data);
-		// mlx_destroy_display(mlx)
-		return (true);
-	}
 	*parts = ft_split(parent, ',');
 	i = mtx_count(*parts);
 	if (i != valid_parts)
@@ -124,6 +116,12 @@ bool	invalid_parts(char ***parts, int valid_parts, t_data *data,
 		write(2, ">\n", 2);
 		free_mtx(*parts);
 		*parts = NULL;
+		data->invalid = true;
+		return (true);
+	}
+	if (parent && check_ends_comma(data, parent))
+	{
+		write(2, "Invalid comma\n", 15);
 		data->invalid = true;
 		return (true);
 	}
