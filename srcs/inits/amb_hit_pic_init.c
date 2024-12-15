@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:57:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/15 15:03:29 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:09:49 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	ambient_init(t_data *data, char *line)
 		free_mtx(res);
 		return ;
 	}
-	data->ambient.rgb = extract_color(atol_wrapper(rgb[0], data), atol_wrapper(rgb[1], data),
-			atol_wrapper(rgb[2], data));
+	data->ambient.rgb = extract_color(atol_wrapper(rgb[0], data),
+			atol_wrapper(rgb[1], data), atol_wrapper(rgb[2], data));
 	free_mtx(rgb);
 	free_mtx(res);
 }

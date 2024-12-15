@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/15 16:40:42 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:10:24 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 	count = mtx_count(res);
 	plane->tex.data = NULL;
 	plane->tex_norm.data = NULL;
-	if (count >= 4 && res[4] && (nb_atoi(data, res[4]) == 0 || nb_atoi(data, res[4]) == 1))
+	if (count >= 4 && res[4] && (nb_atoi(data, res[4]) == 0 || nb_atoi(data,
+				res[4]) == 1))
 	{
 		plane->checker = nb_atoi(data, res[4]);
 		plane->bonus = nb_atoi(data, res[4]);
@@ -53,7 +54,7 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 
 void	plane_check(t_data *data, char **res, char **coords, char **rgb)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (coords[i])
@@ -71,8 +72,6 @@ void	plane_check(t_data *data, char **res, char **coords, char **rgb)
 				atol_wrapper(res[6], data);
 		}
 	}
-
-
 }
 
 void	plane_init(t_data *data, char *line, int i)

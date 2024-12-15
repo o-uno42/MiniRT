@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:32:31 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/15 16:13:57 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:10:38 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ bool	cone_vect_2(t_cone *cone, char **res, char **coords, t_data *data)
 		free(coords);
 		return (false);
 	}
-	cone->rgb = extract_color(atol_wrapper(coords[0], data), atol_wrapper(coords[1], data),
-			atol_wrapper(coords[2], data));
+	cone->rgb = extract_color(atol_wrapper(coords[0], data),
+			atol_wrapper(coords[1], data), atol_wrapper(coords[2], data));
 	free_mtx(coords);
 	return (true);
 }
 
 bool	cone_vect_init(t_cone *cone, char **res, char **coords, t_data *data)
 {
-	cone->pos = create_vector(atol_wrapper(coords[0], data), atol_wrapper(coords[1], data),
-			atol_wrapper(coords[2], data));
+	cone->pos = create_vector(atol_wrapper(coords[0], data),
+			atol_wrapper(coords[1], data), atol_wrapper(coords[2], data));
 	free_mtx(coords);
 	coords = ft_split(res[2], ',');
 	if (mtx_count(coords) != 2)
@@ -47,8 +47,8 @@ bool	cone_vect_init(t_cone *cone, char **res, char **coords, t_data *data)
 		free(coords);
 		return (false);
 	}
-	cone->dir = create_vector(atol_wrapper(coords[0], data), atol_wrapper(coords[1], data),
-			atol_wrapper(coords[2], data));
+	cone->dir = create_vector(atol_wrapper(coords[0], data),
+			atol_wrapper(coords[1], data), atol_wrapper(coords[2], data));
 	cone->dir = normalize(cone->dir);
 	free_mtx(coords);
 	if (!cone_vect_2(cone, res, coords, data))
@@ -59,7 +59,8 @@ bool	cone_vect_init(t_cone *cone, char **res, char **coords, t_data *data)
 void	cone_bonus_init(t_data *data, t_cone *cone, char **res, int count)
 {
 	cone->tex.data = NULL;
-	if (count >= 6 && res[6] && (nb_atoi(data, res[6]) == 0 || nb_atoi(data, res[6]) == 1))
+	if (count >= 6 && res[6] && (nb_atoi(data, res[6]) == 0 || nb_atoi(data,
+				res[6]) == 1))
 	{
 		cone->checker = nb_atoi(data, res[6]);
 		cone->bonus = nb_atoi(data, res[6]);

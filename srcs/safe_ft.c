@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:27 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/15 16:58:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:08:34 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ bool	check_ends_comma(char *part)
 	i = 0;
 	if (!part)
 		return (false);
-	while(part[i])
+	while (part[i])
 		i++;
 	if (i > 0)
 		if (part[i - 1] == ',')

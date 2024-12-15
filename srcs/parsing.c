@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/15 14:00:11 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:09:29 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	parsing(int fd, t_data *data)
 	data->obj[data->nb_objs].type_obj = END;
 	data->pic_idx = nb_pics;
 	close(fd);
-	if (data->invalid == true || data->not_number == true) // || i == 0)
+	if (data->invalid == true || data->not_number == true)
 	{
 		mlx_loop_end(data->mlx_ptr);
 		clean(data);

@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:38:36 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 17:00:40 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:09:29 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	nb_atoi(t_data *data, const char *nptr)
 	i = 0;
 	s = 1;
 	num = 0;
-
 	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
 	if (nptr[i] == '-' || nptr[i] == '+')
