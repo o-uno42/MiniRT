@@ -1,5 +1,5 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Llibft -lft -Lminilibx-linux -lml -lXext -lX11 -lm -g
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -Llibft -lft -Lminilibx-linux -lml -lXext -lX11 -lm 
 
 NAME = minirt.a
 HEADER = includes/minirt.h
@@ -62,7 +62,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(GEOMETRY) $(INITS) $(GNL) $(HEADER)
 		# @mkdir -p $(INIT_DIR)
 		# @mkdir -p $(GNL_DIR)
 		@mkdir -p $(dir $@)
-		$(CC) $(CFLAGS) -c $< -o $@
+		$(CC)  -c $< -o $@
 
 $(EXECUTABLE): $(FILES_OBJS)
 		$(CC) -o $(EXECUTABLE) $(FILES_OBJS) -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm
