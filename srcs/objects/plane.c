@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:47:37 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/09 17:46:23 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:12:44 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,5 @@ bool	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		plane_texture(hit, plane, plane->tex);
 		plane_bump(hit, plane);
 	}
-	// if ((dot_product(plane->vect, camera_ray.dir)) > 0)
-	// {
-	// 	// hit->t = t;
-	// 	// hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, t));
-	// 	hit->normal = scale_vect(plane->vect, -1);
-	// 	hit->is_outside = true;
-	// 	// hit->rgb = plane->rgb;
-	// 	// plane_checker(hit, plane);
-	// 	// plane_texture(hit, plane, plane->tex);
-	// 	// plane_bump(hit, plane);
-	// }
 	return (true);
 }
