@@ -33,10 +33,16 @@ bool	render_plane(t_ray camera_ray, t_plane *plane, t_hitinfo *hit)
 		plane_texture(hit, plane, plane->tex);
 		plane_bump(hit, plane);
 	}
-	if ((dot_product(plane->vect, camera_ray.dir)) > 0)
-	{
-		hit->normal = scale_vect(plane->vect, -1);
-		plane_bump(hit, plane);
-	}
+	// if ((dot_product(plane->vect, camera_ray.dir)) > 0)
+	// {
+	// 	// hit->t = t;
+	// 	// hit->p = sum_vect(camera_ray.pos, scale_vect(camera_ray.dir, t));
+	// 	hit->normal = scale_vect(plane->vect, -1);
+	// 	hit->is_outside = true;
+	// 	// hit->rgb = plane->rgb;
+	// 	// plane_checker(hit, plane);
+	// 	// plane_texture(hit, plane, plane->tex);
+	// 	// plane_bump(hit, plane);
+	// }
 	return (true);
 }
