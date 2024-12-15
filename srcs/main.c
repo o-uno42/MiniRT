@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:07 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/09 16:48:14 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 14:18:01 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ int	main(int ac, char **av)
 		print_error("invalid extension");
 	win_inits(&data);
 	parsing(fd, &data);
-	if (data.nb_main > 0)
+	if (1)
 	{
 		mlx_hook(data.mlx_win, 2, 1L << 0, keys, &data);
 		mlx_hook(data.mlx_win, 17, 1L << 2, esc_x, &data);
-		if (data.nb_main > 2 && data.nb_objs > 0)
+		if (check_loop(&data))
 			render(&data);
 		mlx_loop(data.mlx_ptr);
 	}

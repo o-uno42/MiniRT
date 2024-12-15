@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:57:53 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/11 14:49:27 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 15:03:29 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void	ambient_init(t_data *data, char *line)
 	res = ft_split(line, ' ');
 	if (invalid_params(res, 2, data))
 		return ;
-	data->ambient.ratio = ft_atol(res[1]);
+	data->ambient.ratio = atol_wrapper(res[1], data);
 	if (invalid_parts(&rgb, 2, data, res[2]))
 	{
 		free_mtx(res);
 		return ;
 	}
-	data->ambient.rgb = extract_color(ft_atol(rgb[0]), ft_atol(rgb[1]),
-			ft_atol(rgb[2]));
+	data->ambient.rgb = extract_color(atol_wrapper(rgb[0], data), atol_wrapper(rgb[1], data),
+			atol_wrapper(rgb[2], data));
 	free_mtx(rgb);
 	free_mtx(res);
 }

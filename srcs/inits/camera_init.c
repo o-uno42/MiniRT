@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:01:34 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 16:37:32 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 16:11:34 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	camera_init(t_data *data, char *line)
 		free_all_mtx(res, coords, vector, NULL);
 		return ;
 	}
-	data->camera.pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
-			ft_atol(coords[2]));
-	data->camera.dir = create_vector(ft_atol(vector[0]), ft_atol(vector[1]),
-			ft_atol(vector[2]));
+	data->camera.pos = create_vector(atol_wrapper(coords[0], data), atol_wrapper(coords[1], data),
+			atol_wrapper(coords[2], data));
+	data->camera.dir = create_vector(atol_wrapper(vector[0], data), atol_wrapper(vector[1], data),
+			atol_wrapper(vector[2], data));
 	data->camera.fov = nb_atoi(data, res[3]);
 	data->camera.forward = normalize(data->camera.dir);
 	world_position(data, world_up);

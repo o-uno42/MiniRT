@@ -16,6 +16,7 @@ GNL = $(wildcard $(GNL_DIR)/*.c)
 LIGHT = $(wildcard $(LIGHT_DIR)/*.c)
 FILES_SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/manage_win.c $(SRC_DIR)/clean.c \
 			 $(SRC_DIR)/parsing.c $(SRC_DIR)/split.c $(SRC_DIR)/safe_ft.c \
+			 $(SRC_DIR)/safe_ft2.c \
 			 $(SRC_DIR)/parsing_utils.c \
 			 $(SRC_DIR)/color_creation.c $(SRC_DIR)/color.c \
 			 $(SRC_DIR)/color_utils.c \

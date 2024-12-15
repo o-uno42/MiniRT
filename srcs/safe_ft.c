@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:27 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/10 16:39:05 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 16:58:05 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,11 @@ char	*join_wrapper(const char *s1, const char *s2, int free_which)
 	return (result);
 }
 
-bool	check_extension(char *file_name)
-{
-	char	**check;
-	bool	is_extension;
-	int		i;
-
-	i = 0;
-	is_extension = false;
-	check = ft_split(file_name, '.');
-	while (check[i])
-		i++;
-	if (i != 2)
-		is_extension = false;
-	else if (ft_strncmp(check[1], "rt", 3) == 0)
-		is_extension = true;
-	free_mtx(check);
-	return (is_extension);
-}
-
 bool	invalid_params(char **params, int valid_params, t_data *data)
 {
 	int	i;
 
 	i = mtx_count(params);
-	printf("count params is: %d, at %s\n", i, params[0]);
 	if (i < valid_params)
 	{
 		write(2, "invalid params at <", 19);
@@ -100,7 +80,6 @@ bool	invalid_parts(char ***parts, int valid_parts, t_data *data,
 {
 	int	i;
 
-	printf("Parent : %s\n", parent);
 	*parts = ft_split(parent, ',');
 	i = mtx_count(*parts);
 	if (i != valid_parts)

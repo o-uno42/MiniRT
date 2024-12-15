@@ -6,7 +6,7 @@
 /*   By: pgiorgi <pgiorgi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 13:59:39 by pgiorgi           #+#    #+#             */
-/*   Updated: 2024/12/10 19:35:41 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 16:54:04 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		light_init(t_data *data, char *line);
 void		sphere_init(t_data *data, char *line, int i);
 void		plane_init(t_data *data, char *line, int i);
 void		cylinder_init(t_data *data, char *line, int i);
+void		cylinder_check(t_data *data, char **res);
 void		hyperboloid_init(t_data *data, char *line, int i);
 void		cone_init(t_data *data, char *line, int i);
 void		top_bottom_cone(POINT *p1, POINT *p2, t_cone cone);
@@ -204,6 +205,7 @@ int			interpolate_color(int color1, int color2, float ratio);
 //	WINDOW MANAGEMENT
 int			keys(int keysym, t_data *map);
 int			esc_x(t_data *data);
+bool		check_loop(t_data *data);
 // SPLIT
 char		**ft_split_rt(char const *s, char c);
 int			mtx_count(char **mtx);
@@ -214,6 +216,8 @@ bool		check_extension(char *file_name);
 bool		invalid_params(char **params, int valid_params, t_data *data);
 bool		invalid_parts(char ***parts, int valid_parts, t_data *data,
 				char *parent);
+int			atoi_wrapper(char *input, t_data *data);
+double 		atol_wrapper(char *input, t_data *data);
 // FREE FUNCTIONS
 void		free_mtx(char **mtx);
 /* void		free_all_mtx(char ***mtx1, char ***mtx2, char ***mtx3,

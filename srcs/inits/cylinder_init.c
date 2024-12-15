@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:48:18 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 15:50:33 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 16:54:26 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,6 @@ void	cylinder_init(t_data *data, char *line, int i)
 	if (!cylinder_vect_init(cylinder, res, coords, count))
 		data->invalid = true;
 	cylinder_bonus_init(data, cylinder, res, count);
+	cylinder_check(data, res);
 	free_mtx(res);
 }

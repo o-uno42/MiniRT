@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:42:03 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 16:37:21 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 16:34:45 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	sphere_bonus_init(t_data *data, t_sphere *sphere, char **res)
 	sphere->tex.data = NULL;
 	sphere->tex_normal.data = NULL;
 	count = mtx_count(res);
-	if (count >= 4 && res[4] && (nb_atoi(data, res[4]) == 0 || nb_atoi(data, res[4]) == 1))
+	if (count >= 4 && res[4] && (nb_atoi(data, res[4]) == 0 || nb_atoi(data,
+				res[4]) == 1))
 	{
 		sphere->checker = nb_atoi(data, res[4]);
 		printf("cheker sphere: %s\n", res[4]);
@@ -48,6 +49,20 @@ void	sphere_info(t_sphere *sphere, char **res, char **coords, char **rgb)
 			ft_atol(rgb[2]));
 }
 
+void	sphere_check(t_data *data, char **coords, char **rgb, char **res)
+{
+	int	i;
+
+	i = 0;
+	while (coords[i])
+		atol_wrapper(coords[i++], data);
+	i = 0;
+	while (rgb[i])
+		atol_wrapper(rgb[i++], data);
+	if (res[2])
+		atol_wrapper(res[2], data);
+}
+
 void	sphere_init(t_data *data, char *line, int i)
 {
 	char		**res;
@@ -71,5 +86,6 @@ void	sphere_init(t_data *data, char *line, int i)
 	}
 	sphere_info(sphere, res, coords, rgb);
 	sphere_bonus_init(data, sphere, res);
+	sphere_check(data, coords, rgb, res);
 	free_all_mtx(res, coords, rgb, NULL);
 }

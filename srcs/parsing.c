@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:17 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/09 19:25:14 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 14:00:11 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	amb_camera(char *line, t_data *data, int i)
 {
 	if (ft_strncmp("A", line, i) == 0)
 	{
-		data->nb_main++;
+		data->nb_amb++;
 		ambient_init(data, line);
 	}
 	else if (ft_strncmp("C", line, i) == 0)
 	{
-		data->nb_main++;
+		data->nb_camera++;
 		camera_init(data, line);
 	}
 }
@@ -72,7 +72,6 @@ int	prefix(char *line, t_data *data, int *nb_pics)
 	{
 		lights_init(data, line, data->nb_lights);
 		data->nb_lights++;
-		data->nb_main++;
 		args++;
 	}
 	else if (ft_strncmp("l", line, i) == 0)
@@ -121,12 +120,14 @@ void	parsing(int fd, t_data *data)
 	data->nb_objs = 0;
 	data->nb_lights = 0;
 	data->pic_idx = 0;
-	data->nb_main = 0;
+	data->nb_amb = 0;
+	data->nb_camera = 0;
 	i = line_parsing(fd, data, &nb_pics);
+	i = i;
 	data->obj[data->nb_objs].type_obj = END;
 	data->pic_idx = nb_pics;
 	close(fd);
-	if (data->invalid == true || data->not_number == true || i == 0)
+	if (data->invalid == true || data->not_number == true) // || i == 0)
 	{
 		mlx_loop_end(data->mlx_ptr);
 		clean(data);

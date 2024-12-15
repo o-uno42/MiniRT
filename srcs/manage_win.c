@@ -6,7 +6,7 @@
 /*   By: thiew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 14:09:13 by thiew             #+#    #+#             */
-/*   Updated: 2024/12/09 16:59:35 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 14:23:21 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,17 @@ int	esc_x(t_data *data)
 	write(1, "Hai chiuso il programma.\n", 25);
 	mlx_loop_end(data->mlx_ptr);
 	return (0);
+}
+
+bool	check_loop(t_data *data)
+{
+	if (data->nb_camera != 1)
+		return (false);
+	if (data->nb_amb != 1)
+		return (false);
+	if (data->nb_lights < 1)
+		return (false);
+	if (data->nb_objs < 1)
+		return (false);
+	return (true);
 }

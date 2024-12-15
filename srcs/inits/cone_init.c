@@ -6,20 +6,20 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:32:31 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 16:36:45 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 16:13:57 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minirt.h"
 
-bool	cone_vect_2(t_cone *cone, char **res, char **coords)
+bool	cone_vect_2(t_cone *cone, char **res, char **coords, t_data *data)
 {
 	POINT	p1;
 	POINT	p2;
 
-	cone->diameter = ft_atol(res[3]);
+	cone->diameter = atol_wrapper(res[3], data);
 	cone->radius = cone->diameter / 2.0;
-	cone->height = ft_atol(res[4]);
+	cone->height = atol_wrapper(res[4], data);
 	cone_angle(cone);
 	top_bottom_cone(&p1, &p2, *cone);
 	cone->p1 = p1;
@@ -30,16 +30,16 @@ bool	cone_vect_2(t_cone *cone, char **res, char **coords)
 		free(coords);
 		return (false);
 	}
-	cone->rgb = extract_color(ft_atol(coords[0]), ft_atol(coords[1]),
-			ft_atol(coords[2]));
+	cone->rgb = extract_color(atol_wrapper(coords[0], data), atol_wrapper(coords[1], data),
+			atol_wrapper(coords[2], data));
 	free_mtx(coords);
 	return (true);
 }
 
-bool	cone_vect_init(t_cone *cone, char **res, char **coords)
+bool	cone_vect_init(t_cone *cone, char **res, char **coords, t_data *data)
 {
-	cone->pos = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
-			ft_atol(coords[2]));
+	cone->pos = create_vector(atol_wrapper(coords[0], data), atol_wrapper(coords[1], data),
+			atol_wrapper(coords[2], data));
 	free_mtx(coords);
 	coords = ft_split(res[2], ',');
 	if (mtx_count(coords) != 2)
@@ -47,11 +47,11 @@ bool	cone_vect_init(t_cone *cone, char **res, char **coords)
 		free(coords);
 		return (false);
 	}
-	cone->dir = create_vector(ft_atol(coords[0]), ft_atol(coords[1]),
-			ft_atol(coords[2]));
+	cone->dir = create_vector(atol_wrapper(coords[0], data), atol_wrapper(coords[1], data),
+			atol_wrapper(coords[2], data));
 	cone->dir = normalize(cone->dir);
 	free_mtx(coords);
-	if (!cone_vect_2(cone, res, coords))
+	if (!cone_vect_2(cone, res, coords, data))
 		return (false);
 	return (true);
 }
@@ -91,7 +91,7 @@ void	cone_init(t_data *data, char *line, int i)
 		free_all_mtx(res, coords, NULL, NULL);
 		return ;
 	}
-	cone_vect_init(cone, res, coords);
+	cone_vect_init(cone, res, coords, data);
 	cone_bonus_init(data, cone, res, count);
 	free_mtx(res);
 }

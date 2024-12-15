@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 18:58:29 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/10 19:23:56 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 13:42:51 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCTS_H
@@ -312,6 +312,8 @@ typedef struct s_data
 	int			nb_pics;
 	int			nb_objs;
 	int			nb_main;
+	int			nb_amb;
+	int			nb_camera;
 	float		img_ratio;
 	int			index_objs;
 	t_vect		light_dir;

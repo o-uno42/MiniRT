@@ -6,7 +6,7 @@
 /*   By: tjuvan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:13:20 by tjuvan            #+#    #+#             */
-/*   Updated: 2024/12/11 15:08:27 by tjuvan           ###   ########.fr       */
+/*   Updated: 2024/12/15 16:40:42 by tjuvan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,30 @@ void	plane_bonus_init(char **res, t_plane *plane, t_data *data)
 		plane->tex_norm = data->pics[nb_atoi(data, res[6])];
 	plane->nb_params = count;
 	printf("plane->nb params: %d \n", plane->nb_params);
+}
+
+void	plane_check(t_data *data, char **res, char **coords, char **rgb)
+{
+	int i;
+
+	i = 0;
+	while (coords[i])
+		atol_wrapper(coords[i++], data);
+	i = 0;
+	while (rgb[i])
+		atol_wrapper(rgb[i++], data);
+	if (res[4])
+	{
+		atol_wrapper(res[4], data);
+		if (res[5])
+		{
+			atol_wrapper(res[5], data);
+			if (res[6])
+				atol_wrapper(res[6], data);
+		}
+	}
+
+
 }
 
 void	plane_init(t_data *data, char *line, int i)
